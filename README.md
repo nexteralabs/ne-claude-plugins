@@ -42,14 +42,7 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 | [**code-audit**](plugins/code-audit/) | commands, agents | Multi-agent code audit with security scanning and logic analysis |
 | [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation — secret scanning in writes and push protection |
 | [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
-
-### External Plugins
-
-Community-contributed plugins.
-
-| Plugin | Type | Description |
-|--------|------|-------------|
-| [**discord-notify**](external_plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
+| [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
 
 ### Plugin Details
 

@@ -56,9 +56,10 @@
       "description": "Discord webhook integration for posting build results, PR updates, and deployment notifications",
       "version": "1.0.0",
       "author": {
-        "name": "Community"
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./external_plugins/discord-notify",
+      "source": "./plugins/discord-notify",
       "category": "integrations"
     },
     {
