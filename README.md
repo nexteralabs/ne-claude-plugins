@@ -37,7 +37,7 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 
 | Plugin | Type | Description |
 |--------|------|-------------|
-| [**superdev**](plugins/superdev/) | commands, agents, skills | Supercharged dev workflow — ticket to PR with TDD, subagent-driven implementation, multi-agent code review, and task tracking |
+| [**superdev**](plugins/superdev/) | commands, agents, skills | Opinionated dev workflow that enforces good engineering — spec refinement, TDD, KISS, multi-agent review, ticket to PR |
 | [**jira-workflow**](plugins/jira-workflow/) | commands, skills | Jira ticket management — view, start, complete, log work, and manage sprints |
 | [**code-audit**](plugins/code-audit/) | commands, agents | Multi-agent code audit with security scanning and logic analysis |
 | [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation — secret scanning in writes and push protection |
@@ -49,18 +49,20 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 
 #### superdev
 
-The flagship plugin. Full development lifecycle driven by `/dev`:
+The flagship plugin. An opinionated development workflow that enforces good engineering practices — because fast code that breaks costs more than thoughtful code that ships clean.
+
+**Philosophy:** Refine specs before writing code. Write a failing test before writing production code. Keep it simple — three clear lines beat a premature abstraction. Review with multiple lenses before merging.
 
 ```
 /dev              # Full workflow: pick task > design > plan > implement > review > PR
-/dev start        # Pick up a task from Jira or Obsidian and design the approach
+/dev start        # Pick up a task from Jira or Obsidian and refine the spec
 /dev plan         # Write an implementation plan with TDD steps
-/dev code         # Implement with subagent-driven development
+/dev code         # Implement with subagent-driven TDD (red > green > refactor)
 /dev review       # Multi-agent code review (security, logic, spec compliance)
 /dev pr           # Create PR, update task status, notify Discord
 ```
 
-Includes 3 specialized agents (implementer, spec-reviewer, code-reviewer) and reference docs on TDD, systematic debugging, and verification practices. Integrates with Jira and Obsidian for task tracking.
+Includes 3 specialized agents (implementer, spec-reviewer, code-reviewer) and reference docs on TDD, systematic debugging, KISS principles, and verification practices. Integrates with Jira and Obsidian for task tracking.
 
 #### jira-workflow
 
