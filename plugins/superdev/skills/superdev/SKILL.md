@@ -1,315 +1,170 @@
 ---
 name: superdev
-description: Use this skill for any feature development, bug fix, or implementation task. Supercharged workflow covering the full lifecycle — picking up a ticket, designing the solution, planning implementation, TDD-driven coding with subagents, multi-agent code review, and PR creation with task tracking updates. Triggers on "let's work", "start task", "build feature", "implement", "fix bug", "start coding", "work on ticket", "dev workflow", "superdev".
-version: 1.0.0
+description: "Opinionated development workflow that enforces spec refinement, TDD, and KISS. Use this skill whenever the user is about to start coding — building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'superdev', 'dev workflow', or 'full workflow'. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
+version: 2.0.0
 ---
 
-# Superdev Workflow
+# Superdev
 
-Supercharged development lifecycle — from ticket to merged PR with rigorous process and task tracking integration (Jira/Obsidian).
+An opinionated development workflow. It exists because fast code that breaks costs more than thoughtful code that ships clean.
 
-## The Workflow
+Three rules govern everything:
 
-```
-1. Pick Up Task  →  2. Design  →  3. Plan  →  4. Implement (TDD + Subagents)  →  5. Review  →  6. PR + Ship
-```
-
-Each phase has a hard gate — do not advance until the current phase is complete and approved.
+1. **Refine before you write.** Understand the problem fully. Clarify ambiguity. Surface edge cases. No code until you know exactly what you're building and why.
+2. **Test before you implement.** Write a failing test first. Then make it pass. Then refactor. No production code exists without a test that demanded it.
+3. **Simplest thing that works.** Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations. The right amount of code is the minimum that solves the problem.
 
 ---
 
-## Phase 1: Pick Up Task
+## How it works
 
-### Detect tracking source
+When this skill triggers, drive the following flow automatically. Don't ask the user to pick phases or type subcommands — just move through the flow, pausing only at gates that need human input.
 
-Read project `CLAUDE.md` for a `## Task Tracking` section. Extract `source` and config fields.
+### 1. Understand the task
 
-Supported sources:
-- **jira** — needs `base-url`, `project-key`
-- **obsidian** — needs `vault-path`, `project-folder`
+Figure out what the user wants to build or fix. This context can come from:
 
-If no section found, ask the user which system they use and write the config to CLAUDE.md.
+- **What they just said** — "implement user authentication", "fix the timeout bug"
+- **A Jira ticket** — if the user mentions a ticket ID (KAN-123) and the Atlassian MCP is available (`mcp__atlassian__*` tools), pull the ticket details automatically. If Jira isn't available, don't ask about it — just work with what the user gave you.
+- **A current task file** — check `.claude/current-task.md` if it exists for ongoing work context.
 
-### List and select task
+If the task is unclear, ask clarifying questions — one at a time, prefer multiple choice. Stop asking once you have enough to proceed.
 
-**Jira:** Query via MCP — `assignee = currentUser() AND statusCategory != Done ORDER BY updated DESC`. Present as numbered list.
+For trivial changes (typo, config tweak, < 10 lines with obvious intent), skip straight to implementation with a test.
 
-**Obsidian:** Read `{vault-path}/{project-folder}/tasks.md`. Parse the Active Tasks table. Present as numbered list.
+### 2. Design the approach
 
-If user already specified a ticket (e.g., "work on KAN-42"), skip the listing.
+Explore the codebase. Understand existing patterns, conventions, and architecture. Check recent commits for context.
 
-### Set up workspace
+For non-trivial work:
+- Propose 2-3 approaches with tradeoffs
+- Be ruthless about YAGNI — remove anything not strictly required
+- Follow existing patterns in the codebase, don't invent new ones
 
-After user selects a task:
+Present the approach and get user approval before moving on. This is a hard gate — no code until the design is approved.
+
+### 3. Set up the workspace
+
+Create a feature branch and start clean:
 
 ```bash
 git checkout main && git pull origin main
 git checkout -b {branch-name}
-git push -u origin {branch-name}
 ```
 
-Branch naming:
-- **Jira:** `{TICKET-KEY}-short-description` (e.g., `KAN-42-fix-login-timeout`)
-- **Obsidian:** `short-description` from task title (e.g., `fix-discord-listener`)
+Branch naming: if there's a Jira ticket, use `{TICKET-KEY}-short-description`. Otherwise, use `short-description` derived from the task.
 
-Update task status to "In Progress" in the tracking source.
+If the user already has a branch, skip this — don't force a new one.
 
-Write `.claude/current-task.md`:
+Track the task in `.claude/current-task.md`:
 ```markdown
-source: {jira|obsidian}
-id: {ticket key or task title}
-title: {full title}
-url: {ticket URL if jira}
+id: {ticket key or short identifier}
+title: {what we're building}
 branch: {branch-name}
 started: {ISO timestamp}
 ```
 
----
+If Jira is available and the ticket isn't already "In Progress", transition it.
 
-## Phase 2: Design
+### 4. Plan the implementation
 
-**HARD GATE:** Do NOT write code, scaffold, or take implementation action until design is approved.
+Write a concrete plan. Not vague bullets — actual steps with file paths, test names, and code intent. Save it using Claude's plan mode or to `docs/plans/{branch-name}.md`.
 
-### Explore and understand
-
-1. Read the full ticket/task description, acceptance criteria, comments
-2. Explore the codebase — find relevant files, patterns, conventions
-3. Check recent commits for context
-
-### Clarify requirements
-
-Ask questions **one at a time**. Prefer multiple choice. Stop when requirements are clear enough to implement.
-
-If the task is trivial (typo fix, config change, < 10 lines), skip design and go directly to Phase 4.
-
-### Propose approaches
-
-For non-trivial work:
-1. Present 2-3 approaches with tradeoffs
-2. Include: what changes, where, estimated complexity
-3. Apply YAGNI ruthlessly — remove anything not strictly required
-4. Follow existing patterns in the codebase
-
-Get user approval before proceeding.
-
----
-
-## Phase 3: Plan
-
-### Write the implementation plan
-
-Create `docs/plans/{branch-name}.md` (or `.claude/tasks/{branch-name}.md` if no docs/ dir).
-
-Every plan MUST follow this structure:
-
-```markdown
-# {Feature Name} Implementation Plan
-
-**Goal:** {One sentence}
-**Approach:** {2-3 sentences}
-**Files involved:** {Key files/components}
-
-## Tasks
-
-### Task 1: {Component/Feature Name}
-
-**Files:**
-- Create: `exact/path/to/file.ext`
-- Modify: `exact/path/to/existing.ext`
-- Test: `tests/path/to/test.ext`
-
-- [ ] Step 1: Write failing test
-      [Full code or clear specification]
-
-- [ ] Step 2: Run test — verify it fails
-      `npm test path/to/test -- --grep "test name"`
-
-- [ ] Step 3: Write minimal implementation
-      [Complete code, not "add validation here"]
-
-- [ ] Step 4: Run test — verify it passes
-      `npm test path/to/test`
-
-- [ ] Step 5: Commit
-      `git commit -m "feat(scope): description"`
-```
-
-### Plan rules
-
-- Each task is ONE focused unit of work (2-5 minutes)
-- Every task follows RED-GREEN-REFACTOR (see references/tdd.md)
-- Steps include actual code or exact commands — never vague ("add logic here")
-- Files section lists exact paths with line ranges for modifications
-- Tasks are ordered by dependency — each builds on the last
-
-### Review the plan
-
-Present the plan to the user. Get explicit approval before implementation.
-
----
-
-## Phase 4: Implement
-
-Use **subagent-driven development** for tasks with 2+ independent units. For single-task work, implement directly.
-
-### Subagent-driven implementation (recommended)
-
-For each task in the plan:
-
-**1. Dispatch implementer subagent** (see agents/implementer.md)
-- Provide: full task text, codebase context, working directory
-- Subagent implements, tests, commits, self-reviews
-- Subagent reports back: DONE / DONE_WITH_CONCERNS / BLOCKED / NEEDS_CONTEXT
-
-**2. Dispatch spec compliance reviewer** (see agents/spec-reviewer.md)
-- Verify: did they build exactly what was requested? Nothing more, nothing less?
-- If issues found → implementer fixes → re-review
-
-**3. Dispatch code quality reviewer** (see agents/code-reviewer.md)
-- Only AFTER spec compliance passes
-- Check: clean code, tests, maintainability, patterns
-- If issues found → implementer fixes → re-review
-
-**4. Mark task complete** and move to next task.
-
-### Direct implementation (simple tasks)
-
-Follow the plan step by step. For each task:
-1. Write the failing test first (RED)
+Every task in the plan follows the TDD cycle:
+1. Write the failing test (what behavior are we adding?)
 2. Run it — confirm it fails for the right reason
-3. Write minimal code to pass (GREEN)
+3. Write minimal code to pass
 4. Run it — confirm it passes
 5. Refactor if needed (keep tests green)
 6. Commit
 
-**THE IRON LAW:** No production code without a failing test first. See references/tdd.md.
+Tasks should be small and focused — one unit of behavior each, ordered by dependency.
 
-### When stuck
+Present the plan. Get approval. Another hard gate.
 
-If implementation hits a wall:
-1. Stop and investigate root cause (see references/debugging.md)
-2. If >= 3 attempts failed on the same issue — question the approach, don't keep retrying
-3. If blocked on requirements — ask the user, don't guess
+### 5. Implement
 
----
+Follow the plan. For each task:
 
-## Phase 5: Review
+**Write the test first.** This is non-negotiable. The test describes the behavior you're about to build. Run it. Watch it fail. If it doesn't fail, the test is wrong or the behavior already exists.
+
+**Write the minimum code to pass.** Not the "complete" code. Not the "robust" code. The minimum. If the test only checks one case, only handle that case. The next test will drive the next behavior.
+
+**Run the full suite after each change.** No regressions. If something breaks, stop and fix it before moving on.
+
+**Commit after each passing task.** Small, atomic commits with clear messages.
+
+For larger implementations with independent units of work, use subagent-driven development:
+- Dispatch an implementer agent (see `agents/implementer.md`) with full task context
+- When it reports back, dispatch spec and code review agents to verify
+- Only mark the task done after review passes
+
+When stuck — read `references/debugging.md`. If 3+ attempts fail on the same issue, question the approach, don't keep retrying. If blocked on requirements, ask the user.
+
+### 6. Review
 
 After all tasks are complete:
 
-1. Run the full test suite — all tests must pass
-2. Dispatch the code-reviewer agent for the entire implementation
-3. Address findings:
-   - **Critical** — fix immediately
-   - **Important** — fix before PR
-   - **Minor** — note for later or push back with reasoning
+1. Run the full test suite — everything must pass
+2. Dispatch the code-reviewer agent for the entire implementation (see `agents/code-reviewer.md`)
+3. Fix critical and important findings. Push back on nits with reasoning if appropriate.
 
-### Verification before claiming done
+Before claiming anything is done, follow the verification protocol in `references/verification.md`: identify the command that proves the claim, run it, read the full output, confirm it matches. Never say "should work" or "probably passes."
 
-**MANDATORY** — see references/verification.md
+### 7. Ship
 
-Before claiming any status:
-1. IDENTIFY: What command proves this claim?
-2. RUN: Execute the full command
-3. READ: Full output, check exit code
-4. VERIFY: Does output confirm the claim?
-
-Never use "should", "probably", or "seems to". Evidence or silence.
-
----
-
-## Phase 6: PR + Ship
-
-### Handle uncommitted changes
+Commit any remaining changes. Sync with main:
 
 ```bash
-git status --short
+git fetch origin main && git merge origin/main
 ```
 
-If changes exist, stage and commit with a meaningful message. Do not use `--no-verify`.
+If conflicts: stop and tell the user. Don't auto-resolve ambiguous conflicts.
 
-### Sync with main
-
-```bash
-git fetch origin main
-git merge origin/main
-```
-
-If conflicts: stop and tell user. Do not auto-resolve ambiguous conflicts.
-
-### Build the PR
-
-Construct the PR body — professional, no AI mentions, no emojis:
+Build the PR:
 
 ```markdown
 ## Initial State
-[The problem or gap before this change. Be specific.]
+[The problem or gap before this change.]
 
 ## Modifications Done
-[What changed and why. Reference specific files. Bullets for multiple changes.]
+[What changed and why. Reference specific files.]
 
 ## Test Results
 [What was tested and the outcome.]
 
 ## QA Testing Guide
-
-### Areas of Focus
-[Features or flows QA should verify.]
-
 ### Steps to Test
 1. [Step]
-2. [Step]
-3. [Expected result]
+2. [Expected result]
 ```
 
-**Jira:** Prepend `## Jira Ticket\n[{TICKET-KEY}]({url})` at the top.
-**Obsidian:** No ticket link section.
+If there's a Jira ticket, prepend a ticket link section and update the ticket status to "Ready for QA" with a comment containing the PR link and QA steps.
 
-PR title: `[{TICKET-KEY}] Short imperative description` (Jira) or `Short imperative description` (Obsidian).
+If Discord is configured (`~/.claude/bin/discord` exists), notify the pull-requests channel.
 
-### Present and confirm
-
-```
-Ready to submit. Actions:
-  1. Create GitHub PR: "{title}"
-  2. Update task status to Ready for QA in {source}
-  3. Notify #pull-requests on Discord (if configured)
-
-PR preview:
----
-{full body}
----
-
-Proceed? (yes / no / edit)
-```
-
-### Apply (only after confirmation)
-
-```bash
-git push
-gh pr create --title "..." --body "..." --base main
-```
-
-**Update task status:**
-- **Jira:** Transition to "Ready for QA" or "Ready for Review". Add comment with PR link + summary + QA steps.
-- **Obsidian:** Update tasks.md — replace "(In Progress)" with "(Ready for QA)". Add PR link below table.
-
-**Discord notification** (if `~/.claude/discord.env` or `~/.claude/bin/discord` exists):
-```bash
-~/.claude/bin/discord "pull-requests" "{TICKET-KEY} — {title} — {PR_URL}"
-```
-
-Report: PR URL, task status, Discord notification status.
+Present the PR preview to the user for confirmation before creating it.
 
 ---
 
-## Quick Reference
+## Jira integration (optional)
 
-| Phase | Gate | Output |
-|-------|------|--------|
-| 1. Pick Up | Task selected + branch created | `.claude/current-task.md` |
-| 2. Design | User approves approach | Design decision |
-| 3. Plan | User approves plan | `docs/plans/{branch}.md` |
-| 4. Implement | All tests pass | Committed code |
-| 5. Review | No critical/important issues | Clean codebase |
-| 6. PR + Ship | User confirms | PR + task updated |
+This skill works with or without Jira. Here's how to detect and adapt:
+
+- **Jira is available** if the Atlassian MCP tools exist (`mcp__atlassian__*`). When available, use them to fetch tickets, transition statuses, add comments, and log work — all automatically as part of the flow.
+- **Jira is not available** — that's fine. The workflow is the same, just without ticket management. The user provides context directly.
+
+Don't ask "do you use Jira?" — just check for the MCP tools and act accordingly. If the user mentions a ticket ID and Jira isn't available, tell them once that Jira MCP isn't configured and move on with the information they gave you verbally.
+
+Remember the user's setup across conversations. If they don't use Jira, don't keep checking.
+
+---
+
+## Reference files
+
+These are loaded on demand — read them when the relevant situation comes up:
+
+- `references/tdd.md` — TDD cycle details, testing anti-patterns, why test-first matters
+- `references/debugging.md` — Systematic root cause investigation, when to stop retrying
+- `references/verification.md` — Evidence-before-claims protocol, red flags for unverified claims
+- `references/code-review.md` — How to request and respond to code review findings

@@ -1,20 +1,18 @@
-<p align="center">
-  <img src="assets/Nextera_Logo-whilte.png" alt="Nextera Labs" width="280" />
-</p>
-
-<h1 align="center">NextEra Labs Claude Plugin Marketplace</h1>
+<h1 align="center">
+  NextEra Labs Claude Plugins <img src="assets/Nextera_Logo-whilte.png" alt="Nextera Labs" height="32" style="vertical-align: middle;" />
+</h1>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
 </p>
 
-A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — extending it with development workflows, task tracking, code review, and integrations.
+A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — extending it with development workflows, code review, and integrations.
 
 > **Important:** Review any plugin before installing. Plugins may include MCP servers, hooks, and scripts that execute on your machine. We cannot guarantee that third-party plugins will work as intended.
 
 ---
 
-## superdev — the flagship plugin
+## superdev
 
 An opinionated development workflow that enforces good engineering practices — because fast code that breaks costs more than thoughtful code that ships clean.
 
@@ -26,16 +24,7 @@ An opinionated development workflow that enforces good engineering practices —
 
 **Multi-agent review before merge.** Security, logic, and spec compliance — reviewed by dedicated agents that catch what humans skip.
 
-```
-/dev              # Full workflow: pick task > design > plan > implement > review > PR
-/dev start        # Pick up a task from Jira or Obsidian and refine the spec
-/dev plan         # Write an implementation plan with TDD steps
-/dev code         # Implement with subagent-driven TDD (red > green > refactor)
-/dev review       # Multi-agent code review (security, logic, spec compliance)
-/dev pr           # Create PR, update task status, notify Discord
-```
-
-Includes 3 specialized agents (implementer, spec-reviewer, code-reviewer) and reference docs on TDD, systematic debugging, KISS principles, and verification practices. Integrates with Jira and Obsidian for task tracking.
+The skill triggers automatically when you start any dev work — building a feature, fixing a bug, implementing a ticket. It drives the full lifecycle: understand the task, design the approach, plan with TDD steps, implement test-first, review with parallel agents, and ship a clean PR. Jira integration is built in when the Atlassian MCP is available — no setup commands needed.
 
 ---
 
@@ -45,34 +34,16 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 
 | Plugin | Type | Description |
 |--------|------|-------------|
-| [**superdev**](plugins/superdev/) | commands, agents, skills | Opinionated dev workflow — spec refinement, TDD, KISS, multi-agent review, ticket to PR |
-| [**jira-workflow**](plugins/jira-workflow/) | commands, skills | Jira ticket management — view, start, complete, log work, and manage sprints |
-| [**code-audit**](plugins/code-audit/) | commands, agents | Multi-agent code audit with security scanning and logic analysis |
+| [**superdev**](plugins/superdev/) | skill, agents | Opinionated dev workflow — spec refinement, TDD, KISS, multi-agent review, ticket to PR |
+| [**code-audit**](plugins/code-audit/) | skill, agents | Multi-agent code review — parallel security and logic analysis with confidence-scored findings |
 | [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation — secret scanning in writes and push protection |
 | [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
 | [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
-| [**drawio**](plugins/drawio/) | skills | Create and edit draw.io diagrams — flowcharts, architecture, sequence diagrams, and more |
-
-### jira-workflow
-
-```
-/jira list                    # List sprint tickets
-/jira view KAN-123            # View ticket details
-/jira start KAN-123           # Create branch + transition to In Progress
-/jira done KAN-123            # Transition to Done/In Review
-/jira comment KAN-123 "msg"   # Add a comment
-/jira log KAN-123 2h          # Log time
-/jira-setup                   # Configure Jira credentials
-```
+| [**drawio**](plugins/drawio/) | skill | Create and edit draw.io diagrams — flowcharts, architecture, sequence diagrams, and more |
 
 ### code-audit
 
-```
-/review-pr 123                # Review a PR by number
-/review-pr                    # Review current branch's PR
-```
-
-Dispatches parallel security and logic review agents with confidence-scored findings.
+Ask Claude to review your code, a PR, or your current changes. The skill dispatches parallel security and logic review agents, then aggregates findings with confidence scores — critical issues, suggestions, and nits. No commands to remember — just say "review my code" or "check this PR."
 
 ### deploy-guard
 
@@ -87,22 +58,11 @@ MCP server connecting Claude Code to your Obsidian vault. Requires `OBSIDIAN_VAU
 
 ### discord-notify
 
-```
-/discord general "Build passed!"   # Send a message to #general
-/discord-setup                     # Configure bot token and guild ID
-```
+Send messages to Discord channels. The skill detects when you need to notify a channel and handles it — or just say "send a message to #general." Requires `~/.claude/discord.env` with bot token and guild ID (run `/discord-setup` for guided configuration).
 
 ### drawio
 
-Ask Claude to create any kind of diagram:
-
-```
-Draw an architecture diagram for a microservices system
-Create a flowchart showing the CI/CD pipeline
-Make a sequence diagram for the OAuth2 flow
-```
-
-Generates `.drawio` XML files — open in draw.io desktop, VS Code extension, or export to PNG.
+Ask Claude to create any kind of diagram — flowcharts, architecture diagrams, sequence diagrams, swimlanes, ER diagrams, network maps. The skill triggers whenever you want to visualize something and generates `.drawio` XML files you can open in draw.io or VS Code.
 
 ---
 
@@ -115,13 +75,11 @@ plugin-name/
 ├── .claude-plugin/
 │   └── plugin.json      # Plugin metadata (required)
 ├── .mcp.json            # MCP server configuration (optional)
-├── commands/            # Slash commands (optional)
-│   └── command-name.md
-├── agents/              # Agent definitions (optional)
-│   └── agent-name.md
 ├── skills/              # Skill definitions (optional)
 │   └── skill-name/
 │       └── SKILL.md
+├── agents/              # Agent definitions (optional)
+│   └── agent-name.md
 ├── hooks/               # Event-driven hooks (optional)
 │   └── hooks.json
 └── README.md            # Documentation (required)
@@ -129,14 +87,14 @@ plugin-name/
 
 ### Frontmatter Reference
 
-Commands, agents, and skills use YAML frontmatter:
+Skills and agents use YAML frontmatter:
 
-**Commands** — require `description`:
+**Skills** — require `description`:
 ```yaml
 ---
-description: Short description shown in /help
-argument-hint: <arg> [optional]
-allowed-tools: [Read, Glob, Grep, Bash]
+name: skill-name
+description: When Claude should invoke this skill
+version: 1.0.0
 ---
 ```
 
@@ -147,15 +105,6 @@ name: agent-name
 description: When to use this agent
 model: sonnet
 tools: Read, Glob, Grep
----
-```
-
-**Skills** — require `description`:
-```yaml
----
-name: skill-name
-description: When Claude should invoke this skill
-version: 1.0.0
 ---
 ```
 
@@ -177,7 +126,7 @@ You can also submit a plugin via the [Plugin Submission](https://github.com/next
 
 ### Validation
 
-All commands, agents, and skills are validated for correct YAML frontmatter on every PR:
+All skills and agents are validated for correct YAML frontmatter on every PR:
 
 ```bash
 bun .github/scripts/validate-frontmatter.ts

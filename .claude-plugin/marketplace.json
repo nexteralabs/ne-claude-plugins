@@ -1,26 +1,26 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ne-claude-plugins",
-  "description": "NE Claude Plugin Marketplace — curated plugins for development workflows, integrations, and productivity",
+  "description": "NextEra Labs Claude Plugin Marketplace — curated plugins for development workflows, integrations, and productivity",
   "owner": {
     "name": "geomarceau",
     "email": "georges.marceau@nexteralabs.ca"
   },
   "plugins": [
     {
-      "name": "jira-workflow",
-      "description": "Jira integration for managing tickets, sprints, and workflows directly from Claude Code",
-      "version": "1.0.0",
+      "name": "superdev",
+      "description": "Opinionated dev workflow that enforces good engineering — spec refinement before code, TDD by default, KISS over complexity, multi-agent review, and optional Jira integration",
+      "version": "2.0.0",
       "author": {
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/jira-workflow",
-      "category": "productivity"
+      "source": "./plugins/superdev",
+      "category": "development"
     },
     {
       "name": "code-audit",
-      "description": "Multi-agent code audit with security scanning, logic analysis, and confidence-scored findings",
+      "description": "Multi-agent code review — parallel security and logic analysis with confidence-scored findings",
       "version": "1.0.0",
       "author": {
         "name": "geomarceau",
@@ -31,7 +31,7 @@
     },
     {
       "name": "deploy-guard",
-      "description": "Pre-deployment validation hooks that check for secrets, broken tests, and unsafe patterns before pushing",
+      "description": "Pre-deployment validation hooks — secret scanning in writes and push protection",
       "version": "1.0.0",
       "author": {
         "name": "geomarceau",
@@ -42,7 +42,7 @@
     },
     {
       "name": "obsidian-vault",
-      "description": "MCP server for reading and writing Obsidian vault notes, enabling knowledge-base-driven development",
+      "description": "MCP server for reading and writing Obsidian vault notes from Claude Code",
       "version": "1.0.0",
       "author": {
         "name": "geomarceau",
@@ -53,7 +53,7 @@
     },
     {
       "name": "discord-notify",
-      "description": "Discord webhook integration for posting build results, PR updates, and deployment notifications",
+      "description": "Send messages to Discord channels via bot API with guided setup",
       "version": "1.0.0",
       "author": {
         "name": "geomarceau",
@@ -61,17 +61,6 @@
       },
       "source": "./plugins/discord-notify",
       "category": "integrations"
-    },
-    {
-      "name": "superdev",
-      "description": "Opinionated dev workflow that enforces good engineering — spec refinement before code, TDD by default, KISS over complexity, multi-agent review, and full task tracking from ticket to PR",
-      "version": "1.0.0",
-      "author": {
-        "name": "geomarceau",
-        "email": "georges.marceau@nexteralabs.ca"
-      },
-      "source": "./plugins/superdev",
-      "category": "development"
     },
     {
       "name": "drawio",

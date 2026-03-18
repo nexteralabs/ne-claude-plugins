@@ -1,23 +1,28 @@
-# PR Review Plugin
+# code-audit
 
-Multi-agent pull request review with security, logic, style, and test coverage analysis.
+Multi-agent code review that dispatches parallel security and logic reviewers with confidence-scored findings. Triggers automatically when you ask to review code, audit a PR, or check for security issues.
 
-## Usage
+## How it works
 
-```
-/review-pr 123
-/review-pr https://github.com/org/repo/pull/123
-/review-pr          # reviews current branch's PR
-```
+Just say "review my code", "check this PR", or "is this safe?" The skill:
+
+1. Figures out what to review — a PR, your current changes, or specific files
+2. Dispatches parallel review agents (security + logic) that work independently
+3. Aggregates findings with confidence scores: critical, important, suggestions, nits
+4. Delivers a structured verdict: approve, request changes, or needs discussion
 
 ## Agents
 
-- **Security Reviewer** — Scans for vulnerabilities and unsafe patterns
-- **Logic Reviewer** — Checks correctness, edge cases, and error handling
+| Agent | Focus |
+|-------|-------|
+| **security-reviewer** | Secrets, injection, auth, data exposure, dependencies, crypto, input validation |
+| **logic-reviewer** | Edge cases, error handling, race conditions, resource management, data integrity |
 
-## Output
+## Installation
 
-Structured review with confidence-scored findings categorized as critical issues, suggestions, and nits.
+```
+/plugin install code-audit@ne-claude-plugins
+```
 
 ## License
 
