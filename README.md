@@ -1,57 +1,30 @@
-# NE Claude Plugin Marketplace
+<p align="center">
+  <img src="assets/Nextera_Logo-whilte.png" alt="Nextera Labs" width="280" />
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+<h1 align="center">NextEra Labs Claude Plugin Marketplace</h1>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+</p>
 
 A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — extending it with development workflows, task tracking, code review, and integrations.
 
 > **Important:** Review any plugin before installing. Plugins may include MCP servers, hooks, and scripts that execute on your machine. We cannot guarantee that third-party plugins will work as intended.
 
-## Table of Contents
+---
 
-- [Installation](#installation)
-- [Available Plugins](#available-plugins)
-- [Plugin Structure](#plugin-structure)
-- [Contributing](#contributing)
-- [Development](#development)
-- [License](#license)
+## superdev — the flagship plugin
 
-## Installation
+An opinionated development workflow that enforces good engineering practices — because fast code that breaks costs more than thoughtful code that ships clean.
 
-Install any plugin directly from Claude Code:
+**Refine specs before writing code.** No ambiguity survives the design phase — requirements are clarified, edge cases surfaced, and scope locked before a single line is written.
 
-```
-/plugin install {plugin-name}@ne-claude-plugins
-```
+**TDD by default.** Write a failing test first. Then make it pass. Then refactor. No production code exists without a test that demanded it.
 
-Browse available plugins:
+**KISS over complexity.** Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations. The right amount of code is the minimum that works.
 
-```
-/plugin > Discover
-```
-
-## Available Plugins
-
-### Internal Plugins
-
-Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
-
-| Plugin | Type | Description |
-|--------|------|-------------|
-| [**superdev**](plugins/superdev/) | commands, agents, skills | Opinionated dev workflow that enforces good engineering — spec refinement, TDD, KISS, multi-agent review, ticket to PR |
-| [**jira-workflow**](plugins/jira-workflow/) | commands, skills | Jira ticket management — view, start, complete, log work, and manage sprints |
-| [**code-audit**](plugins/code-audit/) | commands, agents | Multi-agent code audit with security scanning and logic analysis |
-| [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation — secret scanning in writes and push protection |
-| [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
-| [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
-| [**drawio**](plugins/drawio/) | skills | Create and edit draw.io diagrams — flowcharts, architecture, sequence diagrams, and more |
-
-### Plugin Details
-
-#### superdev
-
-The flagship plugin. An opinionated development workflow that enforces good engineering practices — because fast code that breaks costs more than thoughtful code that ships clean.
-
-**Philosophy:** Refine specs before writing code. Write a failing test before writing production code. Keep it simple — three clear lines beat a premature abstraction. Review with multiple lenses before merging.
+**Multi-agent review before merge.** Security, logic, and spec compliance — reviewed by dedicated agents that catch what humans skip.
 
 ```
 /dev              # Full workflow: pick task > design > plan > implement > review > PR
@@ -64,7 +37,23 @@ The flagship plugin. An opinionated development workflow that enforces good engi
 
 Includes 3 specialized agents (implementer, spec-reviewer, code-reviewer) and reference docs on TDD, systematic debugging, KISS principles, and verification practices. Integrates with Jira and Obsidian for task tracking.
 
-#### jira-workflow
+---
+
+## All Plugins
+
+Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
+
+| Plugin | Type | Description |
+|--------|------|-------------|
+| [**superdev**](plugins/superdev/) | commands, agents, skills | Opinionated dev workflow — spec refinement, TDD, KISS, multi-agent review, ticket to PR |
+| [**jira-workflow**](plugins/jira-workflow/) | commands, skills | Jira ticket management — view, start, complete, log work, and manage sprints |
+| [**code-audit**](plugins/code-audit/) | commands, agents | Multi-agent code audit with security scanning and logic analysis |
+| [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation — secret scanning in writes and push protection |
+| [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
+| [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
+| [**drawio**](plugins/drawio/) | skills | Create and edit draw.io diagrams — flowcharts, architecture, sequence diagrams, and more |
+
+### jira-workflow
 
 ```
 /jira list                    # List sprint tickets
@@ -76,7 +65,7 @@ Includes 3 specialized agents (implementer, spec-reviewer, code-reviewer) and re
 /jira-setup                   # Configure Jira credentials
 ```
 
-#### code-audit
+### code-audit
 
 ```
 /review-pr 123                # Review a PR by number
@@ -85,25 +74,25 @@ Includes 3 specialized agents (implementer, spec-reviewer, code-reviewer) and re
 
 Dispatches parallel security and logic review agents with confidence-scored findings.
 
-#### deploy-guard
+### deploy-guard
 
 Hook-based plugin that runs automatically:
 
 - **Secret scanning** — blocks writes containing API keys, tokens, passwords, and private keys
 - **Push protection** — warns on uncommitted changes, blocks force-push to main/master
 
-#### obsidian-vault
+### obsidian-vault
 
 MCP server connecting Claude Code to your Obsidian vault. Requires `OBSIDIAN_VAULT_PATH` environment variable.
 
-#### discord-notify
+### discord-notify
 
 ```
 /discord general "Build passed!"   # Send a message to #general
 /discord-setup                     # Configure bot token and guild ID
 ```
 
-#### drawio
+### drawio
 
 Ask Claude to create any kind of diagram:
 
@@ -114,6 +103,8 @@ Make a sequence diagram for the OAuth2 flow
 ```
 
 Generates `.drawio` XML files — open in draw.io desktop, VS Code extension, or export to PNG.
+
+---
 
 ## Plugin Structure
 
@@ -215,6 +206,20 @@ ne-claude-plugins/
 ## Documentation
 
 For more information on developing Claude Code plugins, see the [official documentation](https://docs.anthropic.com/en/docs/claude-code/plugins).
+
+## Installation
+
+Install any plugin directly from Claude Code:
+
+```
+/plugin install {plugin-name}@ne-claude-plugins
+```
+
+Browse available plugins:
+
+```
+/plugin > Discover
+```
 
 ## License
 
