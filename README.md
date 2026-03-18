@@ -2,9 +2,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
 </p>
 
-<h1 align="center">
-  NextEra Labs Claude Plugins
-</h1>
+<h1 align="center">NextEra Labs Claude Plugins</h1>
 <p align="center">
 <img src="assets/Nextera_Logo-white-transparent.png" alt="Nextera Labs" height="60" style="vertical-align: middle;" />
 </p>
