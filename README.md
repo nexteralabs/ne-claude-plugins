@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+</p>
+
 <h1 align="center">
   NextEra Labs Claude Plugins
 </h1>
@@ -5,9 +9,6 @@
 <img src="assets/Nextera_Logo-white-transparent.png" alt="Nextera Labs" height="60" style="vertical-align: middle;" />
 </p>
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
-</p>
 
 A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), extending it with development workflows, code review, and integrations.
 
