@@ -84,48 +84,6 @@ Ask Claude to create any kind of diagram: flowcharts, architecture diagrams, seq
 
 ---
 
-## Plugin Structure
-
-Every plugin follows the standard Claude Code plugin format:
-
-```
-plugin-name/
-├── .claude-plugin/
-│   └── plugin.json      # Plugin metadata (required)
-├── .mcp.json            # MCP server configuration (optional)
-├── skills/              # Skill definitions (optional)
-│   └── skill-name/
-│       └── SKILL.md
-├── agents/              # Agent definitions (optional)
-│   └── agent-name.md
-├── hooks/               # Event-driven hooks (optional)
-│   └── hooks.json
-└── README.md            # Documentation (required)
-```
-
-### Frontmatter Reference
-
-Skills and agents use YAML frontmatter:
-
-**Skills** (require `description`):
-```yaml
----
-name: skill-name
-description: When Claude should invoke this skill
-version: 1.0.0
----
-```
-
-**Agents** (require `name` and `description`):
-```yaml
----
-name: agent-name
-description: When to use this agent
-model: sonnet
-tools: Read, Glob, Grep
----
-```
-
 <details>
 <summary><strong>Contributing</strong></summary>
 
