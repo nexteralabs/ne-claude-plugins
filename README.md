@@ -1,5 +1,9 @@
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/nexteralabs/ne-claude-plugins" alt="License" /></a>
+  <a href="https://github.com/nexteralabs/ne-claude-plugins/releases"><img src="https://img.shields.io/github/v/release/nexteralabs/ne-claude-plugins" alt="Release" /></a>
+  <img src="https://img.shields.io/github/last-commit/nexteralabs/ne-claude-plugins" alt="Last Commit" />
+  <img src="https://img.shields.io/badge/plugins-6-brightgreen" alt="Plugins" />
+  <img src="https://img.shields.io/badge/claude--code-compatible-blueviolet" alt="Claude Code Compatible" />
 </p>
 
 <h1 align="center">NextEra Labs Claude Plugins</h1>
@@ -12,17 +16,33 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 # superdev
 
-An opinionated development workflow that enforces good engineering practices. Fast code that breaks costs more than thoughtful code that ships clean.
+A development workflow that enforces spec refinement, TDD, and simplicity at every step.<br>
+Fast code that breaks costs more than thoughtful code that ships clean.
 
-**Refine specs before writing code.** No ambiguity survives the design phase. Requirements are clarified, edge cases surfaced, and scope locked before a single line is written.
+<table>
+<tr>
+<td width="50%">
 
-**TDD by default.** Write a failing test first. Then make it pass. Then refactor. No production code exists without a test that demanded it.
+### Spec first, code second
+No ambiguity survives the design phase. Requirements are clarified, edge cases surfaced, and scope locked before a single line is written.
 
-**KISS over complexity.** Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations. The right amount of code is the minimum that works.
+### TDD by default
+Write a failing test first. Then make it pass. Then refactor. No production code exists without a test that demanded it.
 
-**Multi-agent review before merge.** Security, logic, and spec compliance reviewed by dedicated agents that catch what humans skip.
+</td>
+<td width="50%">
 
-The skill triggers automatically when you start any dev work: building a feature, fixing a bug, implementing a ticket. It drives the full lifecycle from understanding the task, through spec refinement, TDD implementation with subagents, multi-agent code review, all the way to a clean PR. Jira integration is built in when the Atlassian MCP is available, no setup commands needed.
+### KISS over complexity
+Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations. Minimum code that works.
+
+### Multi-agent review
+Security, logic, and spec compliance reviewed by dedicated agents that catch what humans skip.
+
+</td>
+</tr>
+</table>
+
+> The skill triggers automatically when you start any dev work. It drives the full lifecycle: understand the task, refine the spec, plan with TDD steps, implement test-first with subagents, review with parallel agents, and ship a clean PR. Jira integration is built in when the Atlassian MCP is available.
 
 ---
 
@@ -64,49 +84,8 @@ Ask Claude to create any kind of diagram: flowcharts, architecture diagrams, seq
 
 ---
 
-## Plugin Structure
-
-Every plugin follows the standard Claude Code plugin format:
-
-```
-plugin-name/
-├── .claude-plugin/
-│   └── plugin.json      # Plugin metadata (required)
-├── .mcp.json            # MCP server configuration (optional)
-├── skills/              # Skill definitions (optional)
-│   └── skill-name/
-│       └── SKILL.md
-├── agents/              # Agent definitions (optional)
-│   └── agent-name.md
-├── hooks/               # Event-driven hooks (optional)
-│   └── hooks.json
-└── README.md            # Documentation (required)
-```
-
-### Frontmatter Reference
-
-Skills and agents use YAML frontmatter:
-
-**Skills** (require `description`):
-```yaml
----
-name: skill-name
-description: When Claude should invoke this skill
-version: 1.0.0
----
-```
-
-**Agents** (require `name` and `description`):
-```yaml
----
-name: agent-name
-description: When to use this agent
-model: sonnet
-tools: Read, Glob, Grep
----
-```
-
-## Contributing
+<details>
+<summary><strong>Contributing</strong></summary>
 
 We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the full guide.
 
@@ -120,7 +99,10 @@ We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the
 
 You can also submit a plugin via the [Plugin Submission](https://github.com/nexteralabs/ne-claude-plugins/issues/new?template=plugin-submission.yml) issue template.
 
-## Development
+</details>
+
+<details>
+<summary><strong>Development</strong></summary>
 
 ### Validation
 
@@ -150,11 +132,12 @@ ne-claude-plugins/
     └── workflows/                # CI automation
 ```
 
-## Documentation
-
 For more information on developing Claude Code plugins, see the [official documentation](https://docs.anthropic.com/en/docs/claude-code/plugins).
 
-## Installation
+</details>
+
+<details>
+<summary><strong>Installation</strong></summary>
 
 Install any plugin directly from Claude Code:
 
@@ -168,6 +151,13 @@ Browse available plugins:
 /plugin > Discover
 ```
 
-## License
+</details>
+
+<details>
+<summary><strong>License</strong></summary>
 
 This project is licensed under the [MIT License](LICENSE).
+
+Copyright 2026 Nextera Labs.
+
+</details>
