@@ -1,0 +1,11 @@
+# Global owners
+* @nexteralabs
+
+# Internal plugins
+plugins/ @nexteralabs
+
+# Marketplace registry
+.claude-plugin/ @nexteralabs
+
+# CI and workflows
+.github/ @nexteralabs

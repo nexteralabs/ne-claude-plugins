@@ -1,0 +1,34 @@
+name: Feature Request
+description: Suggest an improvement to an existing plugin or the marketplace
+labels: ["type: enhancement", "status: needs-triage"]
+body:
+  - type: input
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin does this relate to? (or "marketplace" / "new plugin idea")
+      placeholder: "e.g., superdev, jira-workflow"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this feature solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should this feature work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other approaches did you consider?

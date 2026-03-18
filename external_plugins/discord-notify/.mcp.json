@@ -1,0 +1,6 @@
+{
+  "discord": {
+    "type": "http",
+    "url": "${DISCORD_WEBHOOK_URL}"
+  }
+}

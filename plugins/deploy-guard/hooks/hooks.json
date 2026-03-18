@@ -1,0 +1,27 @@
+{
+  "description": "Pre-deployment guard that validates code before pushing — checks for leaked secrets, failing tests, and unsafe patterns",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/check_secrets.py",
+            "timeout": 10
+          }
+        ],
+        "matcher": "Edit|Write|MultiEdit"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/check_push.sh",
+            "timeout": 30
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
+  }
+}

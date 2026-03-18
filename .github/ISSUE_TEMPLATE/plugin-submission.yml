@@ -1,0 +1,79 @@
+name: Plugin Submission
+description: Submit a new plugin for the marketplace
+labels: ["type: plugin-submission", "status: needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit a new plugin for inclusion in the NE Claude Plugin Marketplace.
+        You can also submit directly via a pull request — see [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+  - type: input
+    id: name
+    attributes:
+      label: Plugin Name
+      placeholder: "my-plugin-name (kebab-case)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What does your plugin do?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Plugin Type
+      options:
+        - Commands (slash commands)
+        - Agents (autonomous agents)
+        - Skills (context-aware guidance)
+        - Hooks (event-driven automation)
+        - MCP Server (external tool integration)
+        - LSP Server (language intelligence)
+        - Multiple types
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - development
+        - productivity
+        - integrations
+        - devops
+    validations:
+      required: true
+
+  - type: input
+    id: repo
+    attributes:
+      label: Repository URL
+      description: Link to the plugin source code (if hosted separately)
+      placeholder: "https://github.com/..."
+
+  - type: textarea
+    id: setup
+    attributes:
+      label: Setup Requirements
+      description: Any credentials, environment variables, or dependencies needed?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submission Checklist
+      options:
+        - label: Plugin follows the standard structure (.claude-plugin/plugin.json, README.md)
+          required: true
+        - label: All commands/agents/skills have valid YAML frontmatter
+          required: true
+        - label: No hardcoded secrets or credentials
+          required: true
+        - label: README includes setup instructions
+          required: true

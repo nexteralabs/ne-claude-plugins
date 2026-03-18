@@ -1,0 +1,33 @@
+name: Validate Plugin Frontmatter
+
+on:
+  pull_request:
+    paths:
+      - "plugins/**/agents/*.md"
+      - "plugins/**/skills/*/SKILL.md"
+      - "plugins/**/commands/*.md"
+      - "external_plugins/**/agents/*.md"
+      - "external_plugins/**/skills/*/SKILL.md"
+      - "external_plugins/**/commands/*.md"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun add yaml
+
+      - name: Validate changed frontmatter files
+        run: |
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -E '\.(md)$' || true)
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No frontmatter files changed"
+            exit 0
+          fi
+          echo "$CHANGED_FILES" | xargs bun .github/scripts/validate-frontmatter.ts

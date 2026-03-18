@@ -1,0 +1,7 @@
+{
+  "name": "discord-notify",
+  "description": "Discord webhook integration for posting build results, PR updates, and deployment notifications",
+  "author": {
+    "name": "Community"
+  }
+}

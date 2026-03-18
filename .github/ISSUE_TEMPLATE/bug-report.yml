@@ -1,0 +1,49 @@
+name: Bug Report
+description: Report a bug in a plugin or the marketplace
+labels: ["type: bug", "status: needs-triage"]
+body:
+  - type: input
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin is affected?
+      placeholder: "e.g., superdev, deploy-guard, or 'marketplace'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Install plugin with /plugin install ...
+        2. Run /dev start
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        - Claude Code version:
+        - OS:
+        - Shell:
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Output
+      description: Paste any error messages or logs
+      render: shell

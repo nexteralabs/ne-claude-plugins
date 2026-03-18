@@ -1,0 +1,8 @@
+{
+  "name": "obsidian-vault",
+  "description": "MCP server for reading and writing Obsidian vault notes, enabling knowledge-base-driven development",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

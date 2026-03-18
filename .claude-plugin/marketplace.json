@@ -1,0 +1,76 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ne-claude-plugins",
+  "description": "NE Claude Plugin Marketplace — curated plugins for development workflows, integrations, and productivity",
+  "owner": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  },
+  "plugins": [
+    {
+      "name": "jira-workflow",
+      "description": "Jira integration for managing tickets, sprints, and workflows directly from Claude Code",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/jira-workflow",
+      "category": "productivity"
+    },
+    {
+      "name": "code-audit",
+      "description": "Multi-agent code audit with security scanning, logic analysis, and confidence-scored findings",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/code-audit",
+      "category": "development"
+    },
+    {
+      "name": "deploy-guard",
+      "description": "Pre-deployment validation hooks that check for secrets, broken tests, and unsafe patterns before pushing",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/deploy-guard",
+      "category": "devops"
+    },
+    {
+      "name": "obsidian-vault",
+      "description": "MCP server for reading and writing Obsidian vault notes, enabling knowledge-base-driven development",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/obsidian-vault",
+      "category": "productivity"
+    },
+    {
+      "name": "discord-notify",
+      "description": "Discord webhook integration for posting build results, PR updates, and deployment notifications",
+      "version": "1.0.0",
+      "author": {
+        "name": "Community"
+      },
+      "source": "./external_plugins/discord-notify",
+      "category": "integrations"
+    },
+    {
+      "name": "superdev",
+      "description": "Supercharged development workflow — from ticket to PR with TDD, subagent-driven implementation, multi-agent code review, and task tracking",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/superdev",
+      "category": "development"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.log
+.env
+.env.local
+.env.*.local
+.claude/
+.vscode/
+.idea/

@@ -1,0 +1,8 @@
+{
+  "name": "jira-workflow",
+  "description": "Jira integration for managing tickets, sprints, and workflows directly from Claude Code",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

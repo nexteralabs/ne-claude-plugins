@@ -1,0 +1,8 @@
+{
+  "name": "code-audit",
+  "description": "Multi-agent code audit with security scanning, logic analysis, and confidence-scored findings",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

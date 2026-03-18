@@ -1,0 +1,7 @@
+{
+  "obsidian": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@anthropic/obsidian-mcp", "--vault", "${OBSIDIAN_VAULT_PATH}"]
+  }
+}
