@@ -5,7 +5,7 @@ A curated marketplace of Claude Code plugins — installable via `/plugin instal
 ## Structure
 
 - **`/plugins`** — Internal plugins developed and maintained by NE
-- **`/external_plugins`** — Third-party community plugins
+- Community plugins also go under `/plugins`
 - **`.claude-plugin/marketplace.json`** — Master registry of all plugins
 
 ## Plugin Anatomy
@@ -41,7 +41,7 @@ bun .github/scripts/validate-frontmatter.ts
 
 ## Adding a Plugin
 
-1. Create the plugin directory under `plugins/` or `external_plugins/`
+1. Create the plugin directory under `plugins/`
 2. Add `.claude-plugin/plugin.json` with name, description, author
 3. Add commands/agents/skills/hooks as needed
 4. Register the plugin in `.claude-plugin/marketplace.json`

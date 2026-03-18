@@ -1,0 +1,8 @@
+{
+  "name": "drawio",
+  "description": "Create and edit draw.io diagrams directly from Claude Code — flowcharts, architecture diagrams, sequence diagrams, and more",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

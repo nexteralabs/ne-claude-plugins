@@ -15,7 +15,7 @@ We will acknowledge receipt within 48 hours and provide a timeline for addressin
 
 ## Scope
 
-This policy covers the marketplace registry and all plugins under `plugins/` and `external_plugins/`.
+This policy covers the marketplace registry and all plugins under `plugins/`.
 
 ## Plugin Security
 
