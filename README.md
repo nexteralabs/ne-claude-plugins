@@ -1,8 +1,7 @@
-<p align="center">
-  <img src="assets/Nextera_Logo-whilte.png" alt="Nextera Labs" width="280" />
-</p>
-
-<h1 align="center">NextEra Labs Claude Plugin Marketplace</h1>
+<h1 align="center">
+  <img src="assets/Nextera_Logo-whilte.png" alt="Nextera Labs" height="40" style="vertical-align: middle; margin-right: 12px;" />
+  NextEra Labs Claude Plugin Marketplace
+</h1>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
@@ -14,7 +13,7 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 ---
 
-## superdev — the flagship plugin
+## superdev
 
 An opinionated development workflow that enforces good engineering practices — because fast code that breaks costs more than thoughtful code that ships clean.
 
