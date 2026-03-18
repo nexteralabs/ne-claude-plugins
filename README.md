@@ -16,7 +16,7 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 # superdev
 
-An opinionated development workflow that enforces good engineering practices.<br>
+A development workflow that enforces spec refinement, TDD, and simplicity at every step.<br>
 Fast code that breaks costs more than thoughtful code that ships clean.
 
 <table>
