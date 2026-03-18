@@ -1,5 +1,5 @@
 <h1 align="center">
-  NextEra Labs Claude Plugins &nbsp;&nbsp;&nbsp;&nbsp; <img src="assets/Nextera_Logo-white-transparent.png" alt="Nextera Labs" height="60" style="vertical-align: middle;" />
+  NextEra Labs Claude Plugins &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="assets/Nextera_Logo-white-transparent.png" alt="Nextera Labs" height="60" style="vertical-align: middle;" />
 </h1>
 
 <p align="center">
