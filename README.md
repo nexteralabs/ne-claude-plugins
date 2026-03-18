@@ -16,17 +16,33 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 # superdev
 
-An opinionated development workflow that enforces good engineering practices. Fast code that breaks costs more than thoughtful code that ships clean.
+An opinionated development workflow that enforces good engineering practices.<br>
+Fast code that breaks costs more than thoughtful code that ships clean.
 
-**Refine specs before writing code.** No ambiguity survives the design phase. Requirements are clarified, edge cases surfaced, and scope locked before a single line is written.
+<table>
+<tr>
+<td width="50%">
 
-**TDD by default.** Write a failing test first. Then make it pass. Then refactor. No production code exists without a test that demanded it.
+### Spec first, code second
+No ambiguity survives the design phase. Requirements are clarified, edge cases surfaced, and scope locked before a single line is written.
 
-**KISS over complexity.** Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations. The right amount of code is the minimum that works.
+### TDD by default
+Write a failing test first. Then make it pass. Then refactor. No production code exists without a test that demanded it.
 
-**Multi-agent review before merge.** Security, logic, and spec compliance reviewed by dedicated agents that catch what humans skip.
+</td>
+<td width="50%">
 
-The skill triggers automatically when you start any dev work: building a feature, fixing a bug, implementing a ticket. It drives the full lifecycle from understanding the task, through spec refinement, TDD implementation with subagents, multi-agent code review, all the way to a clean PR. Jira integration is built in when the Atlassian MCP is available, no setup commands needed.
+### KISS over complexity
+Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations. Minimum code that works.
+
+### Multi-agent review
+Security, logic, and spec compliance reviewed by dedicated agents that catch what humans skip.
+
+</td>
+</tr>
+</table>
+
+> The skill triggers automatically when you start any dev work. It drives the full lifecycle: understand the task, refine the spec, plan with TDD steps, implement test-first with subagents, review with parallel agents, and ship a clean PR. Jira integration is built in when the Atlassian MCP is available.
 
 ---
 
