@@ -6,9 +6,6 @@ on:
       - "plugins/**/agents/*.md"
       - "plugins/**/skills/*/SKILL.md"
       - "plugins/**/commands/*.md"
-      - "external_plugins/**/agents/*.md"
-      - "external_plugins/**/skills/*/SKILL.md"
-      - "external_plugins/**/commands/*.md"
 
 jobs:
   validate:

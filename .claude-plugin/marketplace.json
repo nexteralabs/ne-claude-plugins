@@ -72,6 +72,17 @@
       },
       "source": "./plugins/superdev",
       "category": "development"
+    },
+    {
+      "name": "drawio",
+      "description": "Create and edit draw.io diagrams directly from Claude Code — flowcharts, architecture diagrams, sequence diagrams, and more",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/drawio",
+      "category": "productivity"
     }
   ]
 }

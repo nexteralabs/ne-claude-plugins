@@ -43,6 +43,7 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 | [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation — secret scanning in writes and push protection |
 | [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
 | [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
+| [**drawio**](plugins/drawio/) | skills | Create and edit draw.io diagrams — flowcharts, architecture, sequence diagrams, and more |
 
 ### Plugin Details
 
@@ -99,6 +100,18 @@ MCP server connecting Claude Code to your Obsidian vault. Requires `OBSIDIAN_VAU
 /discord general "Build passed!"   # Send a message to #general
 /discord-setup                     # Configure bot token and guild ID
 ```
+
+#### drawio
+
+Ask Claude to create any kind of diagram:
+
+```
+Draw an architecture diagram for a microservices system
+Create a flowchart showing the CI/CD pipeline
+Make a sequence diagram for the OAuth2 flow
+```
+
+Generates `.drawio` XML files — open in draw.io desktop, VS Code extension, or export to PNG.
 
 ## Plugin Structure
 
@@ -160,7 +173,7 @@ We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the
 **Quick start:**
 
 1. Fork the repo
-2. Add your plugin under `external_plugins/`
+2. Add your plugin under `plugins/`
 3. Register it in `.claude-plugin/marketplace.json`
 4. Validate frontmatter: `bun .github/scripts/validate-frontmatter.ts`
 5. Open a pull request
@@ -192,7 +205,6 @@ ne-claude-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json          # Plugin registry
 ├── plugins/                      # Internal plugins (Nextera Labs)
-├── external_plugins/             # Community plugins
 └── .github/
     ├── scripts/                  # Validation tooling
     └── workflows/                # CI automation

@@ -17,9 +17,9 @@ Thank you for your interest in contributing! This guide explains how to add plug
 
 ## Submitting a Plugin
 
-Community plugins live under `external_plugins/`. To submit one:
+Community plugins live under `plugins/`. To submit one:
 
-1. Create your plugin directory under `external_plugins/your-plugin-name/`
+1. Create your plugin directory under `plugins/your-plugin-name/`
 2. Follow the standard plugin structure (see README)
 3. Add your plugin entry to `.claude-plugin/marketplace.json`
 4. Include a clear `README.md` with setup instructions
@@ -48,7 +48,7 @@ Add your plugin to the `plugins` array in `.claude-plugin/marketplace.json`:
   "description": "Same description as plugin.json",
   "version": "1.0.0",
   "author": { "name": "Your Name" },
-  "source": "./external_plugins/your-plugin-name",
+  "source": "./plugins/your-plugin-name",
   "category": "development"
 }
 ```
