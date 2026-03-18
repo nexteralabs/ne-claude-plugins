@@ -1,7 +1,6 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/github/license/nexteralabs/ne-claude-plugins" alt="License" /></a>
-  <a href="https://github.com/nexteralabs/ne-claude-plugins/releases"><img src="https://img.shields.io/github/v/release/nexteralabs/ne-claude-plugins" alt="Release" /></a>
-  <img src="https://img.shields.io/github/last-commit/nexteralabs/ne-claude-plugins" alt="Last Commit" />
+<img src="https://img.shields.io/github/last-commit/nexteralabs/ne-claude-plugins" alt="Last Commit" />
   <img src="https://img.shields.io/badge/plugins-6-brightgreen" alt="Plugins" />
   <img src="https://img.shields.io/badge/claude--code-compatible-blueviolet" alt="Claude Code Compatible" />
 </p>
