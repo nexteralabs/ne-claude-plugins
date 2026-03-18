@@ -1,6 +1,6 @@
 {
   "name": "superdev",
-  "description": "Supercharged development workflow — from ticket to PR with TDD, subagent-driven implementation, multi-agent code review, and task tracking",
+  "description": "Opinionated dev workflow that enforces good engineering — spec refinement before code, TDD by default, KISS over complexity, multi-agent review, and full task tracking from ticket to PR",
   "author": {
     "name": "geomarceau",
     "email": "georges.marceau@nexteralabs.ca"
