@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">NextEra Labs Claude Plugins</h1>
-<p align="center">
+<p align="right">
 <img src="assets/Nextera_Logo-white-transparent.png" alt="Nextera Labs" height="60" style="vertical-align: middle;" />
 </p>
 
