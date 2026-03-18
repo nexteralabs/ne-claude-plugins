@@ -2,7 +2,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
 </p>
 
-<h1 align="center">NextEra Labs Claude Plugins</h1></p>
+<h1 align="center">NextEra Labs Claude Plugins</h1>
 
 A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), extending it with development workflows, code review, and integrations.
 
@@ -10,7 +10,7 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 ---
 
-## superdev
+# superdev
 
 An opinionated development workflow that enforces good engineering practices. Fast code that breaks costs more than thoughtful code that ships clean.
 
