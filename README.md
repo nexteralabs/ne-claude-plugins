@@ -1,5 +1,9 @@
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/nexteralabs/ne-claude-plugins" alt="License" /></a>
+  <a href="https://github.com/nexteralabs/ne-claude-plugins/releases"><img src="https://img.shields.io/github/v/release/nexteralabs/ne-claude-plugins" alt="Release" /></a>
+  <img src="https://img.shields.io/github/last-commit/nexteralabs/ne-claude-plugins" alt="Last Commit" />
+  <img src="https://img.shields.io/badge/plugins-6-brightgreen" alt="Plugins" />
+  <img src="https://img.shields.io/badge/claude--code-compatible-blueviolet" alt="Claude Code Compatible" />
 </p>
 
 <h1 align="center">NextEra Labs Claude Plugins</h1>
@@ -106,7 +110,8 @@ tools: Read, Glob, Grep
 ---
 ```
 
-## Contributing
+<details>
+<summary><strong>Contributing</strong></summary>
 
 We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the full guide.
 
@@ -120,7 +125,10 @@ We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for the
 
 You can also submit a plugin via the [Plugin Submission](https://github.com/nexteralabs/ne-claude-plugins/issues/new?template=plugin-submission.yml) issue template.
 
-## Development
+</details>
+
+<details>
+<summary><strong>Development</strong></summary>
 
 ### Validation
 
@@ -150,11 +158,12 @@ ne-claude-plugins/
     └── workflows/                # CI automation
 ```
 
-## Documentation
-
 For more information on developing Claude Code plugins, see the [official documentation](https://docs.anthropic.com/en/docs/claude-code/plugins).
 
-## Installation
+</details>
+
+<details>
+<summary><strong>Installation</strong></summary>
 
 Install any plugin directly from Claude Code:
 
@@ -168,6 +177,13 @@ Browse available plugins:
 /plugin > Discover
 ```
 
-## License
+</details>
+
+<details>
+<summary><strong>License</strong></summary>
 
 This project is licensed under the [MIT License](LICENSE).
+
+Copyright 2026 Nextera Labs.
+
+</details>
