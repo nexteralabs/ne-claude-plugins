@@ -1,7 +1,7 @@
 ---
 name: implement
 description: "Execute implementation plans using TDD and subagent-driven development. Follows red-green-refactor strictly. Use when you have an approved plan and are ready to write code. Triggers on: 'implement', 'start coding', 'execute the plan', or automatically as part of the codesmith workflow."
-version: 3.0.0
+version: 3.1.0
 ---
 
 # Implement
@@ -100,9 +100,12 @@ Escalation ladder:
 ### 5. Progress Tracking
 
 After each completed task:
-- Mark it done in your task list
+- Mark it done in `.claude/tasks/todo.md` (change `- [ ]` to `- [x]`)
+- Update the `**Phase:**` line in `todo.md` to reflect current progress (e.g., `implementing (3/7)`)
 - Report progress: "Task 3/7 complete: added JWT validation middleware"
 - If the plan needs revision based on what you learned, pause and update it (see plan skill)
+
+`todo.md` is the single source of truth for workflow resume. If it's not updated, the workflow can't be resumed in a new conversation.
 
 ## Reference Files
 

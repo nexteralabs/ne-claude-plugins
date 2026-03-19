@@ -1,7 +1,7 @@
 ---
 name: init-project
 description: "Scaffold a project's CLAUDE.md with battle-tested development principles, detect ticket system, and configure project defaults. Use when starting a new project, onboarding to a codebase, or when the user says 'init project', 'set up claude', 'scaffold claude.md', 'configure project'. Also triggered when codesmith detects no CLAUDE.md exists in the project root."
-version: 3.0.0
+version: 3.1.0
 ---
 
 # Init Project
@@ -115,7 +115,25 @@ Find root causes. Avoid temporary fixes. Maintain senior-level engineering stand
 
 ---
 
-### 5. Create Supporting Directories
+### 5. Gitignore Check
+
+Check if `.claude/settings.local.json` is in `.gitignore`:
+
+```bash
+grep -q 'settings.local.json' .gitignore 2>/dev/null
+```
+
+If not present, ask:
+
+> "`.claude/settings.local.json` contains personal Claude Code settings (permissions, env vars). Want me to add it to `.gitignore` so each developer keeps their own?"
+
+If they agree, append to `.gitignore`:
+```
+# Claude Code personal settings
+.claude/settings.local.json
+```
+
+### 6. Create Supporting Directories
 
 ```bash
 mkdir -p .claude/tasks
@@ -135,7 +153,7 @@ Create `.claude/tasks/todo.md` if it doesn't exist:
 <!-- Finished tasks move here -->
 ```
 
-### 6. Confirm with User
+### 7. Confirm with User
 
 Present the generated CLAUDE.md and ask the user to review. They own this file — any principle they want to drop or modify is their call.
 
