@@ -1,6 +1,6 @@
 # CodeSmith
 
-A modular development workflow that enforces spec refinement, TDD, and simplicity at every step. Triggers automatically when you start any dev work and drives the full lifecycle — you never have to remember which phase comes next.
+A modular development workflow that enforces spec refinement, TDD, and simplicity at every step. It learns from your corrections, tracks your tasks, and evolves with every session. Triggers automatically when you start any dev work and drives the full lifecycle — you never have to remember which phase comes next.
 
 ## How it works
 
@@ -69,6 +69,18 @@ When `init-project` runs on a new project, it generates a CLAUDE.md with:
 - **Ticket system config** — saved once, used throughout the workflow
 
 This is a project-level file that you fully own. Drop, modify, or extend any principle to fit your project.
+
+## Memory-Driven Learning
+
+Codesmith integrates with Claude's built-in auto-memory to get smarter over time. When it detects a correction or discovers a reusable pattern during the workflow, it asks:
+
+> "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?"
+
+If you agree, the pattern is saved as a `feedback` memory — automatically loaded into every future conversation across all projects. No manual review step, no stale files. You stay in control: nothing is saved without your approval.
+
+## Task Tracking
+
+Active work is tracked in `.claude/tasks/todo.md` — visible in your IDE, survives context compression, and keeps the project root clean. The workflow updates it automatically as tasks progress through planning, implementation, and review.
 
 ## Agents
 
