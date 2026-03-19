@@ -36,10 +36,26 @@ For trivial changes (typo, config tweak, < 10 lines with obvious intent), skip s
 
 Explore the codebase. Understand existing patterns, conventions, and architecture. Check recent commits for context.
 
-For non-trivial work:
-- Propose 2-3 approaches with tradeoffs
-- Be ruthless about YAGNI. Remove anything not strictly required
-- Follow existing patterns in the codebase, don't invent new ones
+For non-trivial work, propose 2-3 approaches. For each approach, explain:
+- What changes and where
+- The tradeoff: what you gain, what you lose
+- Complexity: how many moving parts
+
+Common approach patterns to consider:
+
+**Extend vs. extract.** Can you add to an existing module, or does this need its own? Extending is simpler but risks bloating. Extracting is cleaner but adds indirection. Default to extending unless the module is already doing too much.
+
+**Inline vs. abstracted.** Should you write the logic directly where it's needed, or create a reusable function/class? If it's used once, inline it. If it's used twice, still probably inline it. Three times, extract. Premature abstraction is worse than duplication.
+
+**Sync vs. async.** Can this run synchronously, or does it need to be async (queues, events, background jobs)? Sync is simpler to test and debug. Only go async when you have a real reason: long-running operations, decoupling systems, handling load.
+
+**Build vs. use a library.** Is there an existing library that solves this? If so, is it maintained, small, and well-tested? A 5-line function you write beats a 50KB dependency you don't control. But don't reinvent cryptography.
+
+**Modify in place vs. migrate.** Can you change the existing code, or do you need a migration strategy (dual writes, feature flags, phased rollout)? Modify in place when the change is backward compatible. Migrate when it's not.
+
+**Top-down vs. bottom-up.** Start from the API/UI and work inward, or start from the data layer and build up? Top-down gives faster user feedback. Bottom-up gives a more solid foundation. Pick based on what's riskier: the interface or the plumbing.
+
+Be ruthless about YAGNI. Remove anything not strictly required. Follow existing patterns in the codebase, don't invent new ones.
 
 Present the approach and get user approval before moving on. This is a hard gate. No code until the design is approved.
 
@@ -92,7 +108,7 @@ Follow the plan. For each task:
 
 **Run the full suite after each change.** No regressions. If something breaks, stop and fix it before moving on.
 
-**Commit after each passing task.** Small, atomic commits with clear messages.
+**Commit after each passing task.** Small, atomic commits following Conventional Commits (see `references/commits.md`).
 
 For larger implementations with independent units of work, use subagent-driven development:
 - Dispatch an implementer agent (see `agents/implementer.md`) with full task context
@@ -168,3 +184,4 @@ These are loaded on demand. Read them when the relevant situation comes up:
 - `references/debugging.md` — Systematic root cause investigation, when to stop retrying
 - `references/verification.md` — Evidence-before-claims protocol, red flags for unverified claims
 - `references/code-review.md` — How to request and respond to code review findings
+- `references/commits.md` — Conventional Commits standard, types, breaking changes, squashing
