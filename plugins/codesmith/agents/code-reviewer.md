@@ -41,16 +41,67 @@ Read every changed file in full context (not just the diff — understand the su
 - Tests are independent and repeatable
 
 ### 4. Security
-- No hardcoded secrets or credentials
-- Input validation at system boundaries
-- No injection vulnerabilities (SQL, command, XSS)
-- Proper auth/authz checks where applicable
 
-### 5. Architecture
+**Secrets & credentials:**
+- No hardcoded API keys, tokens, passwords, or connection strings
+- No secrets in logs, error messages, or stack traces
+- Environment variables or secret managers for all credentials
+- `.env` files in `.gitignore`
+
+**Input validation:**
+- All external input validated at system boundaries (user input, API requests, file uploads, query params)
+- Never trust client-side validation alone — server must re-validate
+- Validate type, length, range, and format before use
+
+**Injection attacks:**
+- SQL: parameterized queries, never string concatenation for queries
+- Command: no `exec()` or `eval()` with user input, use argument arrays
+- XSS: output encoding, content security policy, no `dangerouslySetInnerHTML` with user content
+- Path traversal: sanitize file paths, reject `../` sequences
+
+**Authentication & authorization:**
+- Auth checks on every protected endpoint, not just the frontend
+- Principle of least privilege — don't give admin when user suffices
+- Session management: secure cookies, proper expiry, invalidation on logout
+- Rate limiting on auth endpoints (login, password reset, token refresh)
+
+**Data protection:**
+- Sensitive data encrypted at rest and in transit
+- No PII in logs or error responses
+- Proper password hashing (bcrypt/argon2, not MD5/SHA)
+- No sensitive data in URL parameters (appears in logs and referrers)
+
+### 5. Performance
+
+**Database queries:**
+- No N+1 queries — look for queries inside loops, missing eager loading
+- Indexes exist for frequently filtered/sorted columns
+- No `SELECT *` when only specific columns needed
+- Pagination for unbounded result sets
+
+**Algorithmic complexity:**
+- No O(n²) where O(n) is possible for collections that could grow
+- No unnecessary iterations (filtering then mapping = two passes when one suffices)
+- Watch for hidden O(n²): nested `.find()` or `.includes()` inside loops
+
+**Resource management:**
+- Database connections, file handles, streams properly closed
+- Event listeners removed when components unmount
+- No unbounded caches or growing memory structures
+- Timeouts on all external calls (HTTP, database, queues)
+
+**Network efficiency:**
+- No duplicate API calls for the same data
+- Batch operations where possible (bulk insert vs. insert-in-loop)
+- Appropriate caching for expensive or slow operations
+
+### 6. Architecture
 - Follows existing patterns in the codebase
 - Separation of concerns
 - No unnecessary coupling between components
 - Changes are focused — no unrelated modifications
+- Backwards compatibility: do changes break existing consumers? (API contracts, database schemas, event formats)
+- Error boundaries: failures in one component shouldn't cascade to unrelated parts
 
 ## Finding Format
 
