@@ -61,18 +61,35 @@ Before reporting back, verify:
 [What prevented completion and what you need]
 ```
 
-## Edge Cases and Error Handling
+## Edge Case Discovery
 
-Before writing tests, think about what could go wrong. Not everything needs a test — focus on cases that would cause data loss, security issues, or silent corruption.
+Before writing tests, systematically identify edge cases for the feature you're implementing. Not every edge case needs a test — focus on the ones that would cause data loss, security issues, or silent corruption if missed.
 
-Common blind spots to consider:
-- Empty, null, or zero inputs when the code assumes something exists
-- Off-by-one at boundaries (`<` vs `<=`, first/last item)
-- What happens on the first run (empty database, no config)
-- What happens if the same operation runs twice (idempotent?)
-- External calls that timeout, return errors, or return unexpected data
+**Inputs:**
+- Empty / null / undefined / zero / negative
+- Single item vs. many items
+- Maximum values (int overflow, max string length, max array size)
+- Special characters in strings (unicode, emoji, SQL-significant characters)
+- Whitespace-only strings vs. empty strings
 
-For error handling: validate at system boundaries (where user input or external data enters), not deep inside trusted internal code. Use exceptions for unexpected failures, return values for expected outcomes. Error messages should help debugging without leaking secrets or PII.
+**State:**
+- First use (empty database, no config, fresh install)
+- Already exists (duplicate creation, idempotent operations)
+- Concurrent access (two users editing the same resource)
+- Partial state (half-complete previous operation, missing optional fields)
+
+**Boundaries:**
+- Off-by-one: `< vs <=`, `0 vs 1`, `last item vs past-end`
+- Pagination boundaries: first page, last page, page size = total
+- Time boundaries: midnight, DST transitions, timezone differences
+
+**Failure paths:**
+- Network timeout, connection refused, DNS failure
+- Disk full, permission denied, file not found
+- External service returns 500, returns garbage, returns slowly
+- Partial failure: 3 of 5 batch operations succeed
+
+For error handling: validate at system boundaries (where user input or external data enters), not deep inside trusted internal code. Error messages should help debugging without leaking secrets or PII.
 
 ## Rules
 
