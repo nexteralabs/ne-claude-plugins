@@ -14,7 +14,7 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 ---
 
-# superdev
+# CodeSmith
 
 A development workflow that enforces spec refinement, TDD, and simplicity at every step.<br>
 Fast code that breaks costs more than thoughtful code that ships clean.
@@ -52,12 +52,12 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 
 | Plugin | Type | Description |
 |--------|------|-------------|
-| [**superdev**](plugins/superdev/) | skill, agents | Opinionated dev workflow with spec refinement, TDD, KISS, multi-agent review, ticket to PR |
+| [**codesmith**](plugins/codesmith/) | skill, agents | Dev workflow with spec refinement, TDD, KISS, multi-agent review, ticket to PR |
+| [**drawio**](plugins/drawio/) | skill | Create and edit draw.io diagrams: flowcharts, architecture, sequence diagrams, and more |
 | [**code-audit**](plugins/code-audit/) | skill, agents | Multi-agent code review with parallel security and logic analysis |
 | [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation with secret scanning and push protection |
 | [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
 | [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
-| [**drawio**](plugins/drawio/) | skill | Create and edit draw.io diagrams: flowcharts, architecture, sequence diagrams, and more |
 
 ### code-audit
 

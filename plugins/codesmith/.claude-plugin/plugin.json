@@ -1,0 +1,8 @@
+{
+  "name": "codesmith",
+  "description": "Development workflow that enforces spec refinement, TDD, KISS, multi-agent review, optional Jira integration",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

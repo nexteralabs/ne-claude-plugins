@@ -1,6 +1,6 @@
 ---
 name: code-audit
-description: "Multi-agent code review that catches what humans skip. Use this skill when the user asks to review code, audit a PR, check for security issues, review changes, or wants a second opinion on their implementation. Triggers on: 'review this', 'review my code', 'review the PR', 'audit this', 'check for security issues', 'is this safe', 'code review', 'look over my changes', 'anything wrong with this', PR numbers or URLs. Also triggers automatically as part of the superdev workflow's review phase. Do NOT trigger for explaining code or answering questions about how code works."
+description: "Multi-agent code review that catches what humans skip. Use this skill when the user asks to review code, audit a PR, check for security issues, review changes, or wants a second opinion on their implementation. Triggers on: 'review this', 'review my code', 'review the PR', 'audit this', 'check for security issues', 'is this safe', 'code review', 'look over my changes', 'anything wrong with this', PR numbers or URLs. Also triggers automatically as part of the codesmith workflow's review phase. Do NOT trigger for explaining code or answering questions about how code works."
 version: 1.0.0
 ---
 

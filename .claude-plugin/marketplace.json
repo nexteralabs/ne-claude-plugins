@@ -8,14 +8,14 @@
   },
   "plugins": [
     {
-      "name": "superdev",
-      "description": "Opinionated dev workflow that enforces good engineering — spec refinement before code, TDD by default, KISS over complexity, multi-agent review, and optional Jira integration",
+      "name": "codesmith",
+      "description": "Development workflow that enforces spec refinement, TDD, KISS, multi-agent review, and optional Jira integration",
       "version": "2.0.0",
       "author": {
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/superdev",
+      "source": "./plugins/codesmith",
       "category": "development"
     },
     {

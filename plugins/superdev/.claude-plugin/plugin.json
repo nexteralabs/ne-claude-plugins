@@ -1,8 +1,0 @@
-{
-  "name": "superdev",
-  "description": "Opinionated dev workflow that enforces good engineering — spec refinement, TDD, KISS, multi-agent review, optional Jira integration",
-  "author": {
-    "name": "geomarceau",
-    "email": "georges.marceau@nexteralabs.ca"
-  }
-}

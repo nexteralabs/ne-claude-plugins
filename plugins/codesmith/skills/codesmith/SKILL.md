@@ -1,12 +1,12 @@
 ---
-name: superdev
-description: "Opinionated development workflow that enforces spec refinement, TDD, and KISS. Use this skill whenever the user is about to start coding — building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'superdev', 'dev workflow', or 'full workflow'. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
+name: codesmith
+description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user is about to start coding: building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'codesmith', 'dev workflow', or 'full workflow'. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
 version: 2.0.0
 ---
 
-# Superdev
+# CodeSmith
 
-An opinionated development workflow. It exists because fast code that breaks costs more than thoughtful code that ships clean.
+A development workflow that enforces spec refinement, TDD, and simplicity at every step. It exists because fast code that breaks costs more than thoughtful code that ships clean.
 
 Three rules govern everything:
 
@@ -18,17 +18,17 @@ Three rules govern everything:
 
 ## How it works
 
-When this skill triggers, drive the following flow automatically. Don't ask the user to pick phases or type subcommands — just move through the flow, pausing only at gates that need human input.
+When this skill triggers, drive the following flow automatically. Don't ask the user to pick phases or type subcommands. Just move through the flow, pausing only at gates that need human input.
 
 ### 1. Understand the task
 
 Figure out what the user wants to build or fix. This context can come from:
 
 - **What they just said** — "implement user authentication", "fix the timeout bug"
-- **A Jira ticket** — if the user mentions a ticket ID (KAN-123) and the Atlassian MCP is available (`mcp__atlassian__*` tools), pull the ticket details automatically. If Jira isn't available, don't ask about it — just work with what the user gave you.
+- **A Jira ticket** — if the user mentions a ticket ID (KAN-123) and the Atlassian MCP is available (`mcp__atlassian__*` tools), pull the ticket details automatically. If Jira isn't available, don't ask about it. Just work with what the user gave you.
 - **A current task file** — check `.claude/current-task.md` if it exists for ongoing work context.
 
-If the task is unclear, ask clarifying questions — one at a time, prefer multiple choice. Stop asking once you have enough to proceed.
+If the task is unclear, ask clarifying questions, one at a time, prefer multiple choice. Stop asking once you have enough to proceed.
 
 For trivial changes (typo, config tweak, < 10 lines with obvious intent), skip straight to implementation with a test.
 
@@ -38,10 +38,10 @@ Explore the codebase. Understand existing patterns, conventions, and architectur
 
 For non-trivial work:
 - Propose 2-3 approaches with tradeoffs
-- Be ruthless about YAGNI — remove anything not strictly required
+- Be ruthless about YAGNI. Remove anything not strictly required
 - Follow existing patterns in the codebase, don't invent new ones
 
-Present the approach and get user approval before moving on. This is a hard gate — no code until the design is approved.
+Present the approach and get user approval before moving on. This is a hard gate. No code until the design is approved.
 
 ### 3. Set up the workspace
 
@@ -54,7 +54,7 @@ git checkout -b {branch-name}
 
 Branch naming: if there's a Jira ticket, use `{TICKET-KEY}-short-description`. Otherwise, use `short-description` derived from the task.
 
-If the user already has a branch, skip this — don't force a new one.
+If the user already has a branch, skip this. Don't force a new one.
 
 Track the task in `.claude/current-task.md`:
 ```markdown
@@ -68,17 +68,17 @@ If Jira is available and the ticket isn't already "In Progress", transition it.
 
 ### 4. Plan the implementation
 
-Write a concrete plan. Not vague bullets — actual steps with file paths, test names, and code intent. Save it using Claude's plan mode or to `docs/plans/{branch-name}.md`.
+Write a concrete plan. Not vague bullets. Actual steps with file paths, test names, and code intent. Save it using Claude's plan mode or to `docs/plans/{branch-name}.md`.
 
 Every task in the plan follows the TDD cycle:
 1. Write the failing test (what behavior are we adding?)
-2. Run it — confirm it fails for the right reason
+2. Run it. Confirm it fails for the right reason
 3. Write minimal code to pass
-4. Run it — confirm it passes
+4. Run it. Confirm it passes
 5. Refactor if needed (keep tests green)
 6. Commit
 
-Tasks should be small and focused — one unit of behavior each, ordered by dependency.
+Tasks should be small and focused. One unit of behavior each, ordered by dependency.
 
 Present the plan. Get approval. Another hard gate.
 
@@ -99,13 +99,13 @@ For larger implementations with independent units of work, use subagent-driven d
 - When it reports back, dispatch spec and code review agents to verify
 - Only mark the task done after review passes
 
-When stuck — read `references/debugging.md`. If 3+ attempts fail on the same issue, question the approach, don't keep retrying. If blocked on requirements, ask the user.
+When stuck, read `references/debugging.md`. If 3+ attempts fail on the same issue, question the approach, don't keep retrying. If blocked on requirements, ask the user.
 
 ### 6. Review
 
 After all tasks are complete:
 
-1. Run the full test suite — everything must pass
+1. Run the full test suite. Everything must pass
 2. Dispatch the code-reviewer agent for the entire implementation (see `agents/code-reviewer.md`)
 3. Fix critical and important findings. Push back on nits with reasoning if appropriate.
 
@@ -151,10 +151,10 @@ Present the PR preview to the user for confirmation before creating it.
 
 This skill works with or without Jira. Here's how to detect and adapt:
 
-- **Jira is available** if the Atlassian MCP tools exist (`mcp__atlassian__*`). When available, use them to fetch tickets, transition statuses, add comments, and log work — all automatically as part of the flow.
-- **Jira is not available** — that's fine. The workflow is the same, just without ticket management. The user provides context directly.
+- **Jira is available** if the Atlassian MCP tools exist (`mcp__atlassian__*`). When available, use them to fetch tickets, transition statuses, add comments, and log work. All automatically as part of the flow.
+- **Jira is not available**. That's fine. The workflow is the same, just without ticket management. The user provides context directly.
 
-Don't ask "do you use Jira?" — just check for the MCP tools and act accordingly. If the user mentions a ticket ID and Jira isn't available, tell them once that Jira MCP isn't configured and move on with the information they gave you verbally.
+Don't ask "do you use Jira?" Just check for the MCP tools and act accordingly. If the user mentions a ticket ID and Jira isn't available, tell them once that Jira MCP isn't configured and move on with the information they gave you verbally.
 
 Remember the user's setup across conversations. If they don't use Jira, don't keep checking.
 
@@ -162,7 +162,7 @@ Remember the user's setup across conversations. If they don't use Jira, don't ke
 
 ## Reference files
 
-These are loaded on demand — read them when the relevant situation comes up:
+These are loaded on demand. Read them when the relevant situation comes up:
 
 - `references/tdd.md` — TDD cycle details, testing anti-patterns, why test-first matters
 - `references/debugging.md` — Systematic root cause investigation, when to stop retrying

@@ -7,7 +7,7 @@ body:
     attributes:
       label: Plugin
       description: Which plugin does this relate to? (or "marketplace" / "new plugin idea")
-      placeholder: "e.g., superdev, jira-workflow"
+      placeholder: "e.g., codesmith, drawio"
     validations:
       required: true
 

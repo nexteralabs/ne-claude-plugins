@@ -7,7 +7,7 @@ body:
     attributes:
       label: Plugin
       description: Which plugin is affected?
-      placeholder: "e.g., superdev, deploy-guard, or 'marketplace'"
+      placeholder: "e.g., codesmith, deploy-guard, or 'marketplace'"
     validations:
       required: true
 
