@@ -1,7 +1,7 @@
 ---
 name: codesmith
 description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user is about to start coding: building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'codesmith', 'dev workflow', or 'full workflow'. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
-version: 2.0.0
+version: 3.0.0
 ---
 
 # CodeSmith
@@ -18,155 +18,141 @@ Three rules govern everything:
 
 ## How it works
 
-When this skill triggers, drive the following flow automatically. Don't ask the user to pick phases or type subcommands. Just move through the flow, pausing only at gates that need human input.
+When this skill triggers, drive the following flow **automatically**. Don't ask the user to pick phases or type subcommands. Just move through the flow, pausing only at gates that need human input.
 
-### 1. Understand the task
+At each phase transition, briefly state what phase you're entering and what comes next. The user should always know where they are in the flow.
 
-Figure out what the user wants to build or fix. This context can come from:
+### Phase 0: Init Check
 
-- **What they just said** — "implement user authentication", "fix the timeout bug"
-- **A Jira ticket** — if the user mentions a ticket ID (KAN-123) and the Atlassian MCP is available (`mcp__atlassian__*` tools), pull the ticket details automatically. If Jira isn't available, don't ask about it. Just work with what the user gave you.
-- **A current task file** — check `.claude/current-task.md` if it exists for ongoing work context.
+Before anything else, check if the project has a CLAUDE.md:
 
-If the task is unclear, ask clarifying questions, one at a time, prefer multiple choice. Stop asking once you have enough to proceed.
+- **No CLAUDE.md found**: Read the `init-project` skill and run it first. This sets up CLAUDE.md with core principles, detects the ticket system, and creates supporting directories. Then continue with Phase 1.
+- **CLAUDE.md exists**: Read it. Note the `ticket-system` value and any project-specific configuration. Continue.
 
-For trivial changes (typo, config tweak, < 10 lines with obvious intent), skip straight to implementation with a test.
+Also check for `tasks/lessons.md` — if it exists, review it for patterns from previous sessions.
 
-### 2. Design the approach
+### Phase 1: Brainstorm
 
-Explore the codebase. Understand existing patterns, conventions, and architecture. Check recent commits for context.
+Read the `brainstorm` skill and follow its process:
 
-For non-trivial work, propose 2-3 approaches. For each approach, explain:
-- What changes and where
-- The tradeoff: what you gain, what you lose
-- Complexity: how many moving parts
+1. Gather context (user request, ticket if applicable, codebase exploration)
+2. Ask clarifying questions if needed
+3. Propose 2-3 approaches for non-trivial work
+4. Run the spec review loop until the user approves
 
-Common approach patterns to consider:
+**Gate:** Approved spec before proceeding.
 
-**Extend vs. extract.** Can you add to an existing module, or does this need its own? Extending is simpler but risks bloating. Extracting is cleaner but adds indirection. Default to extending unless the module is already doing too much.
+**Skip condition:** For trivial changes (typo, config tweak, < 10 lines with obvious intent), skip to Phase 3 with a brief note on what you'll do.
 
-**Inline vs. abstracted.** Should you write the logic directly where it's needed, or create a reusable function/class? If it's used once, inline it. If it's used twice, still probably inline it. Three times, extract. Premature abstraction is worse than duplication.
+### Phase 2: Workspace
 
-**Sync vs. async.** Can this run synchronously, or does it need to be async (queues, events, background jobs)? Sync is simpler to test and debug. Only go async when you have a real reason: long-running operations, decoupling systems, handling load.
+Read the `workspace` skill and follow its process:
 
-**Build vs. use a library.** Is there an existing library that solves this? If so, is it maintained, small, and well-tested? A 5-line function you write beats a 50KB dependency you don't control. But don't reinvent cryptography.
+1. Create feature branch (using ticket ID in name if ticket system is configured)
+2. Set up worktree if the implementation needs isolation
+3. Transition ticket to "In Progress" if applicable (ticket ID extracted from branch name)
 
-**Modify in place vs. migrate.** Can you change the existing code, or do you need a migration strategy (dual writes, feature flags, phased rollout)? Modify in place when the change is backward compatible. Migrate when it's not.
+**Skip condition:** If the user already has a feature branch checked out, skip branching. Still create the task tracking file.
 
-**Top-down vs. bottom-up.** Start from the API/UI and work inward, or start from the data layer and build up? Top-down gives faster user feedback. Bottom-up gives a more solid foundation. Pick based on what's riskier: the interface or the plumbing.
+### Phase 3: Plan
 
-Be ruthless about YAGNI. Remove anything not strictly required. Follow existing patterns in the codebase, don't invent new ones.
+Read the `plan` skill and follow its process:
 
-Present the approach and get user approval before moving on. This is a hard gate. No code until the design is approved.
+1. Enter plan mode
+2. Break the approved spec into concrete TDD tasks
+3. Include file paths, test names, commit messages
+4. Order by dependency
+5. Present for approval
 
-### 3. Set up the workspace
+**Gate:** Approved plan before proceeding.
 
-Create a feature branch and start clean:
+**Skip condition:** For trivial changes (1-2 steps, obvious), list the steps briefly without formal plan mode.
 
-```bash
-git checkout main && git pull origin main
-git checkout -b {branch-name}
-```
+### Phase 4: Implement
 
-Branch naming: if there's a Jira ticket, use `{TICKET-KEY}-short-description`. Otherwise, use `short-description` derived from the task.
+Read the `implement` skill and follow its process:
 
-If the user already has a branch, skip this. Don't force a new one.
+1. Execute each task following red-green-refactor
+2. Use subagent-driven development for independent parallel work
+3. Commit after each passing task
+4. Report progress at milestones
+5. If the plan breaks, stop and re-plan (go back to Phase 3)
 
-Track the task in `.claude/current-task.md`:
-```markdown
-id: {ticket key or short identifier}
-title: {what we're building}
-branch: {branch-name}
-started: {ISO timestamp}
-```
+**No gate here** — implementation flows continuously. But if something fundamental changes, pause and check with the user.
 
-If Jira is available and the ticket isn't already "In Progress", transition it.
+### Phase 5: Review
 
-### 4. Plan the implementation
+Read the `review` skill and follow its process:
 
-Write a concrete plan. Not vague bullets. Actual steps with file paths, test names, and code intent. Save it using Claude's plan mode or to `docs/plans/{branch-name}.md`.
+1. Run full test suite — must pass before review
+2. Dispatch spec-reviewer agent → fix any FAIL findings
+3. Dispatch code-reviewer agent → fix critical/important findings
+4. Follow verification protocol — prove everything works
 
-Every task in the plan follows the TDD cycle:
-1. Write the failing test (what behavior are we adding?)
-2. Run it. Confirm it fails for the right reason
-3. Write minimal code to pass
-4. Run it. Confirm it passes
-5. Refactor if needed (keep tests green)
-6. Commit
+**Gate:** All findings addressed and verified before proceeding.
 
-Tasks should be small and focused. One unit of behavior each, ordered by dependency.
+### Phase 6: Ship
 
-Present the plan. Get approval. Another hard gate.
+Read the `ship` skill and follow its process:
 
-### 5. Implement
+1. Sync with main
+2. Build PR with full context
+3. Present PR preview for confirmation
+4. Create PR, update ticket, notify team
 
-Follow the plan. For each task:
-
-**Write the test first.** This is non-negotiable. The test describes the behavior you're about to build. Run it. Watch it fail. If it doesn't fail, the test is wrong or the behavior already exists.
-
-**Write the minimum code to pass.** Not the "complete" code. Not the "robust" code. The minimum. If the test only checks one case, only handle that case. The next test will drive the next behavior.
-
-**Run the full suite after each change.** No regressions. If something breaks, stop and fix it before moving on.
-
-**Commit after each passing task.** Small, atomic commits following Conventional Commits (see `references/commits.md`).
-
-For larger implementations with independent units of work, use subagent-driven development:
-- Dispatch an implementer agent (see `agents/implementer.md`) with full task context
-- When it reports back, dispatch spec and code review agents to verify
-- Only mark the task done after review passes
-
-When stuck, read `references/debugging.md`. If 3+ attempts fail on the same issue, question the approach, don't keep retrying. If blocked on requirements, ask the user.
-
-### 6. Review
-
-After all tasks are complete:
-
-1. Run the full test suite. Everything must pass
-2. Dispatch the code-reviewer agent for the entire implementation (see `agents/code-reviewer.md`)
-3. Fix critical and important findings. Push back on nits with reasoning if appropriate.
-
-Before claiming anything is done, follow the verification protocol in `references/verification.md`: identify the command that proves the claim, run it, read the full output, confirm it matches. Never say "should work" or "probably passes."
-
-### 7. Ship
-
-Commit any remaining changes. Sync with main:
-
-```bash
-git fetch origin main && git merge origin/main
-```
-
-If conflicts: stop and tell the user. Don't auto-resolve ambiguous conflicts.
-
-Build the PR following `references/pull-requests.md`. The PR body must tell reviewers everything they need to approve confidently: what was wrong, what changed, what to look at, and how to test it.
-
-If there's a Jira ticket, prepend a ticket link section and update the ticket status to "Ready for QA" with a comment containing the PR link and QA steps.
-
-If Discord is configured (`~/.claude/bin/discord` exists), notify the pull-requests channel.
-
-Present the PR preview to the user for confirmation before creating it.
+**Gate:** User confirms PR before creation.
 
 ---
 
-## Jira integration (optional)
+## Ticket System Integration
 
-This skill works with or without Jira. Here's how to detect and adapt:
+The ticket system is **pluggable** and configured per-project in CLAUDE.md:
 
-- **Jira is available** if the Atlassian MCP tools exist (`mcp__atlassian__*`). When available, use them to fetch tickets, transition statuses, add comments, and log work. All automatically as part of the flow.
-- **Jira is not available**. That's fine. The workflow is the same, just without ticket management. The user provides context directly.
+```
+ticket-system: jira | linear | github-issues | none
+```
 
-Don't ask "do you use Jira?" Just check for the MCP tools and act accordingly. If the user mentions a ticket ID and Jira isn't available, tell them once that Jira MCP isn't configured and move on with the information they gave you verbally.
+- If `none` or not set: **all ticket-related steps are silently skipped**. No warnings, no prompts about tickets.
+- If set to a system: use the relevant MCP tools or CLI to fetch tickets, transition statuses, add comments, and include ticket IDs in branches/commits/PRs.
+- The workflow behavior is identical regardless of ticket system — only the integration layer changes.
 
-Remember the user's setup across conversations. If they don't use Jira, don't keep checking.
+**Currently supported:** Jira (via Atlassian MCP). Other systems can be added by implementing the fetch/transition/comment operations with the relevant tools.
+
+Don't ask "do you use Jira?" mid-flow. The init-project skill handles detection once. After that, read from CLAUDE.md.
 
 ---
 
-## Reference files
+## Sub-Skills
 
-These are loaded on demand. Read them when the relevant situation comes up:
+Each phase delegates to a focused skill. These can also be invoked independently:
 
-- `references/tdd.md` — TDD cycle details, testing anti-patterns, why test-first matters
-- `references/debugging.md` — Systematic root cause investigation, when to stop retrying
-- `references/verification.md` — Evidence-before-claims protocol, red flags for unverified claims
-- `references/code-review.md` — How to request and respond to code review findings
-- `references/commits.md` — Conventional Commits standard, types, breaking changes, squashing
-- `references/pull-requests.md` — PR structure, problem/approach/testing sections, PR hygiene
+| Skill | Phase | Standalone Trigger |
+|-------|-------|--------------------|
+| `init-project` | 0 | "init project", "scaffold claude.md" |
+| `brainstorm` | 1 | "brainstorm", "how should we", "design this" |
+| `workspace` | 2 | "set up workspace", "create branch" |
+| `plan` | 3 | "write a plan", "break this down" |
+| `implement` | 4 | "implement", "start coding" |
+| `review` | 5 | "review this", "check my work" |
+| `ship` | 6 | "ship it", "create PR" |
+
+## Agents
+
+Dispatched during implementation and review phases:
+
+| Agent | Role |
+|-------|------|
+| **implementer** | Executes a single plan task with TDD |
+| **spec-reviewer** | Verifies implementation matches requirements |
+| **code-reviewer** | Reviews quality, security, architecture |
+
+## Reference Files
+
+Loaded on demand by sub-skills when the situation calls for it:
+
+- `references/tdd.md` — TDD cycle, testing anti-patterns, test strategy
+- `references/debugging.md` — Systematic root cause investigation
+- `references/verification.md` — Evidence-before-claims protocol
+- `references/code-review.md` — Requesting and receiving review
+- `references/commits.md` — Conventional Commits standard
+- `references/pull-requests.md` — PR structure and hygiene
