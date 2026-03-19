@@ -79,9 +79,9 @@ Enter plan mode for any non-trivial task (3+ steps or architectural decisions). 
 
 Use subagents frequently to keep the main context window clean. Offload research, exploration, and parallel analysis to subagents. For complex problems, throw more compute via subagents. Assign one task per subagent for focused execution.
 
-### Self-Improvement Loop
+### Memory-Driven Learning
 
-After any correction from the user, update `tasks/lessons.md` with the pattern. Write rules for yourself to prevent repeating the same mistake. Ruthlessly iterate on these lessons until the mistake rate drops. Review lessons at the start of each session.
+When the user corrects your approach or you discover a reusable pattern, ask: "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?" If they agree, save it as a `feedback` memory using the built-in auto-memory system. Never save without asking.
 
 ### Verification Before Done
 
@@ -97,12 +97,12 @@ When given a bug report: just fix it. Use logs, errors, and failing tests to dia
 
 ## Task Management
 
-1. **Plan First** — Write the plan in `tasks/todo.md` with checkable items
+1. **Plan First** — Write the plan in `.claude/tasks/todo.md` with checkable items
 2. **Verify Plan** — Confirm the plan before implementation
 3. **Track Progress** — Mark items complete as you go
 4. **Explain Changes** — Provide a high-level summary at each step
-5. **Document Results** — Add a review section to `tasks/todo.md`
-6. **Capture Lessons** — Update `tasks/lessons.md` after corrections
+5. **Document Results** — Add a review section to `.claude/tasks/todo.md`
+6. **Capture Lessons** — When corrected, ask the user if they want to save the pattern as a memory
 
 ## Core Rules
 
@@ -118,23 +118,10 @@ Find root causes. Avoid temporary fixes. Maintain senior-level engineering stand
 ### 5. Create Supporting Directories
 
 ```bash
-mkdir -p tasks
+mkdir -p .claude/tasks
 ```
 
-Create `tasks/lessons.md` if it doesn't exist:
-
-```markdown
-# Lessons Learned
-
-Patterns and rules discovered during development. Review at the start of each session.
-
-## Patterns
-
-<!-- Add entries here as corrections happen -->
-<!-- Format: **Pattern:** {what happened} → **Rule:** {what to do instead} -->
-```
-
-Create `tasks/todo.md` if it doesn't exist:
+Create `.claude/tasks/todo.md` if it doesn't exist:
 
 ```markdown
 # Task Tracker
