@@ -22,7 +22,7 @@ Use Claude's plan mode for the planning phase. This keeps planning separate from
 
 ### 2. Analyze the Spec
 
-Read the approved spec (from `.claude/current-task.md` or the brainstorm output). Identify:
+Read the approved spec (from the brainstorm output or the current conversation context). Identify:
 
 - **Units of behavior** — each distinct piece of functionality
 - **Dependencies** — what must exist before what

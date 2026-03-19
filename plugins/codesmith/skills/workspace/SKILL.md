@@ -54,24 +54,20 @@ git worktree add ../{repo-name}-{branch-name} {branch-name}
 - `requirements.txt` / `pyproject.toml` → `pip install` / `poetry install`
 - `go.mod` → `go mod download`
 
-### 3. Track the Task
+### 3. Ticket Context from Branch Name
 
-Create or update `.claude/current-task.md`:
+The branch name is the single source of truth for ticket context:
 
-```markdown
-id: {ticket key or short identifier}
-title: {what we're building}
-branch: {branch-name}
-started: {ISO timestamp}
-spec: |
-  {approved spec from brainstorm phase, if available}
-```
+- `KAN-123-add-auth` → ticket ID is `KAN-123`
+- `add-auth` → no ticket
+
+Extract the ticket ID by matching the prefix pattern for the configured ticket system (e.g., `[A-Z]+-\d+` for Jira). No separate task tracking file needed.
 
 ### 4. Ticket System Integration
 
 If a ticket system is configured in CLAUDE.md:
 
-- **Jira** (`ticket-system: jira`): If the Atlassian MCP tools are available (`mcp__atlassian__*`), transition the ticket to "In Progress" if it isn't already.
+- **Jira** (`ticket-system: jira`): If the Atlassian MCP tools are available (`mcp__atlassian__*`), transition the ticket to "In Progress" if it isn't already. Ticket ID is extracted from the branch name.
 - **Other systems**: Check for the relevant MCP tools and transition accordingly.
 - **No ticket system**: Skip this step entirely. No warnings, no prompts.
 
@@ -91,4 +87,4 @@ Only clean up after the branch has been merged or the user confirms abandonment.
 - Never force a new branch if the user already has one
 - Always pull latest main before branching
 - Worktrees are optional — default to simple branching unless there's a reason for isolation
-- Task tracking in `.claude/current-task.md` is always created regardless of worktree usage
+- Ticket context is derived from the branch name — no separate tracking file needed

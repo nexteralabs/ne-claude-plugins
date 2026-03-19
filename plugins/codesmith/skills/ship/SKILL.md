@@ -87,7 +87,6 @@ If Discord is configured (`~/.claude/bin/discord` exists), notify the pull-reque
 
 ### 7. Cleanup
 
-- Remove `.claude/current-task.md` (task is shipped)
 - If a worktree was used, remind the user it can be cleaned up after merge:
   ```bash
   git worktree remove ../{worktree-path}

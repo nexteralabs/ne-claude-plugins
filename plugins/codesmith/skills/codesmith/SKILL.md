@@ -50,8 +50,7 @@ Read the `workspace` skill and follow its process:
 
 1. Create feature branch (using ticket ID in name if ticket system is configured)
 2. Set up worktree if the implementation needs isolation
-3. Create `.claude/current-task.md` with task details
-4. Transition ticket to "In Progress" if applicable
+3. Transition ticket to "In Progress" if applicable (ticket ID extracted from branch name)
 
 **Skip condition:** If the user already has a feature branch checked out, skip branching. Still create the task tracking file.
 
