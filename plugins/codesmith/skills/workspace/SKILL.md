@@ -16,7 +16,26 @@ Set up a clean, isolated workspace for development. Handles branching, optional 
 
 ## Process
 
-### 1. Create Feature Branch
+### 1. Stale Branch Check
+
+Before creating a branch, verify the current branch isn't stale:
+
+```bash
+git branch --show-current
+git ls-remote --heads origin $(git branch --show-current)
+gh pr list --head $(git branch --show-current) --state merged --json number --jq '.[0]'
+```
+
+A branch is **stale** if:
+- It has been deleted on the remote (no result from `git ls-remote`)
+- It has a merged PR associated with it
+
+**If stale or on `main`:** Switch to main and create a fresh branch.
+**If current and relevant to the task:** Keep it.
+
+When called from the codesmith orchestrator, Phase 0 has already detected staleness and gathered the ticket ID — use that context directly.
+
+### 2. Create Feature Branch
 
 ```bash
 git checkout main && git pull origin main
@@ -25,11 +44,10 @@ git checkout -b {branch-name}
 
 **Branch naming:**
 - If a ticket system is configured (check CLAUDE.md for `ticket-system`) and a ticket ID is available: `{TICKET-KEY}-short-description` (e.g., `KAN-123-add-auth`)
+- GitHub Issues: `issue-{number}-short-description` (e.g., `issue-43-fix-login`)
 - Otherwise: `short-description` derived from the task
 
-If the user already has a branch checked out, ask before creating a new one. Don't force it.
-
-### 2. Git Worktree (for subagent isolation)
+### 3. Git Worktree (for subagent isolation)
 
 When the implementation will use subagent-driven development and the tasks are independent:
 
@@ -54,7 +72,7 @@ git worktree add ../{repo-name}-{branch-name} {branch-name}
 - `requirements.txt` / `pyproject.toml` → `pip install` / `poetry install`
 - `go.mod` → `go mod download`
 
-### 3. Ticket Context from Branch Name
+### 4. Ticket Context from Branch Name
 
 The branch name is the single source of truth for ticket context:
 
@@ -63,7 +81,7 @@ The branch name is the single source of truth for ticket context:
 
 Extract the ticket ID by matching the prefix pattern for the configured ticket system (e.g., `[A-Z]+-\d+` for Jira). No separate task tracking file needed.
 
-### 4. Ticket System Integration
+### 5. Ticket System Integration
 
 If a ticket system is configured in CLAUDE.md:
 
@@ -84,7 +102,7 @@ Only clean up after the branch has been merged or the user confirms abandonment.
 
 ## Rules
 
-- Never force a new branch if the user already has one
+- Always check for stale branches before starting new work — never reuse a branch from a previous PR
 - Always pull latest main before branching
 - Worktrees are optional — default to simple branching unless there's a reason for isolation
 - Ticket context is derived from the branch name — no separate tracking file needed

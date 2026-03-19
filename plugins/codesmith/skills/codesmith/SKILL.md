@@ -1,6 +1,6 @@
 ---
 name: codesmith
-description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user is about to start coding: building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'codesmith', 'dev workflow', or 'full workflow'. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
+description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user is about to start coding or signals new work — building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', 'next feature', 'next task', 'new feature', 'ok next', 'something else', 'another thing', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'codesmith', 'dev workflow', or 'full workflow'. Key signal: any language indicating transition to NEW work ('next', 'another', 'now let's', 'moving on to') should trigger this skill. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
 version: 3.0.0
 ---
 
@@ -22,14 +22,35 @@ When this skill triggers, drive the following flow **automatically**. Don't ask 
 
 At each phase transition, briefly state what phase you're entering and what comes next. The user should always know where they are in the flow.
 
-### Phase 0: Init Check
+### Phase 0: Init and New Task Detection
 
-Before anything else, check if the project has a CLAUDE.md:
+**Step 1 — Project init check:**
 
-- **No CLAUDE.md found**: Read the `init-project` skill and run it first. This sets up CLAUDE.md with core principles, detects the ticket system, and creates supporting directories. Then continue with Phase 1.
-- **CLAUDE.md exists**: Read it. Note the `ticket-system` value and any project-specific configuration. Continue.
+- **No CLAUDE.md found**: Read the `init-project` skill and run it first. This sets up CLAUDE.md with core principles, detects the ticket system, and creates supporting directories.
+- **CLAUDE.md exists**: Read it. Note the `ticket-system` value and any project-specific configuration.
 
 Auto-memory (feedback type) will already be loaded into context with lessons from previous sessions — no manual review needed.
+
+**Step 2 — Detect new task intent:**
+
+Check the current branch state:
+
+```bash
+git branch --show-current
+git ls-remote --heads origin $(git branch --show-current)
+gh pr list --head $(git branch --show-current) --state merged --json number --jq '.[0]'
+```
+
+If the current branch is stale (deleted on remote, has a merged PR, or is not `main` while the user signals new work), the user is starting a new task. Confirm and gather context:
+
+> "Looks like you're starting a new task. Branch `{name}` is stale (previous PR was merged). What are you working on?"
+
+If a ticket system is configured in CLAUDE.md:
+> "Do you have a ticket number?"
+
+Capture the task description and ticket ID (if any). These flow into Phase 1 (brainstorm context) and Phase 2 (branch naming).
+
+If the branch is current and the user is clearly continuing existing work, skip this step.
 
 ### Phase 1: Brainstorm
 
@@ -46,13 +67,13 @@ Read the `brainstorm` skill and follow its process:
 
 ### Phase 2: Workspace
 
-Read the `workspace` skill and follow its process:
+Read the `workspace` skill and follow its process, passing along the task description and ticket ID gathered in Phase 0:
 
-1. Create feature branch (using ticket ID in name if ticket system is configured)
+1. Create feature branch from main (using ticket ID from Phase 0 in the branch name if available)
 2. Set up worktree if the implementation needs isolation
-3. Transition ticket to "In Progress" if applicable (ticket ID extracted from branch name)
+3. Transition ticket to "In Progress" if applicable
 
-**Skip condition:** If the user already has a feature branch checked out, skip branching. Still create the task tracking file.
+**Skip condition:** Only skip if Phase 0 determined the user is continuing existing work on a current branch.
 
 ### Phase 3: Plan
 
@@ -159,8 +180,14 @@ Loaded on demand by sub-skills when the situation calls for it:
 
 ## Memory-Driven Learning
 
-Throughout the workflow, when the user corrects your approach or you discover a reusable pattern, ask:
+Throughout the workflow, when the user corrects your approach, evaluate whether the lesson is **general enough to help across multiple projects**. Only offer to save if it passes that filter.
+
+Memories are for **general patterns** — lessons about tools, techniques, best practices, or workflow preferences that transfer across any codebase. They represent how the user wants you to think and work, regardless of what project you're in.
+
+Project-specific fixes are **not memories** — if a correction resulted in a code change, the fix already lives in the code. Saving it as a memory would duplicate what the codebase already captures and clutter future conversations with irrelevant context.
+
+When the lesson is general, ask:
 
 > "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?"
 
-If they agree, save it as a `feedback` type memory using the built-in auto-memory system. Include the pattern, why it matters, and how to apply it. Never save without asking first.
+If they agree, save it as a `feedback` type memory. Never save without asking first.
