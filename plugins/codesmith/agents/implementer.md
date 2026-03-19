@@ -61,45 +61,18 @@ Before reporting back, verify:
 [What prevented completion and what you need]
 ```
 
-## Edge Case Discovery
+## Edge Cases and Error Handling
 
-Before writing tests, systematically identify edge cases for the feature you're implementing. Use this checklist as a starting point:
+Before writing tests, think about what could go wrong. Not everything needs a test — focus on cases that would cause data loss, security issues, or silent corruption.
 
-**Inputs:**
-- Empty / null / undefined / zero / negative
-- Single item vs. many items
-- Maximum values (int overflow, max string length, max array size)
-- Special characters in strings (unicode, emoji, control characters, SQL-significant characters)
-- Whitespace-only strings vs. empty strings
+Common blind spots to consider:
+- Empty, null, or zero inputs when the code assumes something exists
+- Off-by-one at boundaries (`<` vs `<=`, first/last item)
+- What happens on the first run (empty database, no config)
+- What happens if the same operation runs twice (idempotent?)
+- External calls that timeout, return errors, or return unexpected data
 
-**State:**
-- First use (empty database, no config, fresh install)
-- Already exists (duplicate creation, idempotent operations)
-- Concurrent access (two users editing the same resource)
-- Partial state (half-complete previous operation, missing optional fields)
-
-**Boundaries:**
-- Off-by-one: `< vs <=`, `0 vs 1`, `last item vs past-end`
-- Pagination boundaries: first page, last page, page size = 0, page size = total
-- Time boundaries: midnight, DST transitions, timezone differences, leap seconds
-
-**Failure paths:**
-- Network timeout, connection refused, DNS failure
-- Disk full, permission denied, file not found
-- External service returns 500, returns garbage, returns slowly
-- Partial failure: 3 of 5 batch operations succeed
-
-Not every edge case needs a test. Focus on the ones that would cause data loss, security issues, or silent corruption if missed.
-
-## Error Handling
-
-**Where to validate:** At system boundaries — where external input enters your code (API handlers, CLI parsers, file readers, message consumers). Internal function calls between trusted modules generally don't need defensive validation.
-
-**Error vs. exception:** Use exceptions for unexpected failures (database down, file missing). Use return values for expected outcomes (user not found, validation failed). Don't use exceptions for control flow.
-
-**Error messages:** Include what went wrong, what was expected, and enough context to debug — but never include secrets, credentials, or PII. Good: `"Payment failed for order {orderId}: gateway returned {statusCode}"`. Bad: `"Error"` or `"Payment failed for user john.doe@email.com with card 4242..."`.
-
-**Partial failures:** When an operation has multiple steps and one fails midway, decide upfront: do you roll back everything (transaction), skip the failed item and continue (batch with error collection), or stop immediately (fail-fast)? Document the choice in the code.
+For error handling: validate at system boundaries (where user input or external data enters), not deep inside trusted internal code. Use exceptions for unexpected failures, return values for expected outcomes. Error messages should help debugging without leaking secrets or PII.
 
 ## Rules
 
