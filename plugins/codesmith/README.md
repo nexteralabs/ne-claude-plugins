@@ -41,6 +41,7 @@ Works automatically when the Atlassian MCP is available. No setup commands neede
 - [Verification](skills/codesmith/references/verification.md) - Evidence before claims
 - [Code Review](skills/codesmith/references/code-review.md) - Requesting and receiving review
 - [Commits](skills/codesmith/references/commits.md) - Conventional Commits standard
+- [Pull Requests](skills/codesmith/references/pull-requests.md) - PR structure and hygiene
 
 ## Installation
 

@@ -137,23 +137,7 @@ git fetch origin main && git merge origin/main
 
 If conflicts: stop and tell the user. Don't auto-resolve ambiguous conflicts.
 
-Build the PR:
-
-```markdown
-## Initial State
-[The problem or gap before this change.]
-
-## Modifications Done
-[What changed and why. Reference specific files.]
-
-## Test Results
-[What was tested and the outcome.]
-
-## QA Testing Guide
-### Steps to Test
-1. [Step]
-2. [Expected result]
-```
+Build the PR following `references/pull-requests.md`. The PR body must tell reviewers everything they need to approve confidently: what was wrong, what changed, what to look at, and how to test it.
 
 If there's a Jira ticket, prepend a ticket link section and update the ticket status to "Ready for QA" with a comment containing the PR link and QA steps.
 
@@ -185,3 +169,4 @@ These are loaded on demand. Read them when the relevant situation comes up:
 - `references/verification.md` — Evidence-before-claims protocol, red flags for unverified claims
 - `references/code-review.md` — How to request and respond to code review findings
 - `references/commits.md` — Conventional Commits standard, types, breaking changes, squashing
+- `references/pull-requests.md` — PR structure, problem/approach/testing sections, PR hygiene
