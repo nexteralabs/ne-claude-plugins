@@ -38,7 +38,7 @@ The orchestrator (`codesmith`) drives the flow automatically, but each phase is 
 - **Evidence over claims** — never say "should work", prove it with test output
 - **Plan mode for non-trivial work** — 3+ steps or architectural decisions → plan first
 - **Subagents for clean context** — offload research and parallel work to subagents
-- **Self-improvement** — corrections become rules in `tasks/lessons.md`
+- **Memory-driven learning** — corrections are offered as persistent memories for future sessions
 
 ## Ticket System Integration
 
@@ -65,7 +65,7 @@ When `init-project` runs on a new project, it generates a CLAUDE.md with:
 
 - **Project config** — auto-detected language, framework, test runner, build commands
 - **Core principles** — plan mode, subagent strategy, verification, elegance, autonomous bug fixing
-- **Task management** — `tasks/todo.md` for tracking, `tasks/lessons.md` for self-improvement
+- **Task management** — `.claude/tasks/todo.md` for tracking, auto-memory for persistent lessons
 - **Ticket system config** — saved once, used throughout the workflow
 
 This is a project-level file that you fully own. Drop, modify, or extend any principle to fit your project.

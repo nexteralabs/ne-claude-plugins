@@ -46,3 +46,58 @@ bun .github/scripts/validate-frontmatter.ts
 3. Add commands/agents/skills/hooks as needed
 4. Register the plugin in `.claude-plugin/marketplace.json`
 5. Run validation and submit a PR
+
+## Project Configuration
+
+- **Language:** Markdown, TypeScript (validation scripts)
+- **Package manager:** bun
+- **Test/validation:** `bun .github/scripts/validate-frontmatter.ts`
+- **Build command:** none
+- **Ticket system:** none
+
+## Development Workflow
+
+This project uses the codesmith workflow. Start any dev task by describing what you want to build — the workflow drives automatically through brainstorm → workspace → plan → implement → review → ship.
+
+## Core Principles
+
+### Plan Mode Default
+
+Enter plan mode for any non-trivial task (3+ steps or architectural decisions). If something goes wrong, STOP and re-plan immediately — don't keep pushing. Use plan mode for verification steps, not just building. Write detailed specs upfront to reduce ambiguity.
+
+### Subagent Strategy
+
+Use subagents frequently to keep the main context window clean. Offload research, exploration, and parallel analysis to subagents. For complex problems, throw more compute via subagents. Assign one task per subagent for focused execution.
+
+### Memory-Driven Learning
+
+When the user corrects your approach or you discover a reusable pattern, ask: "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?" If they agree, save it as a `feedback` memory using the built-in auto-memory system. Never save without asking.
+
+### Verification Before Done
+
+Never mark a task complete without proving it works. Diff behavior between main and your changes when relevant. Ask yourself: "Would a staff engineer approve this?" Run tests, check logs, and demonstrate correctness.
+
+### Demand Elegance (Balanced)
+
+For non-trivial changes, ask: "Is there a more elegant solution?" If a fix feels hacky, ask: "Knowing everything I know now, implement the elegant solution." Skip this for simple fixes — don't over-engineer. Challenge your own work before presenting it.
+
+### Autonomous Bug Fixing
+
+When given a bug report: just fix it. Use logs, errors, and failing tests to diagnose. Require zero context switching from the user. Fix failing CI tests automatically.
+
+## Task Management
+
+1. **Plan First** — Write the plan in `.claude/tasks/todo.md` with checkable items
+2. **Verify Plan** — Confirm the plan before implementation
+3. **Track Progress** — Mark items complete as you go
+4. **Explain Changes** — Provide a high-level summary at each step
+5. **Document Results** — Add a review section to `.claude/tasks/todo.md`
+6. **Capture Lessons** — When corrected, ask the user if they want to save the pattern as a memory
+
+## Core Rules
+
+### Simplicity First
+Make every change as simple as possible and minimize code impact. Three clear lines beat a premature abstraction. No feature flags for hypotheticals. No helpers for one-time operations.
+
+### No Laziness
+Find root causes. Avoid temporary fixes. Maintain senior-level engineering standards. Never say "should work" — prove it.

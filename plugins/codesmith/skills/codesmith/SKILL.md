@@ -29,7 +29,7 @@ Before anything else, check if the project has a CLAUDE.md:
 - **No CLAUDE.md found**: Read the `init-project` skill and run it first. This sets up CLAUDE.md with core principles, detects the ticket system, and creates supporting directories. Then continue with Phase 1.
 - **CLAUDE.md exists**: Read it. Note the `ticket-system` value and any project-specific configuration. Continue.
 
-Also check for `tasks/lessons.md` — if it exists, review it for patterns from previous sessions.
+Auto-memory (feedback type) will already be loaded into context with lessons from previous sessions — no manual review needed.
 
 ### Phase 1: Brainstorm
 
@@ -156,3 +156,11 @@ Loaded on demand by sub-skills when the situation calls for it:
 - `references/code-review.md` — Requesting and receiving review
 - `references/commits.md` — Conventional Commits standard
 - `references/pull-requests.md` — PR structure and hygiene
+
+## Memory-Driven Learning
+
+Throughout the workflow, when the user corrects your approach or you discover a reusable pattern, ask:
+
+> "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?"
+
+If they agree, save it as a `feedback` type memory using the built-in auto-memory system. Include the pattern, why it matters, and how to apply it. Never save without asking first.
