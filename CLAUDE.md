@@ -71,7 +71,7 @@ Use subagents frequently to keep the main context window clean. Offload research
 
 ### Memory-Driven Learning
 
-When the user corrects your approach or you discover a reusable pattern, ask: "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?" If they agree, save it as a `feedback` memory using the built-in auto-memory system. Never save without asking.
+When the user corrects your approach, consider whether the lesson is a general pattern about tools, techniques, or workflow preferences that transfers across any codebase — or a project-specific fix already captured in the code. Only offer to save general patterns as memories. Code fixes belong in the code, not in memory.
 
 ### Verification Before Done
 
