@@ -1,7 +1,7 @@
 ---
 name: ship
 description: "Ship reviewed code — sync with main, create PR, update ticket system, notify team. Use after review is complete. Triggers on: 'ship it', 'create PR', 'ready to merge', or automatically as the final phase of the codesmith workflow."
-version: 3.0.0
+version: 3.1.0
 ---
 
 # Ship
@@ -86,6 +86,16 @@ If Discord is configured (`~/.claude/bin/discord` exists), notify the pull-reque
 - QA instructions if applicable
 
 ### 7. Cleanup
+
+- Clear `.claude/tasks/todo.md` — the workflow is complete. Write a brief completion summary:
+  ```markdown
+  # Completed: {task title}
+
+  **PR:** #{pr-number}
+  **Branch:** {branch-name}
+  **Phase:** shipped
+  ```
+  This prevents stale tasks from triggering false resume detection in the next workflow.
 
 - If a worktree was used, remind the user it can be cleaned up after merge:
   ```bash

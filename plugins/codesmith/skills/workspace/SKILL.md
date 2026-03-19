@@ -1,7 +1,7 @@
 ---
 name: workspace
 description: "Set up an isolated workspace for development — creates feature branches, optional git worktrees, and task tracking. Use when starting implementation work that needs a clean environment. Triggers on: 'set up workspace', 'create branch', 'start working on', or automatically as part of the codesmith workflow."
-version: 3.0.0
+version: 3.1.0
 ---
 
 # Workspace
@@ -47,7 +47,18 @@ git checkout -b {branch-name}
 - GitHub Issues: `issue-{number}-short-description` (e.g., `issue-43-fix-login`)
 - Otherwise: `short-description` derived from the task
 
-### 3. Git Worktree (for subagent isolation)
+### 3. Commit Scaffolded Files
+
+If init-project generated new files (CLAUDE.md, `.claude/tasks/todo.md`, `.gitignore` changes), commit them now as the first commit on the new branch:
+
+```bash
+git add CLAUDE.md .claude/tasks/todo.md .gitignore 2>/dev/null
+git diff --cached --quiet || git commit -m "chore: scaffold codesmith project config"
+```
+
+This keeps project setup tracked from the start. The `git diff --cached --quiet` check avoids an empty commit if there's nothing new to add.
+
+### 4. Git Worktree (for subagent isolation)
 
 When the implementation will use subagent-driven development and the tasks are independent:
 
@@ -72,7 +83,7 @@ git worktree add ../{repo-name}-{branch-name} {branch-name}
 - `requirements.txt` / `pyproject.toml` → `pip install` / `poetry install`
 - `go.mod` → `go mod download`
 
-### 4. Ticket Context from Branch Name
+### 5. Ticket Context from Branch Name
 
 The branch name is the single source of truth for ticket context:
 
@@ -81,7 +92,7 @@ The branch name is the single source of truth for ticket context:
 
 Extract the ticket ID by matching the prefix pattern for the configured ticket system (e.g., `[A-Z]+-\d+` for Jira). No separate task tracking file needed.
 
-### 5. Ticket System Integration
+### 6. Ticket System Integration
 
 If a ticket system is configured in CLAUDE.md:
 

@@ -1,7 +1,7 @@
 ---
 name: plan
 description: "Write concrete implementation plans with TDD steps, file paths, and dependency ordering. Use when you have an approved spec and need to break it into executable tasks. Triggers on: 'write a plan', 'plan this', 'break this down', or automatically as part of the codesmith workflow."
-version: 3.0.0
+version: 3.1.0
 ---
 
 # Plan
@@ -70,7 +70,7 @@ Refs: KAN-123
 
 ### 6. Save the Plan
 
-Save to `docs/plans/{branch-name}.md` or use Claude's built-in plan mode. Include a header:
+Save to `docs/plans/{branch-name}.md`. Include a header:
 
 ```markdown
 # Plan: {task title}
@@ -83,6 +83,21 @@ Save to `docs/plans/{branch-name}.md` or use Claude's built-in plan mode. Includ
 
 {tasks here}
 ```
+
+Also sync a progress checklist to `.claude/tasks/todo.md` so the workflow can be resumed across conversations:
+
+```markdown
+# {task title}
+
+**Plan:** docs/plans/{branch-name}.md
+**Phase:** plan-approved
+
+- [ ] Task 1: {short description}
+- [ ] Task 2: {short description}
+- [ ] ...
+```
+
+The plan file has full detail. `todo.md` is the lightweight progress tracker — it's what Phase 0 checks for resume detection.
 
 ### 7. Get Approval
 

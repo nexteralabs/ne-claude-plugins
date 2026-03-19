@@ -1,7 +1,7 @@
 ---
 name: codesmith
-description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user is about to start coding or signals new work — building a feature, fixing a bug, implementing something, working on a ticket, or any development task beyond a one-liner. Triggers on: 'let's build', 'implement', 'fix this bug', 'work on', 'start coding', 'let's work', 'build feature', 'add support for', 'create the', 'refactor', 'next feature', 'next task', 'new feature', 'ok next', 'something else', 'another thing', ticket references like KAN-123, or any request that will result in writing production code. Also use when the user says 'codesmith', 'dev workflow', or 'full workflow'. Key signal: any language indicating transition to NEW work ('next', 'another', 'now let's', 'moving on to') should trigger this skill. Do NOT trigger for questions about code, reading files, running commands, or non-coding tasks."
-version: 3.0.0
+description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user presents work to be done — regardless of phrasing. If it implies something needs to change in the codebase, trigger this skill. Categories of work that ALWAYS trigger: (1) Features — build, implement, add, create, support, integrate, (2) Bugs — fix, investigate, debug, broken, not working, error, issue, regression, (3) Refactors — refactor, clean up, migrate, upgrade, deprecate, rename, restructure, (4) Performance — slow, optimize, latency, bottleneck, speed up, (5) Tech debt — clean up, modernize, consolidate, remove dead code, (6) Config/infra — add env var, set up CI, deployment, pipeline, (7) Pasted context — user pastes a Slack message, error log, Jira description, or any external context describing work to do, (8) Task transitions — next, another, moving on, ok next, something else, let's work, (9) Ticket references — KAN-123, PROJ-456, issue #42, or any ticket system identifier. Also trigger on: 'codesmith', 'dev workflow', 'full workflow'. When uncertain whether the user wants a full workflow or just a quick answer, ASK: 'Want me to start the codesmith workflow for this?' CRITICAL — workflow resume: before starting a new workflow, check .claude/tasks/todo.md. If there is pending work with unchecked items, the user may be continuing an existing workflow — ask before overwriting. Do NOT trigger for: pure questions about code ('how does X work?', 'what does this do?', 'explain'), reading files, running commands, or non-coding conversations."
+version: 3.1.0
 ---
 
 # CodeSmith
@@ -22,7 +22,7 @@ When this skill triggers, drive the following flow **automatically**. Don't ask 
 
 At each phase transition, briefly state what phase you're entering and what comes next. The user should always know where they are in the flow.
 
-### Phase 0: Init and New Task Detection
+### Phase 0: Init, Resume Detection, and New Task Detection
 
 **Step 1 — Project init check:**
 
@@ -31,7 +31,24 @@ At each phase transition, briefly state what phase you're entering and what come
 
 Auto-memory (feedback type) will already be loaded into context with lessons from previous sessions — no manual review needed.
 
-**Step 2 — Detect new task intent:**
+**Step 2 — Check for in-progress workflow:**
+
+Before starting anything new, check if there's an existing workflow to resume:
+
+```bash
+cat .claude/tasks/todo.md 2>/dev/null
+ls docs/plans/*.md 2>/dev/null
+```
+
+If `todo.md` exists and has **unchecked items** (`- [ ]`), a workflow is already in progress. The `**Phase:**` line tells you where it left off. If `todo.md` is empty but a plan file exists in `docs/plans/`, the plan was written but progress wasn't tracked — treat it as an in-progress workflow starting at Phase 4.
+
+- **If the user's message relates to the pending work** (same feature/bug/task): Resume the workflow at the current phase. Briefly state where you're picking up: _"Resuming — you're in Phase {N} ({phase name}). Next up: {next unchecked item}."_
+- **If the user's message is clearly NEW work** (different feature/bug): Inform the user: _"There's an in-progress task in todo.md: '{task summary}'. Want me to continue that, or start fresh on this new task?"_ Wait for confirmation before overwriting.
+- **If the user went off-script** (asked questions, made corrections, explored code) and is now signaling forward progress ("ok continue", "let's keep going", "what's next"): Resume the workflow at the last incomplete phase. No need to ask — they're clearly coming back to the task.
+
+**Step 3 — Detect new task intent:**
+
+Only reach this step if Step 2 found no in-progress workflow, or the user confirmed they want to start fresh.
 
 Check the current branch state:
 
@@ -51,6 +68,12 @@ If a ticket system is configured in CLAUDE.md:
 Capture the task description and ticket ID (if any). These flow into Phase 1 (brainstorm context) and Phase 2 (branch naming).
 
 If the branch is current and the user is clearly continuing existing work, skip this step.
+
+**Step 4 — Ambiguity check:**
+
+If the user's message could be interpreted as either a question or a task (e.g., "this API is slow" — could mean "tell me why" or "fix it"), ask:
+
+> "Want me to start the codesmith workflow for this, or just investigate/answer?"
 
 ### Phase 1: Brainstorm
 
