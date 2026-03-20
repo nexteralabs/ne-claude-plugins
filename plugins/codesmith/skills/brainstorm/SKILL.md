@@ -1,7 +1,7 @@
 ---
 name: brainstorm
-description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to', or when starting a feature that needs architectural decisions. Also invoked automatically as phase 1 of the codesmith workflow."
-version: 3.1.0
+description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to', or when starting a feature that needs architectural decisions. Also invoked automatically as phase 1 of the codesmith workflow. When triggered standalone with build intent, ask the user if they want the full codesmith workflow instead of proceeding alone."
+version: 3.2.0
 ---
 
 # Brainstorm
@@ -16,6 +16,18 @@ Explore the problem space before writing code. This skill ensures you understand
 - Automatically as the first phase of the codesmith workflow
 
 ## Process
+
+### 0. Workflow On-Ramp (standalone only)
+
+Skip this step if the codesmith orchestrator is already running.
+
+If triggered directly by the user and the request implies building or changing something, ask:
+
+> "Do you want to start the full dev workflow?"
+
+- **Yes** → invoke the `codesmith` skill and let it drive.
+- **No** → continue with the steps below.
+- Pure exploration with no build intent → skip the question and proceed directly.
 
 ### 1. Explore Context
 

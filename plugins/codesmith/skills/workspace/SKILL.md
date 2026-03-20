@@ -1,7 +1,7 @@
 ---
 name: workspace
 description: "Set up an isolated workspace for development — creates feature branches, optional git worktrees, and task tracking. Use when starting implementation work that needs a clean environment. Triggers on: 'set up workspace', 'create branch', 'start working on', or automatically as part of the codesmith workflow."
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Workspace
