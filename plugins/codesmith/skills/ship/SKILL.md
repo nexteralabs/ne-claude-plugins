@@ -1,6 +1,6 @@
 ---
 name: ship
-description: "Ship reviewed code — sync with main, create PR, update ticket system, notify team. Use after review is complete. Triggers on: 'ship it', 'create PR', 'make pr', 'do pr', 'do a pr', 'make a pr', 'send pr', 'push pr', 'raise a pr', 'pr this', 'pr it', 'ready to merge', 'let's pr', 'put up a pr', or automatically as the final phase of the codesmith workflow."
+description: "Ship reviewed code — sync with main, create PR, update ticket system, notify team. Use after review is complete. Triggers on: 'ship it', 'create PR', 'create a pull request', 'make pr', 'make a pull request', 'do pr', 'do a pr', 'do a pull request', 'open a pull request', 'open a PR', 'submit a PR', 'submit a pull request', 'make a pr', 'send pr', 'push pr', 'raise a pr', 'pr this', 'pr it', 'ready to merge', 'let's pr', 'put up a pr', 'get a PR up', 'get a pull request up', or automatically as the final phase of the codesmith workflow. Also triggers on question-form ('can you open a pull request?'), collaborative-opener ('ok let's submit a PR'), and compound-action ('push this and get a PR up') variants — any phrasing where creating or opening a PR is the clear intent."
 version: 3.2.0
 ---
 
