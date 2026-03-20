@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to'. Also invoked automatically as phase 1 of the codesmith workflow. When triggered standalone for something that implies building or changing code, ask the user if they want the full codesmith workflow instead."
+description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to', or when starting a feature that needs architectural decisions. Also invoked automatically as phase 1 of the codesmith workflow. When triggered standalone with build intent, ask the user if they want the full codesmith workflow instead of proceeding alone."
 version: 3.2.0
 ---
 
