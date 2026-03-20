@@ -192,19 +192,19 @@ Swimlanes group shapes visually and enforce parent-child layout. The key is `par
 
 <!-- Lane A -->
 <mxCell id="lane-a" value="User" vertex="1" parent="pool-1"
-  style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;">
+  style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;">
   <mxGeometry x="0" y="0" width="900" height="160" as="geometry" />
 </mxCell>
 
 <!-- Lane B -->
 <mxCell id="lane-b" value="System" vertex="1" parent="pool-1"
-  style="swimlane;startSize=30;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;">
+  style="swimlane;startSize=30;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;">
   <mxGeometry x="0" y="160" width="900" height="160" as="geometry" />
 </mxCell>
 
 <!-- Shape inside Lane A — coordinates relative to lane-a -->
 <mxCell id="s1" value="Submit Form" vertex="1" parent="lane-a"
-  style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;">
+  style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;">
   <mxGeometry x="60" y="50" width="140" height="60" as="geometry" />
 </mxCell>
 ```
@@ -213,13 +213,13 @@ Swimlanes group shapes visually and enforce parent-child layout. The key is `par
 Use a swimlane with no child lanes — just a labelled bounding box:
 ```xml
 <mxCell id="box-1" value="Frontend" vertex="1" parent="1"
-  style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;">
+  style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;">
   <mxGeometry x="40" y="80" width="400" height="300" as="geometry" />
 </mxCell>
 
 <!-- Child shapes use parent="box-1" and local coordinates -->
 <mxCell id="comp-1" value="React App" vertex="1" parent="box-1"
-  style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;">
+  style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;">
   <mxGeometry x="40" y="60" width="140" height="60" as="geometry" />
 </mxCell>
 ```
@@ -329,6 +329,99 @@ Example Azure service shape:
 </mxCell>
 ```
 
+### System Boundaries
+
+Always wrap components in boundary containers to show scope and ownership. Nest boundaries to reflect real topology.
+
+#### Cloud Provider Boundaries
+
+Use swimlane containers with the provider's brand color and a clear label:
+
+```xml
+<!-- AWS boundary -->
+<mxCell id="aws-boundary" value="AWS (us-east-1)" vertex="1" parent="1"
+  style="swimlane;startSize=30;fillColor=#FF9900;fontColor=#ffffff;strokeColor=#CC7A00;fontSize=14;fontStyle=1;opacity=15;">
+  <mxGeometry x="40" y="40" width="600" height="400" as="geometry" />
+</mxCell>
+
+<!-- Azure boundary -->
+<mxCell id="azure-boundary" value="Azure (West Europe)" vertex="1" parent="1"
+  style="swimlane;startSize=30;fillColor=#0078D4;fontColor=#ffffff;strokeColor=#005A9E;fontSize=14;fontStyle=1;opacity=15;">
+  <mxGeometry x="700" y="40" width="600" height="400" as="geometry" />
+</mxCell>
+
+<!-- GCP boundary -->
+<mxCell id="gcp-boundary" value="GCP (europe-west1)" vertex="1" parent="1"
+  style="swimlane;startSize=30;fillColor=#4285F4;fontColor=#ffffff;strokeColor=#2D5BB9;fontSize=14;fontStyle=1;opacity=15;">
+  <mxGeometry x="40" y="500" width="600" height="400" as="geometry" />
+</mxCell>
+```
+
+#### Network / Infrastructure Boundaries
+
+Nest these inside cloud boundaries to show network segmentation:
+
+```xml
+<!-- VPC / VNet -->
+<mxCell id="vpc-1" value="VPC 10.0.0.0/16" vertex="1" parent="aws-boundary"
+  style="swimlane;startSize=25;fillColor=#E8F5E9;strokeColor=#66BB6A;dashed=1;fontSize=14;fontStyle=1;">
+  <mxGeometry x="20" y="40" width="560" height="340" as="geometry" />
+</mxCell>
+
+<!-- Subnet -->
+<mxCell id="subnet-pub" value="Public Subnet (10.0.1.0/24)" vertex="1" parent="vpc-1"
+  style="swimlane;startSize=25;fillColor=#E3F2FD;strokeColor=#42A5F5;dashed=1;fontSize=14;">
+  <mxGeometry x="20" y="35" width="250" height="140" as="geometry" />
+</mxCell>
+
+<mxCell id="subnet-priv" value="Private Subnet (10.0.2.0/24)" vertex="1" parent="vpc-1"
+  style="swimlane;startSize=25;fillColor=#FFF3E0;strokeColor=#FFA726;dashed=1;fontSize=14;">
+  <mxGeometry x="290" y="35" width="250" height="140" as="geometry" />
+</mxCell>
+```
+
+#### On-Premise Boundary
+
+```xml
+<mxCell id="onprem" value="On-Premise (Data Center)" vertex="1" parent="1"
+  style="swimlane;startSize=30;fillColor=#F3E5F5;strokeColor=#AB47BC;fontSize=14;fontStyle=1;opacity=15;">
+  <mxGeometry x="40" y="40" width="500" height="350" as="geometry" />
+</mxCell>
+```
+
+#### Component / Application Boundaries
+
+Group microservices, modules, or application layers:
+
+```xml
+<!-- Application boundary -->
+<mxCell id="app-backend" value="Backend Services" vertex="1" parent="1"
+  style="swimlane;startSize=25;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;">
+  <mxGeometry x="40" y="80" width="400" height="300" as="geometry" />
+</mxCell>
+
+<!-- Trust boundary (security) — dashed red -->
+<mxCell id="trust-boundary" value="Trust Boundary" vertex="1" parent="1"
+  style="swimlane;startSize=25;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;dashPattern=8 4;fontSize=14;fontStyle=1;opacity=20;">
+  <mxGeometry x="40" y="80" width="800" height="500" as="geometry" />
+</mxCell>
+
+<!-- DMZ -->
+<mxCell id="dmz" value="DMZ" vertex="1" parent="1"
+  style="swimlane;startSize=25;fillColor=#FFF9C4;strokeColor=#F9A825;dashed=1;fontSize=14;fontStyle=1;">
+  <mxGeometry x="40" y="40" width="300" height="200" as="geometry" />
+</mxCell>
+```
+
+#### Boundary nesting rules
+
+- **Cloud → Region → VPC/VNet → Subnet → Components** — follow real topology
+- Always include region in cloud boundary labels (e.g. "AWS (us-east-1)")
+- Include CIDR ranges on VPCs and subnets when known
+- Cross-boundary connections (e.g. VPN, peering, ExpressRoute) use `parent="1"` and should be labeled with the connection type
+- Use `opacity=15` on outermost boundaries so nested content stays readable
+- Use `dashed=1` for logical/security boundaries; solid for infrastructure boundaries
+
 ---
 
 ## Color Palette
@@ -349,10 +442,11 @@ Text color: `fontColor=#333333` for light fills, `fontColor=#ffffff` for dark fi
 ## Style Quick Reference
 
 ```
-# Typography
-fontSize=14               standard body text
+# Typography — MINIMUM FONT SIZES (hard rule)
+fontSize=14               ALL vertex shapes (boxes, diamonds, swimlane headers, entity fields, labels)
 fontSize=16;fontStyle=1   bold section heading
-fontSize=12               small labels on connectors
+fontSize=12               ONLY for connector/edge labels (the value="" on edge="1" elements)
+# fontSize=12 or 13 on a vertex is NEVER acceptable — always use 14+
 
 # Borders
 strokeColor=#b85450;strokeWidth=2   emphasized / error
