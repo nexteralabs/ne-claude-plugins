@@ -1,7 +1,7 @@
 ---
 name: ship
 description: "Ship reviewed code — sync with main, create PR, update ticket system, notify team. Use after review is complete. Triggers on: 'ship it', 'create PR', 'make pr', 'do pr', 'do a pr', 'make a pr', 'send pr', 'push pr', 'raise a pr', 'pr this', 'pr it', 'ready to merge', 'let's pr', 'put up a pr', or automatically as the final phase of the codesmith workflow."
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Ship

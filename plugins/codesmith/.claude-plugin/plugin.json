@@ -1,7 +1,7 @@
 {
   "name": "codesmith",
   "description": "Modular development workflow — orchestrated spec refinement, TDD, multi-agent review, pluggable ticket system integration, and CLAUDE.md scaffolding",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "author": {
     "name": "geomarceau",
     "email": "georges.marceau@nexteralabs.ca"

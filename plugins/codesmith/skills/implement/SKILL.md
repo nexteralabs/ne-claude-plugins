@@ -1,7 +1,7 @@
 ---
 name: implement
 description: "Execute implementation plans using TDD and subagent-driven development. Follows red-green-refactor strictly. Use when you have an approved plan and are ready to write code. Triggers on: 'implement', 'start coding', 'execute the plan', or automatically as part of the codesmith workflow."
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Implement

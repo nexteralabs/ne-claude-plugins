@@ -1,7 +1,7 @@
 ---
 name: review
 description: "Multi-agent code review — spec compliance then code quality. Dispatches spec-reviewer and code-reviewer agents. Use after implementation is complete. Triggers on: 'review this', 'review my code', 'check my work', or automatically as part of the codesmith workflow."
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Review

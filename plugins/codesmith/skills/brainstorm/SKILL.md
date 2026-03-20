@@ -1,7 +1,7 @@
 ---
 name: brainstorm
-description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to', or when starting a feature that needs architectural decisions. Also invoked automatically as phase 1 of the codesmith workflow."
-version: 3.1.0
+description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to'. Also invoked automatically as phase 1 of the codesmith workflow. When triggered standalone for something that implies building or changing code, ask the user if they want the full codesmith workflow instead."
+version: 3.2.0
 ---
 
 # Brainstorm
@@ -16,6 +16,18 @@ Explore the problem space before writing code. This skill ensures you understand
 - Automatically as the first phase of the codesmith workflow
 
 ## Process
+
+### 0. Workflow On-Ramp (standalone only)
+
+**Skip this step if the codesmith orchestrator is already running** (i.e., you were called from within the codesmith workflow — the orchestrator will have already set context).
+
+If brainstorm was triggered directly by the user and the request implies building, adding, or changing something (a feature, fix, refactor, new skill, etc.), ask before proceeding:
+
+> "This looks like a new feature. Want me to start the full **codesmith workflow** (brainstorm → workspace → plan → implement → review → ship), or just brainstorm the approach for now?"
+
+- If they want the **full workflow**: invoke the `codesmith` skill and let it drive from Phase 1.
+- If they want to **just brainstorm**: continue with the steps below.
+- If the request is clearly exploratory only ("how should we think about X", "what are the options for Y") with no build intent: skip the question and proceed directly.
 
 ### 1. Explore Context
 

@@ -1,7 +1,7 @@
 ---
 name: init-project
 description: "Scaffold a project's CLAUDE.md with battle-tested development principles, detect ticket system, and configure project defaults. Use when starting a new project, onboarding to a codebase, or when the user says 'init project', 'set up claude', 'scaffold claude.md', 'configure project'. Also triggered when codesmith detects no CLAUDE.md exists in the project root."
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Init Project

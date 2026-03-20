@@ -1,7 +1,7 @@
 ---
 name: plan
 description: "Write concrete implementation plans with TDD steps, file paths, and dependency ordering. Use when you have an approved spec and need to break it into executable tasks. Triggers on: 'write a plan', 'plan this', 'break this down', or automatically as part of the codesmith workflow."
-version: 3.1.0
+version: 3.2.0
 ---
 
 # Plan
