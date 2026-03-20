@@ -19,15 +19,15 @@ Explore the problem space before writing code. This skill ensures you understand
 
 ### 0. Workflow On-Ramp (standalone only)
 
-**Skip this step if the codesmith orchestrator is already running** (i.e., you were called from within the codesmith workflow — the orchestrator will have already set context).
+Skip this step if the codesmith orchestrator is already running.
 
-If brainstorm was triggered directly by the user and the request implies building, adding, or changing something (a feature, fix, refactor, new skill, etc.), ask before proceeding:
+If triggered directly by the user and the request implies building or changing something, ask:
 
-> "This looks like a new feature. Want me to start the full **codesmith workflow** (brainstorm → workspace → plan → implement → review → ship), or just brainstorm the approach for now?"
+> "Do you want to start the full dev workflow?"
 
-- If they want the **full workflow**: invoke the `codesmith` skill and let it drive from Phase 1.
-- If they want to **just brainstorm**: continue with the steps below.
-- If the request is clearly exploratory only ("how should we think about X", "what are the options for Y") with no build intent: skip the question and proceed directly.
+- **Yes** → invoke the `codesmith` skill and let it drive.
+- **No** → continue with the steps below.
+- Pure exploration with no build intent → skip the question and proceed directly.
 
 ### 1. Explore Context
 
