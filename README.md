@@ -116,6 +116,8 @@ Autonomously optimizes any Claude Code skill through a scored mutation loop. Spa
 
 ```
 /plugin install skillforge@ne-claude-plugins
+
+use: "Init project" prompt to setup a project
 ```
 
 ### code-audit
