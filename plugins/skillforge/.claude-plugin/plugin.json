@@ -1,0 +1,9 @@
+{
+  "name": "skillforge",
+  "version": "1.0.0",
+  "description": "Autonomous skill optimizer — runs any skill repeatedly, scores against binary evals, mutates the prompt, and keeps improvements. Parallel execution, blind grading, checkpoint/resume. Based on Karpathy's autoresearch methodology.",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

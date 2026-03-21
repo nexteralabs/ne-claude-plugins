@@ -72,6 +72,17 @@
       },
       "source": "./plugins/drawio",
       "category": "productivity"
+    },
+    {
+      "name": "skillforge",
+      "description": "Autonomous skill optimizer — parallel execution, blind grading, checkpoint/resume, and eval discriminability checks. Based on Karpathy's autoresearch methodology.",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": "./plugins/skillforge",
+      "category": "development"
     }
   ]
 }
