@@ -1,8 +1,0 @@
-{
-  "name": "deploy-guard",
-  "description": "Pre-deployment validation hooks that check for secrets, broken tests, and unsafe patterns before pushing",
-  "author": {
-    "name": "geomarceau",
-    "email": "georges.marceau@nexteralabs.ca"
-  }
-}

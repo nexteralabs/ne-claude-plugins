@@ -30,14 +30,14 @@
       "category": "development"
     },
     {
-      "name": "deploy-guard",
-      "description": "Pre-deployment validation hooks — secret scanning in writes and push protection",
+      "name": "secret-guard",
+      "description": "Pre-commit guard — scans staged files for leaked secrets before committing",
       "version": "1.0.0",
       "author": {
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/deploy-guard",
+      "source": "./plugins/secret-guard",
       "category": "devops"
     },
     {

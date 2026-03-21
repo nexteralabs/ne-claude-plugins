@@ -54,7 +54,7 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 | [**codesmith**](plugins/codesmith/) | skill, agents | Dev workflow with spec refinement, TDD, KISS, multi-agent review, ticket to PR |
 | [**drawio**](plugins/drawio/) | skill | Create and edit draw.io diagrams: flowcharts, architecture, sequence diagrams, and more |
 | [**code-audit**](plugins/code-audit/) | skill, agents | Multi-agent code review with parallel security and logic analysis |
-| [**deploy-guard**](plugins/deploy-guard/) | hooks | Pre-deployment validation with secret scanning and push protection |
+| [**secret-guard**](plugins/secret-guard/) | hooks | Pre-commit guard — scans staged files for leaked secrets before committing |
 | [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
 | [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
 
@@ -62,12 +62,9 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 
 Ask Claude to review your code, a PR, or your current changes. The skill dispatches parallel security and logic review agents, then aggregates findings with confidence scores: critical issues, suggestions, and nits. No commands to remember, just say "review my code" or "check this PR."
 
-### deploy-guard
+### secret-guard
 
-Hook-based plugin that runs automatically:
-
-- **Secret scanning** blocks writes containing API keys, tokens, passwords, and private keys
-- **Push protection** warns on uncommitted changes, blocks force-push to main/master
+Pre-commit hook that scans `git diff --cached` for API keys, tokens, passwords, private keys, and cloud credentials. Blocks the commit if anything is found. Zero overhead on all other commands.
 
 ### obsidian-vault
 

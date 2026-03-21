@@ -1,0 +1,17 @@
+{
+  "description": "Pre-commit guard that scans for leaked secrets before committing",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/check_secrets.py",
+            "timeout": 10
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
+  }
+}
