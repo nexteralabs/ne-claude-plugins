@@ -2,7 +2,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/github/license/nexteralabs/ne-claude-plugins" alt="License" /></a>
   <a href="https://github.com/nexteralabs/ne-claude-plugins/releases"><img src="https://img.shields.io/github/v/release/nexteralabs/ne-claude-plugins?display_name=tag" alt="Release" /></a>
   <img src="https://img.shields.io/github/last-commit/nexteralabs/ne-claude-plugins" alt="Last Commit" />
-  <img src="https://img.shields.io/badge/plugins-6-brightgreen" alt="Plugins" />
+  <img src="https://img.shields.io/badge/plugins-7-brightgreen" alt="Plugins" />
 </p>
 
 <h1 align="center">NextEra Labs Claude Plugins</h1>
@@ -45,6 +45,38 @@ Security, logic, and spec compliance reviewed by dedicated agents that catch wha
 
 ---
 
+# SkillForge
+
+Your skills get smarter every time you run this.<br>
+Point it at any skill, define what "good output" looks like, and it runs an autonomous experiment loop until the failure rate disappears.
+
+<table>
+<tr>
+<td width="50%">
+
+### Parallel execution
+N runner agents spawn simultaneously — each gets the skill and a test input, executes it in isolation, returns clean output. A full 5-run experiment takes the same wall time as a single run.
+
+### Blind scoring
+A separate grader agent scores every output without knowing what mutation was attempted. No self-grading bias. Strict: if unsure, FAIL.
+
+</td>
+<td width="50%">
+
+### Checkpoint/resume
+Artifacts are saved after every experiment. If the loop gets interrupted, pick up exactly where you left off — no reruns, no lost progress.
+
+### Eval discriminability
+Before the loop starts, SkillForge flags evals that trivially pass or fail 100% of the time. Prevents wasting 50 experiments optimizing against a broken signal.
+
+</td>
+</tr>
+</table>
+
+> Say "this skill is flaky" or "run skillforge on my X skill." SkillForge establishes a baseline, runs an autonomous mutation loop — one targeted change at a time — and delivers a terminal summary with the score improvement, top changes, and a merge prompt. The original SKILL.md is never touched until you approve.
+
+---
+
 ## All Plugins
 
 Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
@@ -52,11 +84,16 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 | Plugin | Type | Description |
 |--------|------|-------------|
 | [**codesmith**](plugins/codesmith/) | skill, agents | Dev workflow with spec refinement, TDD, KISS, multi-agent review, ticket to PR |
+| [**skillforge**](plugins/skillforge/) | skill, agents | Autonomous skill optimizer — parallel execution, blind grading, checkpoint/resume |
 | [**drawio**](plugins/drawio/) | skill | Create and edit draw.io diagrams: flowcharts, architecture, sequence diagrams, and more |
 | [**code-audit**](plugins/code-audit/) | skill, agents | Multi-agent code review with parallel security and logic analysis |
 | [**secret-guard**](plugins/secret-guard/) | hooks | Pre-commit guard — scans staged files for leaked secrets before committing |
 | [**obsidian-vault**](plugins/obsidian-vault/) | mcp | Read and write notes in your Obsidian vault from Claude Code |
 | [**discord-notify**](plugins/discord-notify/) | mcp, commands | Send messages to Discord channels via bot API with guided setup |
+
+### skillforge
+
+Autonomously optimizes any Claude Code skill through a scored mutation loop. Spawns parallel runner agents to execute the skill, parallel grader agents to score outputs blindly, and keeps only mutations that improve the score. Supports checkpoint/resume, parallel candidate testing, and an eval discriminability check before the loop starts. Ends with a terminal summary and a prompt to merge the improved skill back into the original.
 
 ### code-audit
 
