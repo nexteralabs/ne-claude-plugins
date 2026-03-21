@@ -1,0 +1,9 @@
+{
+  "name": "secret-guard",
+  "version": "1.0.0",
+  "description": "Pre-commit guard that scans staged files for leaked secrets before committing",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}
