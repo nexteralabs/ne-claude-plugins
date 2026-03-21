@@ -41,7 +41,7 @@ Security, logic, and spec compliance reviewed by dedicated agents that catch wha
 </tr>
 </table>
 
-> The skill triggers automatically when you start any dev work. It drives the full lifecycle: understand the task, refine the spec, plan with TDD steps, implement test-first with subagents, review with parallel agents, and ship a clean PR. Jira integration is built in when the Atlassian MCP is available.
+> The skill triggers automatically when you start any dev work. It drives the full lifecycle: understand the task, refine the spec, plan with TDD steps, implement test-first with subagents, review with parallel agents, and ship a clean PR. Jira integration is built in when the Atlassian MCP is available. Install with `/plugin install codesmith@ne-claude-plugins`.
 
 ---
 
@@ -73,7 +73,7 @@ Before the loop starts, SkillForge flags evals that trivially pass or fail 100% 
 </tr>
 </table>
 
-> Say "this skill is flaky" or "run skillforge on my X skill." SkillForge establishes a baseline, runs an autonomous mutation loop — one targeted change at a time — and delivers a terminal summary with the score improvement, top changes, and a merge prompt. The original SKILL.md is never touched until you approve.
+> Say "this skill is flaky" or "run skillforge on my X skill." SkillForge establishes a baseline, runs an autonomous mutation loop — one targeted change at a time — and delivers a terminal summary with the score improvement, top changes, and a merge prompt. The original SKILL.md is never touched until you approve. Install with `/plugin install skillforge@ne-claude-plugins`.
 
 ---
 
@@ -93,27 +93,27 @@ Developed and maintained by [Nextera Labs](https://github.com/nexteralabs).
 
 ### skillforge
 
-Autonomously optimizes any Claude Code skill through a scored mutation loop. Spawns parallel runner agents to execute the skill, parallel grader agents to score outputs blindly, and keeps only mutations that improve the score. Supports checkpoint/resume, parallel candidate testing, and an eval discriminability check before the loop starts. Ends with a terminal summary and a prompt to merge the improved skill back into the original.
+Autonomously optimizes any Claude Code skill through a scored mutation loop. Spawns parallel runner agents to execute the skill, parallel grader agents to score outputs blindly, and keeps only mutations that improve the score. Supports checkpoint/resume, parallel candidate testing, and an eval discriminability check before the loop starts. Ends with a terminal summary and a prompt to merge the improved skill back into the original. `/plugin install skillforge@ne-claude-plugins`
 
 ### code-audit
 
-Ask Claude to review your code, a PR, or your current changes. The skill dispatches parallel security and logic review agents, then aggregates findings with confidence scores: critical issues, suggestions, and nits. No commands to remember, just say "review my code" or "check this PR."
+Ask Claude to review your code, a PR, or your current changes. The skill dispatches parallel security and logic review agents, then aggregates findings with confidence scores: critical issues, suggestions, and nits. No commands to remember, just say "review my code" or "check this PR." `/plugin install code-audit@ne-claude-plugins`
 
 ### secret-guard
 
-Pre-commit hook that scans `git diff --cached` for API keys, tokens, passwords, private keys, and cloud credentials. Blocks the commit if anything is found. Zero overhead on all other commands.
+Pre-commit hook that scans `git diff --cached` for API keys, tokens, passwords, private keys, and cloud credentials. Blocks the commit if anything is found. Zero overhead on all other commands. `/plugin install secret-guard@ne-claude-plugins`
 
 ### obsidian-vault
 
-MCP server connecting Claude Code to your Obsidian vault. Requires `OBSIDIAN_VAULT_PATH` environment variable.
+MCP server connecting Claude Code to your Obsidian vault. Requires `OBSIDIAN_VAULT_PATH` environment variable. `/plugin install obsidian-vault@ne-claude-plugins`
 
 ### discord-notify
 
-Send messages to Discord channels. The skill detects when you need to notify a channel and handles it. Just say "send a message to #general." Requires `~/.claude/discord.env` with bot token and guild ID (run `/discord-setup` for guided configuration).
+Send messages to Discord channels. The skill detects when you need to notify a channel and handles it. Just say "send a message to #general." Requires `~/.claude/discord.env` with bot token and guild ID (run `/discord-setup` for guided configuration). `/plugin install discord-notify@ne-claude-plugins`
 
 ### drawio
 
-Ask Claude to create any kind of diagram: flowcharts, architecture diagrams, sequence diagrams, swimlanes, ER diagrams, network maps. The skill triggers whenever you want to visualize something and generates `.drawio` XML files you can open in draw.io or VS Code.
+Ask Claude to create any kind of diagram: flowcharts, architecture diagrams, sequence diagrams, swimlanes, ER diagrams, network maps. The skill triggers whenever you want to visualize something and generates `.drawio` XML files you can open in draw.io or VS Code. `/plugin install drawio@ne-claude-plugins`
 
 ---
 
@@ -172,13 +172,39 @@ For more information on developing Claude Code plugins, see the [official docume
 <details>
 <summary><strong>Installation</strong></summary>
 
-Install any plugin directly from Claude Code:
+### 1. Add the marketplace
+
+Open Claude Code and run:
 
 ```
-/plugin install {plugin-name}@ne-claude-plugins
+/plugin > Marketplace > Add marketplace
 ```
 
-Browse available plugins:
+Enter the marketplace URL:
+
+```
+https://github.com/nexteralabs/ne-claude-plugins
+```
+
+### 2. Install plugins
+
+```
+/plugin install codesmith@ne-claude-plugins
+/plugin install skillforge@ne-claude-plugins
+/plugin install code-audit@ne-claude-plugins
+/plugin install secret-guard@ne-claude-plugins
+/plugin install obsidian-vault@ne-claude-plugins
+/plugin install discord-notify@ne-claude-plugins
+/plugin install drawio@ne-claude-plugins
+```
+
+### 3. Reload
+
+```
+/reload-plugins
+```
+
+### Browse available plugins
 
 ```
 /plugin > Discover
