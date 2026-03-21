@@ -62,10 +62,6 @@ Security, logic, and spec compliance reviewed by dedicated agents that catch wha
 
 > The skill triggers automatically when you start any dev work. It drives the full lifecycle: understand the task, refine the spec, plan with TDD steps, implement test-first with subagents, review with parallel agents, and ship a clean PR. Jira integration is built in when the Atlassian MCP is available.
 
-```
-/plugin install codesmith@ne-claude-plugins
-```
-
 ---
 
 # SkillForge
@@ -97,10 +93,6 @@ Before the loop starts, SkillForge flags evals that trivially pass or fail 100% 
 </table>
 
 > Say "this skill is flaky" or "run skillforge on my X skill." SkillForge establishes a baseline, runs an autonomous mutation loop — one targeted change at a time — and delivers a terminal summary with the score improvement, top changes, and a merge prompt. The original SKILL.md is never touched until you approve.
-
-```
-/plugin install skillforge@ne-claude-plugins
-```
 
 ---
 
