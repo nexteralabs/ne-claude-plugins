@@ -75,6 +75,16 @@ If the user's message could be interpreted as either a question or a task (e.g.,
 
 > "Want me to start the codesmith workflow for this, or just investigate/answer?"
 
+**Step 5 — Workflow confirmation:**
+
+Before entering the brainstorm phase, always confirm with the user:
+
+> "Ready to start a new dev workflow for: _{brief summary of the task}_. Proceed?"
+
+This is a hard gate — do not begin brainstorming until the user confirms. If they say no or want to adjust scope, incorporate their feedback and re-confirm. This prevents the workflow from auto-launching on misinterpreted intent.
+
+**Skip condition:** Skip this confirmation if the user explicitly invoked the workflow by name ("codesmith", "dev workflow", "full workflow") — explicit invocation is confirmation enough.
+
 ### Phase 1: Brainstorm
 
 Read the `brainstorm` skill and follow its process:
