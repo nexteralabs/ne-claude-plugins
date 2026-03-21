@@ -15,13 +15,11 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 ## Installation
 
-**Step 1 — Add the marketplace in Claude Code:**
+**Step 1 — Add the marketplace:**
 
 ```
-/plugin > Marketplace > Add marketplace
+/plugin marketplace add nexteralabs/ne-claude-plugins
 ```
-
-Enter: `https://github.com/nexteralabs/ne-claude-plugins`
 
 **Step 2 — Install plugins:**
 
