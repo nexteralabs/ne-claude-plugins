@@ -15,7 +15,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/codesmith",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/codesmith"
+      },
       "category": "development"
     },
     {
@@ -26,7 +30,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/code-audit",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/code-audit"
+      },
       "category": "development"
     },
     {
@@ -37,7 +45,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/secret-guard",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/secret-guard"
+      },
       "category": "devops"
     },
     {
@@ -48,7 +60,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/obsidian-vault",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/obsidian-vault"
+      },
       "category": "productivity"
     },
     {
@@ -59,7 +75,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/discord-notify",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/discord-notify"
+      },
       "category": "integrations"
     },
     {
@@ -70,7 +90,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/drawio",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/drawio"
+      },
       "category": "productivity"
     },
     {
@@ -81,7 +105,11 @@
         "name": "geomarceau",
         "email": "georges.marceau@nexteralabs.ca"
       },
-      "source": "./plugins/skillforge",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/skillforge"
+      },
       "category": "development"
     }
   ]
