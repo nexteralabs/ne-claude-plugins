@@ -7,6 +7,57 @@ description: "Use this skill whenever the user wants to create or edit a diagram
 
 Create and edit draw.io files (`.drawio`) directly in XML. This is the fastest path to a shareable, editable diagram — no GUI needed.
 
+## Layout Method (do this before writing any XML)
+
+Overlaps and tangled lines come from placing shapes first and wiring them afterwards. Plan the graph, then the grid, then the wires.
+
+1. **List nodes and edges.** Pick one main flow direction: left→right for architectures (tiers as columns), top→down for processes.
+2. **Assign columns (tiers).** Column = position in the main flow (clients → edge → gateway → services → data). Edges that go *against* the flow (callbacks, push notifications, webhooks) are back-edges: keep them, but plan to route them around the outside.
+3. **Order shapes inside each column to minimize crossings.** Place each shape at the average row of the neighbours it connects to in the previous column (barycenter), then do one pass right→left the same way. Shapes that talk to each other must be adjacent. Put hubs (gateway, bus, BFF) in the middle row so their fan-out spreads up and down evenly.
+4. **Containers follow the grid**, not the other way round: a container must cover a contiguous block of cells. If the column order forces a container to split, change the order.
+5. **Leave routing room.** Gap between columns ≥ 120px (≥ 160px if the edges carry labels); gap between rows ≥ 60px. All shapes in a row share the same center-y; all shapes in a column share the same center-x, so most edges become straight lines.
+6. **One port per edge.** When ≥ 2 connectors leave (or enter) the same side of a shape, give each its own `exitX/exitY` (`entryX/entryY`) — e.g. 0.25 / 0.5 / 0.75 — ordered like their targets, so they never merge into a shared trunk or cross at the shape.
+7. **Route long edges through gaps.** An edge that skips a column, or a back-edge, gets explicit `<Array as="points">` waypoints that run through an empty gap or around the diagram's outside edge — never through the column in between.
+8. **Labels:** ≤ 3 words, only on edges whose meaning is not obvious, `labelBackgroundColor=#ffffff`, and only on segments long enough to hold them (≥ 120px). Never put a label in a gap narrower than the label.
+9. **Count before you write.** Walk every edge on your grid and count crossings. With ~15 shapes, 0–2 is achievable; if you count more, reorder (step 3) before writing XML.
+
+---
+
+## Mandatory: Render and Lint Before You Finish
+
+The XML only says where shapes are. draw.io decides at render time where connectors go, so a layout that looks fine on paper can still produce crossings, lines stacked on top of each other, or labels sitting on shapes. Never hand over a diagram you haven't measured.
+
+```bash
+python3 <this skill's directory>/scripts/drawio_lint.py diagram.drawio
+```
+
+The script renders the file with the draw.io CLI (auto-detected; set `DRAWIO_BIN` if needed) and reports, with the edges named `Source -> Target`:
+
+| Check | Meaning | Target |
+|---|---|---|
+| `shape_overlaps` | two shapes overlap (proper container nesting is fine) | 0 |
+| `edge_crossings` | two connectors cross | ≤ 2, aim for 0 |
+| `edge_overlaps` | two connectors run on top of each other (shared trunk) | 0 |
+| `edge_through_shape` | a connector passes through an unrelated shape | 0 |
+| `label_collisions` | a connector label sits on a shape, header, line or label | 0 |
+| `broken_edges` | dangling source/target | 0 |
+
+It also writes `diagram.lint.png` with every problem circled. **Open that PNG (Read it) and look at it** before deciding the fix.
+
+**Loop:** write → lint → fix the reported items → lint again, until it prints `RESULT: CLEAN` (up to ~6 rounds). Fix the cause, not the symptom:
+
+| Problem | Fix |
+|---|---|
+| crossing | Reorder shapes in the row/column so connected shapes sit next to each other; move a node to the side where most of its neighbours are; route a back-edge around the outside of the diagram with waypoints |
+| shared trunk (`edge_overlaps`) | Give each connector leaving the same side of a shape its own port: `exitX/exitY` (and `entryX/entryY` on the target) at 0.25 / 0.5 / 0.75, ordered the same way as the targets so they don't cross each other |
+| edge through shape | Move the shape out of the corridor, or add `<Array as="points">` waypoints that run through an empty gap |
+| label collision | Make the gap between the two shapes wider (≥ 140px for a labelled edge), shorten the label, or slide it along the edge with `<mxGeometry relative="1" x="-0.4" ...>`; add `labelBackgroundColor=#ffffff` |
+| shape overlap | Recompute coordinates; grow the container so it holds its children plus 20px padding |
+
+If the draw.io CLI is not installed, say so to the user and fall back to the Validation Checklist at the end of this skill.
+
+---
+
 ## File Structure
 
 Every `.drawio` file is an XML document with this skeleton:
@@ -469,6 +520,7 @@ Swimlane header:    startSize=30 (height of the header bar)
 
 ```bash
 drawio -x -f png -s 2 -o output.png input.drawio
+# macOS app bundle: /Applications/draw.io.app/Contents/MacOS/draw.io
 ```
 
 | Option | Effect |
@@ -578,5 +630,5 @@ Before saving / exporting, verify:
 - [ ] No subsidiary shape (metastore, detail box) overlaps its parent shape
 - [ ] Style attributes are on a single unbroken line
 - [ ] Icon fillColor comes from Edit Style dialog — not guessed
-- [ ] Export with `-s 2` and visually check the PNG
+- [ ] `scripts/drawio_lint.py` prints `RESULT: CLEAN` and you have looked at the `.lint.png`
 
