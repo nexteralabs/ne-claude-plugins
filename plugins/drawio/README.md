@@ -39,6 +39,16 @@ Make a sequence diagram for the OAuth2 authorization code flow
 
 The skill triggers automatically when you mention diagrams, flowcharts, architecture visuals, or ask to "draw", "diagram", "visualize", or "map out" something.
 
+## Layout quality check
+
+The skill renders every diagram with the draw.io CLI and runs `skills/drawio/scripts/drawio_lint.py`, which counts
+overlapping shapes, connector crossings, stacked connectors, connectors through shapes and label collisions, and
+writes `<name>.lint.png` with each problem circled. Claude fixes and re-lints until the report is clean.
+
+```bash
+python3 skills/drawio/scripts/drawio_lint.py diagram.drawio   # needs the draw.io desktop app (or DRAWIO_BIN)
+```
+
 ## Output
 
 Generates `.drawio` XML files that can be:
@@ -56,6 +66,8 @@ drawio/
 │   └── plugin.json
 ├── skills/
 │   └── drawio/
-│       └── SKILL.md
+│       ├── SKILL.md
+│       └── scripts/
+│           └── drawio_lint.py
 └── README.md
 ```
