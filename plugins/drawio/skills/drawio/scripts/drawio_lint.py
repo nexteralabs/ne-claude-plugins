@@ -457,6 +457,7 @@ def lint(path, want_png=True, keep_dir=None):
     summary = {
         "file": path,
         "shapes": len(leaf), "containers": len(verts) - len(leaf), "edges": len(edges),
+        "width": round(max((v.box[2] for v in verts.values()), default=0) - min((v.x for v in verts.values()), default=0)),
         "counts": {k: len(v) for k, v in issues.items()},
         "issues": issues,
     }
@@ -523,7 +524,8 @@ def main():
     if a.json:
         print(json.dumps(r, indent=2))
     else:
-        print(f"{r['file']}: {r['shapes']} shapes, {r['containers']} containers, {r['edges']} edges")
+        print(f"{r['file']}: {r['shapes']} shapes, {r['containers']} containers, {r['edges']} edges, "
+              f"width {r['width']}px" + (" (wider than 1100px: unreadable when embedded in a doc page)" if r['width'] > 1100 else ""))
         for k, v in c.items():
             limit = a.max_crossings if k == "edge_crossings" else 0
             print(f"  {'OK  ' if v <= limit else 'FAIL'} {k:<20} {v}")

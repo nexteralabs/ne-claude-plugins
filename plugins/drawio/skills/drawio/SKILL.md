@@ -535,6 +535,19 @@ For SVG (infinitely scalable): `-f svg`
 
 ---
 
+## Publishing to Confluence
+
+When the diagram goes into a Confluence page, embed the live diagram — not a PNG — so readers can open and edit it in place. The **doc-writer** skill publishes it once the lint is clean, with its `scripts/confluence.py`:
+
+- ZenUML "Graph (DrawIO)" (default): `confluence.py zenuml --page-url URL --file diagram.drawio --name "Diagram name"`
+- draw.io app ("draw.io Diagram"): `confluence.py drawio --page-url URL --file diagram.drawio --name "Diagram name"`
+
+Paste the printed macro into the page body. Details in doc-writer's `references/confluence.md`, "Diagrams".
+
+**Width budget for pages:** Confluence (and most doc pages) shows the diagram at ~760px. Keep the total diagram width ≤ 1100px so 14px labels stay readable after scaling: prefer top-to-bottom flow when there are more than 5 columns, and put external systems below the main boundary rather than beside it. Check the width in the lint output before publishing.
+
+---
+
 ## Layout Planning
 
 Good placement requires explicit arithmetic — draw.io won't auto-arrange shapes when you write XML directly. Think in rows: pick a standard row center-y, then derive all y coordinates from it.
