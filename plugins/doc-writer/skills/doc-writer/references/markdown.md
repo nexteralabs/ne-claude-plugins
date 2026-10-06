@@ -17,18 +17,18 @@ Applies on top of the core rules in SKILL.md.
 
 ## Callouts
 
-GitHub renders alert blocks; use them under the same limit as core rules (max 2 per page):
+GitHub renders alert blocks; same budget as the core rules (max 3, one per job):
 
 ```markdown
 > [!WARNING]
 > Running this against production drops the cache for all tenants.
 ```
 
-`NOTE` and `WARNING` only. Other renderers show these as plain quotes, which is still readable.
+`NOTE`, `TIP` (decision/recommendation), `WARNING`. ✅ ❌ ⚠️ are allowed in comparison tables and pros/cons lists, as in the core rules. Other renderers show these as plain quotes, which is still readable.
 
 ## Diagrams
 
-Prefer Mermaid (renders on GitHub/GitLab) or a committed `.drawio` + exported `.png`/`.svg` next to the doc. Always add alt text: `![Request path from CDN to services](docs/img/request-path.png)`.
+Prefer Mermaid (renders on GitHub/GitLab) or a committed `.drawio` + an exported `.svg` next to the doc (never a PNG alone: it cannot be edited). Always add alt text: `![Request path from CDN to services](docs/img/request-path.png)`.
 
 ## Markdown checklist
 
@@ -36,4 +36,4 @@ Prefer Mermaid (renders on GitHub/GitLab) or a committed `.drawio` + exported `.
 - [ ] Relative links resolve; no bare URLs in prose
 - [ ] Every code fence has a language
 - [ ] Tables ≤ 5 columns; no HTML tables unless needed for merged cells
-- [ ] No emoji headings or badges walls (max one badge row in a README)
+- [ ] No emoji in headings, no badge walls (max one badge row in a README); ✅ ❌ ⚠️ only in comparisons

@@ -153,11 +153,11 @@ Never the custom `panel` macro with your own colours; never two panels back to b
 ```xml
 <ac:layout-section ac:type="two_equal">
   <ac:layout-cell><h3>Strengths</h3><ul>
-    <li><p>✅ Services deploy independently</p></li>
-    <li><p>✅ Events replay after an incident</p></li></ul></ac:layout-cell>
+    <li><p>✅&#160; Services deploy independently</p></li>
+    <li><p>✅&#160; Events replay after an incident</p></li></ul></ac:layout-cell>
   <ac:layout-cell><h3>Trade-offs</h3><ul>
-    <li><p>❌ Order status is eventually consistent</p></li>
-    <li><p>⚠️ ERP sync depends on a VPN</p></li></ul></ac:layout-cell>
+    <li><p>❌&#160; Order status is eventually consistent</p></li>
+    <li><p>⚠️&#160; ERP sync depends on a VPN</p></li></ul></ac:layout-cell>
 </ac:layout-section>
 ```
 
@@ -165,11 +165,11 @@ Never the custom `panel` macro with your own colours; never two panels back to b
 
 ```xml
 <tr><th><p>Criterion</p></th><th><p>Kafka</p></th><th><p>RabbitMQ</p></th></tr>
-<tr><td><p>Replay</p></td><td><p>✅ By offset</p></td><td><p>❌ No</p></td></tr>
-<tr><td><p>Ops effort</p></td><td><p>⚠️ Medium</p></td><td><p>✅ Low</p></td></tr>
+<tr><td><p>Replay</p></td><td><p>✅&#160; By offset</p></td><td><p>❌&#160; No</p></td></tr>
+<tr><td><p>Ops effort</p></td><td><p>⚠️&#160; Medium</p></td><td><p>✅&#160; Low</p></td></tr>
 ```
 
-Signal first, then words. Only ✅ ❌ ⚠️.
+Signal first, then `&#160;` and a space, then words — Confluence drops a plain space after an emoji (verified). Only ✅ ❌ ⚠️.
 
 ### Status lozenge (meaning only)
 

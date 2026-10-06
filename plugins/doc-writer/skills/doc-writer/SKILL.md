@@ -132,6 +132,8 @@ Updates are the common case; treat the existing page as the user's work.
 5. If the page has a change log / "Last reviewed" field, update it with the date and a one-line summary.
 6. **Report the diff** to the user: which sections changed and why, in 3–6 bullets.
 
+**"Replace what's there"** (full rewrite): write a new body, but keep the page title unless asked (suggest a better one in the report), keep labels and attachments, and reuse existing diagrams in place (Confluence: `detect`, then `--update-id`) instead of creating new ones.
+
 Restructuring a messy page: propose the new outline (headings only) to the user before moving content, unless they asked for a full rewrite.
 
 ---

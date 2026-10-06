@@ -417,7 +417,7 @@ def lint(path, want_png=True, keep_dir=None):
         bx = label_box(g, ns) if (v.container and g is not None) else None
         if bx:
             a, b = to_diag(bx[:2]), to_diag(bx[2:])
-            titles[v.id] = (a[0] - 2, a[1] - 2, b[0] + 2, b[1] + 2)
+            titles[v.id] = (a[0] - 8, a[1] - 4, b[0] + 8, b[1] + 4)
     for eid, pts in polys.items():
         for vid, band in titles.items():
             v = verts[vid]
@@ -478,7 +478,8 @@ def lint(path, want_png=True, keep_dir=None):
     summary = {
         "file": path,
         "shapes": len(leaf), "containers": len(verts) - len(leaf), "edges": len(edges),
-        "width": round(max((v.box[2] for v in verts.values()), default=0) - min((v.x for v in verts.values()), default=0)),
+        "width": round(max([v.box[2] for v in verts.values()] + [p[0] for ps in polys.values() for p in ps] or [0])
+                       - min([v.x for v in verts.values()] + [p[0] for ps in polys.values() for p in ps] or [0])),
         "counts": {k: len(v) for k, v in issues.items()},
         "issues": issues,
     }

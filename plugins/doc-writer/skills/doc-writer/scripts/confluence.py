@@ -224,6 +224,9 @@ def lint_body(body):
     for h in re.findall(r"<h[1-6][^>]*>(.*?)</h[1-6]>", body, re.S):
         if re.search(EMOJI + "|[" + SIGNALS + "]", h):
             fails.append(f"emoji in heading '{text(h)}'")
+    # Confluence collapses the space after an emoji; only "&#160; " (or U+00A0 + space) keeps a gap
+    if re.search("[" + SIGNALS + "]\uFE0F?(?!\uFE0F|&#160; |\u00a0 )", body):
+        fails.append("signal emoji without spacing: write '✅&#160; Chosen' (Confluence drops a plain space)")
     visual = sum([bool(re.search(r'ac:name="(zenuml-graph-macro|drawio)', body)),
                   'ac:name="status"' in body, bool(re.search("[" + SIGNALS + "]", body)),
                   bool(re.search(r'ac:type="two_|ac:type="three_', body)),

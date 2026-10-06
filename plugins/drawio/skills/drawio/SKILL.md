@@ -155,8 +155,7 @@ Elements written first are rendered first (behind). Structure your `<root>` like
 ### Text Label (floating)
 ```xml
 <mxCell id="text-1" value="Note" vertex="1" parent="1"
-  style="text;html=1;strokeColor=none;fillColor=none;align=center;
-         verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;">
+  style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;">
   <mxGeometry x="100" y="100" width="120" height="30" as="geometry" />
 </mxCell>
 ```
@@ -165,15 +164,13 @@ Elements written first are rendered first (behind). Structure your `<root>` like
 ```xml
 <!-- Start -->
 <mxCell id="start-1" value="Start" vertex="1" parent="1"
-  style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;
-         fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;">
+  style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;">
   <mxGeometry x="100" y="40" width="120" height="40" as="geometry" />
 </mxCell>
 
 <!-- End -->
 <mxCell id="end-1" value="End" vertex="1" parent="1"
-  style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;
-         fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;">
+  style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;">
   <mxGeometry x="100" y="600" width="120" height="40" as="geometry" />
 </mxCell>
 ```
@@ -211,8 +208,7 @@ Arrows need a `source` and `target` that match `id` values on shapes. Put them *
 ### Bidirectional Arrow
 ```xml
 <mxCell id="arrow-4" edge="1" parent="1" source="a" target="b"
-  style="edgeStyle=orthogonalEdgeStyle;endArrow=block;startArrow=block;
-         startFill=1;endFill=1;rounded=0;html=1;">
+  style="edgeStyle=orthogonalEdgeStyle;endArrow=block;startArrow=block;startFill=1;endFill=1;rounded=0;html=1;">
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
 ```
@@ -235,9 +231,7 @@ Swimlanes group shapes visually and enforce parent-child layout. The key is `par
 ```xml
 <!-- Outer container -->
 <mxCell id="pool-1" value="Process Name" vertex="1" parent="1"
-  style="shape=pool;startSize=30;horizontal=1;childLayout=stackLayout;
-         horizontalStack=0;resizeParent=1;resizeParentMax=0;
-         fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;">
+  style="shape=pool;startSize=30;horizontal=1;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;">
   <mxGeometry x="40" y="80" width="900" height="500" as="geometry" />
 </mxCell>
 
@@ -373,9 +367,7 @@ Use containers to represent system boundaries. Mix shape types to convey compone
 Example Azure service shape:
 ```xml
 <mxCell id="azure-fn" value="Function App" vertex="1" parent="1"
-  style="shape=mxgraph.azure2.app_service;fillColor=#0078D4;strokeColor=#005A9E;
-         fontColor=#ffffff;fontStyle=1;fontSize=12;
-         labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;">
+  style="shape=mxgraph.azure2.app_service;fillColor=#0078D4;strokeColor=#005A9E;fontColor=#ffffff;fontStyle=1;fontSize=12;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;">
   <mxGeometry x="200" y="200" width="65" height="65" as="geometry" />
 </mxCell>
 ```
@@ -474,6 +466,8 @@ Group microservices, modules, or application layers:
 - Left-align container titles (`align=left;spacingLeft=10;`) so connectors entering from above don't run through the title text
 - Never put a connector label where the edge crosses a container border: move it along the edge (`<mxGeometry relative="1" x="-0.5">`) into open space
 - Use `dashed=1` for logical/security boundaries; solid for infrastructure boundaries
+- Global services (CloudFront, WAF, Route 53, IAM) go inside the cloud boundary but outside any region/VPC box
+- Callbacks from external SaaS (webhooks) are drawn to the service that handles them (logical path), not via the gateway they physically pass through — say so in the caption
 
 ---
 
