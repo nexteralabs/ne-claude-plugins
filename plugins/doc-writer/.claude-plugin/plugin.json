@@ -1,0 +1,8 @@
+{
+  "name": "doc-writer",
+  "description": "Write and update professional documentation — core writing and layout rules plus media-specific rules (Confluence, Markdown)",
+  "author": {
+    "name": "geomarceau",
+    "email": "georges.marceau@nexteralabs.ca"
+  }
+}

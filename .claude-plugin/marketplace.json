@@ -111,6 +111,21 @@
         "path": "plugins/skillforge"
       },
       "category": "development"
+    },
+    {
+      "name": "doc-writer",
+      "description": "Write and update professional documentation — core writing and layout rules plus media-specific rules (Confluence, Markdown)",
+      "version": "1.0.0",
+      "author": {
+        "name": "geomarceau",
+        "email": "georges.marceau@nexteralabs.ca"
+      },
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/nexteralabs/ne-claude-plugins.git",
+        "path": "plugins/doc-writer"
+      },
+      "category": "productivity"
     }
   ]
 }

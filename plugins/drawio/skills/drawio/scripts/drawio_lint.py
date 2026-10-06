@@ -410,6 +410,22 @@ def lint(path, want_png=True, keep_dir=None):
                                                          "at": [round(cx), round(cy)]})
                     break
 
+    # --- edges through container title text (crossing the header band elsewhere is fine)
+    titles = {}
+    for v in verts.values():
+        g = groups.get(v.id)
+        bx = label_box(g, ns) if (v.container and g is not None) else None
+        if bx:
+            a, b = to_diag(bx[:2]), to_diag(bx[2:])
+            titles[v.id] = (a[0] - 8, a[1] - 4, b[0] + 8, b[1] + 4)
+    for eid, pts in polys.items():
+        for vid, band in titles.items():
+            v = verts[vid]
+            hh = 1
+            if any(seg_hits_box(a, b, band, shrink=0) for a, b in zip(pts, pts[1:])):
+                issues["edge_through_shape"].append({"edge": eid, "shape": v.id, "shape_label": v.label + " (title)",
+                                                     "at": [round(v.x + v.w / 2), round(v.y + hh / 2)]})
+
     # --- edge labels
     labels = []
     for eid in edges:
@@ -425,6 +441,11 @@ def lint(path, want_png=True, keep_dir=None):
         for v in verts.values():
             if not v.container and boxes_overlap(lb, v.box):
                 issues["label_collisions"].append({"edge": eid, "with": v.id, "with_label": v.label,
+                                                   "at": [round((lb[0] + lb[2]) / 2), round((lb[1] + lb[3]) / 2)]})
+            elif v.container and any(seg_hits_box(a, b, lb, shrink=1) for a, b in
+                                     [((v.x, v.y), (v.box[2], v.y)), ((v.box[2], v.y), (v.box[2], v.box[3])),
+                                      ((v.box[2], v.box[3]), (v.x, v.box[3])), ((v.x, v.box[3]), (v.x, v.y))]):
+                issues["label_collisions"].append({"edge": eid, "with": v.id, "with_label": v.label + " (border)",
                                                    "at": [round((lb[0] + lb[2]) / 2), round((lb[1] + lb[3]) / 2)]})
             elif v.container and boxes_overlap(lb, (v.x, v.y, v.box[2], v.y + header_h(cells[v.id]))):
                 issues["label_collisions"].append({"edge": eid, "with": v.id, "with_label": v.label + " (header)",
@@ -457,6 +478,8 @@ def lint(path, want_png=True, keep_dir=None):
     summary = {
         "file": path,
         "shapes": len(leaf), "containers": len(verts) - len(leaf), "edges": len(edges),
+        "width": round(max([v.box[2] for v in verts.values()] + [p[0] for ps in polys.values() for p in ps] or [0])
+                       - min([v.x for v in verts.values()] + [p[0] for ps in polys.values() for p in ps] or [0])),
         "counts": {k: len(v) for k, v in issues.items()},
         "issues": issues,
     }
@@ -523,7 +546,8 @@ def main():
     if a.json:
         print(json.dumps(r, indent=2))
     else:
-        print(f"{r['file']}: {r['shapes']} shapes, {r['containers']} containers, {r['edges']} edges")
+        print(f"{r['file']}: {r['shapes']} shapes, {r['containers']} containers, {r['edges']} edges, "
+              f"width {r['width']}px" + (" (wider than 1100px: unreadable when embedded in a doc page)" if r['width'] > 1100 else ""))
         for k, v in c.items():
             limit = a.max_crossings if k == "edge_crossings" else 0
             print(f"  {'OK  ' if v <= limit else 'FAIL'} {k:<20} {v}")
