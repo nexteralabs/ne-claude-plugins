@@ -179,8 +179,9 @@ def zenuml_publish(c, pid, xml, title, edition, update_id=None):
     return cc["id"], uid, macro
 
 
-EMOJI = "[\U0001F300-\U0001FAFF☀-➿⭐✅❌✔✖]"
-CALLOUTS = ("info", "note", "warning", "tip", "panel")
+EMOJI = "[\U0001F300-\U0001FAFF\u2600-\u269F\u26A1-\u2704\u2706-\u274B\u274D-\u27BF\u2B50]"  # emoji except the signals
+SIGNALS = "\u2705\u274C\u26A0"  # ✅ ❌ ⚠
+CALLOUTS = ("info", "note", "warning", "tip")
 ALLOWED_LAYOUTS = ("single", "two_equal", "two_left_sidebar", "two_right_sidebar", "three_equal")
 
 
@@ -213,11 +214,23 @@ def lint_body(body):
         if re.search(r'data-layout="(full-width|wide)"', t):
             fails.append("full-width/wide table: keep data-layout=\"default\" and fix the table instead")
     n_callouts = sum(len(re.findall(rf'ac:name="{c}"', body)) for c in CALLOUTS)
-    if n_callouts > 2:
-        fails.append(f"{n_callouts} callout panels (max 2)")
-    for c in ("tip", "panel"):
-        if f'ac:name="{c}"' in body:
-            fails.append(f'"{c}" macro: use info/note/warning (or plain text)')
+    if n_callouts > 3:
+        fails.append(f"{n_callouts} panels (max 3)")
+    for c in ("info", "tip", "note", "warning"):
+        if len(re.findall(rf'ac:name="{c}"', body)) > 1:
+            fails.append(f'{len(re.findall(rf"ac:name=\"{c}\"", body))} "{c}" panels (one per job)')
+    if 'ac:name="panel"' in body:
+        fails.append('custom "panel" macro: use info / tip / note / warning')
+    for h in re.findall(r"<h[1-6][^>]*>(.*?)</h[1-6]>", body, re.S):
+        if re.search(EMOJI + "|[" + SIGNALS + "]", h):
+            fails.append(f"emoji in heading '{text(h)}'")
+    visual = sum([bool(re.search(r'ac:name="(zenuml-graph-macro|drawio)', body)),
+                  'ac:name="status"' in body, bool(re.search("[" + SIGNALS + "]", body)),
+                  bool(re.search(r'ac:type="two_|ac:type="three_', body)),
+                  bool(re.search(r'ac:name="(info|tip)"', body))])
+    if len(re.findall(r"<h2", body)) >= 3 and visual < 2:
+        fails.append(f"page is visually flat ({visual} of: diagram, status lozenge, ✅/❌ signals, two-column layout, "
+                     f"takeaway panel); use at least 2")
     if re.search(r"<ac:layout-section[^>]*>", body):
         for t in re.findall(r'ac:type="([a-z_]+)"', body):
             if t not in ALLOWED_LAYOUTS:
@@ -230,7 +243,7 @@ def lint_body(body):
                 if len(text(v).split()) > 2:
                     warns.append(f"sidebar value '{text(v)}' will wrap: keep sidebar values to 1-2 words")
     if re.search(EMOJI, prose) or re.search(r"\((/|x|!|\?|on|off|\*)\)|:[a-z_]+:", prose):
-        fails.append("emoji / emoticons in the text: use words or a status lozenge")
+        fails.append("emoji other than ✅ ❌ ⚠️, or emoticon markup: use those three signals or a status lozenge")
     if re.search(r'style="[^"]*(color|background)', body):
         fails.append("coloured text or background: neutral text only")
     for m in re.finditer(r'<ac:structured-macro[^>]*ac:name="code"[^>]*>(.*?)</ac:structured-macro>', body, re.S):
@@ -288,7 +301,7 @@ def main():
         for w in warns:
             print(f"  WARN {w}")
         print(f"Checked: summary first, headings, table width, callouts, layouts, emoji, colour, code language, "
-              f"image alt, PNG diagrams, diagram width, Markdown leftovers, filler, TOC")
+              f"image alt, PNG diagrams, diagram width, Markdown leftovers, filler, TOC, visual minimum")
         print("RESULT:", "ISSUES FOUND" if fails else "CLEAN" + (" (with warnings)" if warns else ""))
         sys.exit(1 if fails else 0)
     if a.page_url:

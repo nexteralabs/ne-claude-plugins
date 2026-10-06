@@ -131,22 +131,45 @@ Escape `&`, `<`, `>` in text (`&amp;`, `&lt;`, `&gt;`). Use `<p>` inside `<li>` 
 
 When a page uses `ac:layout`, **all** body content must be inside layout sections.
 
-### Callout panels (max 2 per page)
+### Panels (max 3 per page, one per job)
 
 ```xml
-<ac:structured-macro ac:name="warning">
-  <ac:rich-text-body><p>Rotating the key invalidates all active sessions. Schedule it outside business hours.</p></ac:rich-text-body>
+<ac:structured-macro ac:name="info">
+  <ac:rich-text-body><p><strong>Key takeaway:</strong> all order events are replayable for 7 days.</p></ac:rich-text-body>
 </ac:structured-macro>
 ```
 
-| Macro | Use for | Not for |
-|---|---|---|
-| `warning` | Data loss, outage, security, cost | "Be careful", reminders |
-| `note` | A prerequisite or constraint the reader will otherwise miss | General tips |
-| `info` | Context the reader needs before a step | The page summary |
-| `tip` | Avoid — prefer a sentence in the text | — |
+| Macro | Colour | Job | Max |
+|---|---|---|---|
+| `info` | Blue | Key takeaway, context needed first | 1 |
+| `tip` | Green | Decision or recommendation | 1 |
+| `note` | Yellow | Prerequisite or caveat | 1 |
+| `warning` | Red | Data loss, outage, security, cost | 1 |
 
-No `title` parameter unless the panel is long; no custom `panel` macro with colours.
+Never the custom `panel` macro with your own colours; never two panels back to back; never a panel as the first block (the summary paragraph comes first).
+
+### Pros and cons (two-column layout)
+
+```xml
+<ac:layout-section ac:type="two_equal">
+  <ac:layout-cell><h3>Strengths</h3><ul>
+    <li><p>✅ Services deploy independently</p></li>
+    <li><p>✅ Events replay after an incident</p></li></ul></ac:layout-cell>
+  <ac:layout-cell><h3>Trade-offs</h3><ul>
+    <li><p>❌ Order status is eventually consistent</p></li>
+    <li><p>⚠️ ERP sync depends on a VPN</p></li></ul></ac:layout-cell>
+</ac:layout-section>
+```
+
+### Comparison table with signals
+
+```xml
+<tr><th><p>Criterion</p></th><th><p>Kafka</p></th><th><p>RabbitMQ</p></th></tr>
+<tr><td><p>Replay</p></td><td><p>✅ By offset</p></td><td><p>❌ No</p></td></tr>
+<tr><td><p>Ops effort</p></td><td><p>⚠️ Medium</p></td><td><p>✅ Low</p></td></tr>
+```
+
+Signal first, then words. Only ✅ ❌ ⚠️.
 
 ### Status lozenge (meaning only)
 
@@ -298,9 +321,9 @@ Only for things that are not diagrams (UI screenshots). Upload with `confluence.
 
 | Avoid | Why | Use instead |
 |---|---|---|
-| Emoji / emoticons (`:check:`, `(/)`, `(!)`) | Noise, inconsistent rendering | Status lozenge or words |
+| Emoji outside ✅ ❌ ⚠️, emoji in headings, emoticon markup (`(/)`, `:check:`) | Noise, inconsistent rendering | ✅ ❌ ⚠️ in comparisons, status lozenges |
 | Coloured text (`<span style="color…">`), highlighted backgrounds | Decorative, unreadable in dark mode | Bold, or a status lozenge |
-| Custom `panel` macro with colours | Rainbow pages | `info`/`note`/`warning`, max 2 |
+| Custom `panel` macro with colours | Rainbow pages | `info` / `tip` / `note` / `warning`, one each, max 3 |
 | Full-width page / `data-layout="full-width"` tables | Breaks reading width | Transpose or split the table |
 | Nested tables, tables in layout columns | Unreadable on narrow screens | Separate tables, or lists |
 | Headings inside table cells | Breaks TOC and anchors | Rows with bold labels |
@@ -339,7 +362,8 @@ Large pages: if a tool limits body size, update section by section only if the t
 - [ ] Summary is a plain paragraph, not a panel; TOC only if 5+ sections
 - [ ] Tables ≤ 5 columns, `data-layout="default"`; no tables inside layout columns
 - [ ] Layouts: only single / two-column types, all content inside sections when `ac:layout` is used
-- [ ] ≤ 2 callout panels; status lozenges use the fixed colour vocabulary
+- [ ] ≤ 3 panels, one per job; status lozenges use the fixed colour vocabulary
+- [ ] Visual minimum met: 2+ of diagram, status lozenges, ✅/❌ comparison, two-column layout, takeaway panel
 - [ ] Diagrams are ≤ 1100px wide so labels stay readable at page width
 - [ ] Sidebar fact-box values fit on one line
 - [ ] Diagrams are draw.io macros backed by a linted `.drawio` attachment, not PNGs; screenshots have `ac:alt` and width ≤ 760

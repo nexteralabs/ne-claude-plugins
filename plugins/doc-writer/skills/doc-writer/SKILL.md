@@ -5,7 +5,7 @@ description: "Write and update professional documentation — overviews, how-to 
 
 # Doc Writer
 
-Produce documentation that a busy reader can scan in 30 seconds and act on in 5 minutes. Calm, structured, professional: clear sections, tables where comparison helps, nothing decorative.
+Produce documentation that a busy reader can scan in 30 seconds and act on in 5 minutes. Calm, structured, professional: clear sections, tables where comparison helps, a few purposeful visual accents — never decoration for its own sake.
 
 This file holds the **core rules** that apply to every medium. Before writing, also read the reference for the target medium:
 
@@ -67,22 +67,37 @@ The first column is the thing being compared, in bold or plain text; the header 
 
 **Side-by-side columns** (layouts) are for genuinely parallel content: before/after, option A vs option B summaries, a short fact box next to the intro. Never use them just to fill width.
 
-### Emphasis and callouts
+### Visual budget — between plain and rainbow
 
-- **Bold** for UI labels, key terms on first use, and the one phrase per paragraph the reader must not miss. Never bold whole sentences.
-- *Italics* sparingly; never for warnings.
-- `Code style` for commands, file paths, config keys, values, identifiers.
-- **Callouts (info/note/warning panels) are rare.** At most 2 per page, and only for:
-  - **Warning** — the action can cause data loss, outage, security exposure or cost. Not for "be careful".
-  - **Note/Info** — a prerequisite or a fact the reader will otherwise get wrong.
-  If everything is highlighted, nothing is. Never stack two callouts, never put a callout as the first thing on the page.
+A page should be pleasant to scan, not decorated. Every visual element has a **job**; use the same element for the same job across the page.
 
-### Colour, emoji, icons
+**Minimum** (a page with 3+ sections): at least **two** of these — a diagram, status lozenges, a comparison table with ✅ / ❌, a two-column layout (pros/cons, before/after), a key-takeaway panel. A wall of headings and paragraphs is a failure too.
 
-- **No emoji** in headings, lists or tables. Not as bullets, not as status markers, not "for friendliness". Exception: the user explicitly asks, or the existing page convention uses them and you are updating it.
-- **No colour for decoration.** Neutral text. Colour only carries meaning (status), and the medium's built-in status elements are used for it (e.g. Confluence status lozenges) — max one status per table row.
-- No ALL CAPS, no exclamation marks, no "!!" or "IMPORTANT:" prefixes.
-- Use status words, not symbols: `Supported` / `Not supported`, `Yes` / `No` — not ✅ / ❌.
+**Maximum**: the limits below. Beyond them the page turns into noise.
+
+| Element | Job | Limit |
+|---|---|---|
+| Info panel (blue) | The key takeaway or a context the reader needs first | 1 |
+| Success panel (green, `tip`) | The decision or recommendation | 1 |
+| Note panel (yellow) | A prerequisite or caveat the reader will otherwise miss | 1 |
+| Warning panel (red) | Data loss, outage, security, cost — a real consequence | 1 |
+| Panels in total | — | 3 per page, never stacked, never the very first block |
+| Status lozenge | State of a thing (Active, Deprecated, In progress) | 1 per table row |
+| ✅ ❌ ⚠️ | Pros / cons, supported / not, met / not met, risk | In comparison tables and pros/cons lists only |
+| Two-column layout | Parallel content: pros/cons, before/after, option A/B | 1–2 per page |
+| Bold | UI labels, key terms on first use, the one phrase per paragraph that matters | Never whole sentences |
+
+### Emoji
+
+Allowed only as **signals with a fixed meaning**: ✅ yes / pro / supported, ❌ no / con / not supported, ⚠️ risk / partial. Put them at the start of a table cell or list item, followed by words (`✅ Replay after incidents`), never alone when the reason matters.
+
+Not allowed: emoji in headings or the title, emoji as bullets or decoration, faces and hands, more than one emoji per line. If the existing page uses a different convention, keep it.
+
+### Colour
+
+- Colour comes only from the medium's built-in elements (panels, status lozenges, table header shading) — never coloured text or backgrounds you style yourself.
+- One meaning per colour across the page: green = good/decided, yellow = caution/in progress, red = risk/blocked, blue = information, grey = neutral/planned.
+- No ALL CAPS, no exclamation marks, no "IMPORTANT:" prefixes — the panel colour already says it.
 
 ### Diagrams and images
 
@@ -128,8 +143,9 @@ Before delivering, re-read the doc as its reader, top to bottom, and check:
 - [ ] The summary alone tells the reader what this is and the key takeaway
 - [ ] Headings alone read as a sensible table of contents
 - [ ] No table wider than 5 columns; no cell longer than ~12 words; no layout with more than 3 columns
-- [ ] At most 2 callouts; every warning describes a real consequence
-- [ ] No emoji, no decorative colour, no ALL CAPS, no exclamation marks
+- [ ] Visual minimum met (2+ of: diagram, status lozenges, ✅/❌ comparison, two-column layout, takeaway panel)
+- [ ] At most 3 panels, one per job; every warning describes a real consequence
+- [ ] Emoji only ✅ ❌ ⚠️ in comparisons; no decorative colour, no ALL CAPS, no exclamation marks
 - [ ] No filler words from section 4; no sentence that repeats its heading
 - [ ] Every command, path, value is in code style and was taken from a real source (or marked TBD)
 - [ ] Procedures are numbered, one verb-first action per step
