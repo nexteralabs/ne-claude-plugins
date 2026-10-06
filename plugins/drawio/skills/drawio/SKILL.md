@@ -391,19 +391,19 @@ Use swimlane containers with the provider's brand color and a clear label:
 ```xml
 <!-- AWS boundary -->
 <mxCell id="aws-boundary" value="AWS (us-east-1)" vertex="1" parent="1"
-  style="swimlane;startSize=30;fillColor=#FF9900;fontColor=#ffffff;strokeColor=#CC7A00;fontSize=14;fontStyle=1;opacity=15;">
+  style="swimlane;startSize=30;fillColor=#FF9900;fontColor=#333333;strokeColor=#CC7A00;fontSize=14;fontStyle=1;opacity=15;align=left;spacingLeft=10;">
   <mxGeometry x="40" y="40" width="600" height="400" as="geometry" />
 </mxCell>
 
 <!-- Azure boundary -->
 <mxCell id="azure-boundary" value="Azure (West Europe)" vertex="1" parent="1"
-  style="swimlane;startSize=30;fillColor=#0078D4;fontColor=#ffffff;strokeColor=#005A9E;fontSize=14;fontStyle=1;opacity=15;">
+  style="swimlane;startSize=30;fillColor=#0078D4;fontColor=#333333;strokeColor=#005A9E;fontSize=14;fontStyle=1;opacity=15;align=left;spacingLeft=10;">
   <mxGeometry x="700" y="40" width="600" height="400" as="geometry" />
 </mxCell>
 
 <!-- GCP boundary -->
 <mxCell id="gcp-boundary" value="GCP (europe-west1)" vertex="1" parent="1"
-  style="swimlane;startSize=30;fillColor=#4285F4;fontColor=#ffffff;strokeColor=#2D5BB9;fontSize=14;fontStyle=1;opacity=15;">
+  style="swimlane;startSize=30;fillColor=#4285F4;fontColor=#333333;strokeColor=#2D5BB9;fontSize=14;fontStyle=1;opacity=15;align=left;spacingLeft=10;">
   <mxGeometry x="40" y="500" width="600" height="400" as="geometry" />
 </mxCell>
 ```
@@ -470,7 +470,9 @@ Group microservices, modules, or application layers:
 - Always include region in cloud boundary labels (e.g. "AWS (us-east-1)")
 - Include CIDR ranges on VPCs and subnets when known
 - Cross-boundary connections (e.g. VPN, peering, ExpressRoute) use `parent="1"` and should be labeled with the connection type
-- Use `opacity=15` on outermost boundaries so nested content stays readable
+- Use `opacity=15` on outermost boundaries so nested content stays readable — and keep the title `fontColor=#333333`: white text on a 15%-opacity header is unreadable
+- Left-align container titles (`align=left;spacingLeft=10;`) so connectors entering from above don't run through the title text
+- Never put a connector label where the edge crosses a container border: move it along the edge (`<mxGeometry relative="1" x="-0.5">`) into open space
 - Use `dashed=1` for logical/security boundaries; solid for infrastructure boundaries
 
 ---

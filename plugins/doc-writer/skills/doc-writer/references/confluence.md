@@ -57,7 +57,7 @@ Sections         H2 per section, H3 inside; follow the doc-type skeleton
 Related pages    Bulleted links at the end
 ```
 
-Page properties / fact box example (2-column key/value table, no header row needed). In a `two_right_sidebar` layout the sidebar is ~250px wide: keep every value to 1–2 short words (`Platform team`, not `Commerce platform team`), or place the fact box under the summary instead of beside it. Values that wrap onto 3 lines look broken.
+Page properties / fact box example (2-column key/value table, no header row needed). In a `two_right_sidebar` layout the sidebar is ~250px wide: keep every value to 1–2 short words (`Platform team`, not `Commerce platform team`), or place the fact box under the summary instead of beside it. Values that wrap onto 3 lines look broken. Unknown values: write just `TBD` in the fact box and list who can answer under "Open questions".
 
 | Owner | Platform team (@lead) |
 |---|---|
@@ -198,37 +198,13 @@ For logs, long examples, rarely-needed detail. Never hide steps the reader must 
 
 Jira issue: `<ac:structured-macro ac:name="jira"><ac:parameter ac:name="key">PAY-123</ac:parameter></ac:structured-macro>`
 
-### Diagrams: embed the live draw.io diagram
+### Diagrams: embed the live diagram
 
-Diagrams are embedded with the **draw.io macro**, never as a PNG. A PNG cannot be edited by the next person and goes stale; the macro renders the real `.drawio` file, which anyone can open and edit in the page.
+Diagrams are embedded as live, editable diagrams — never as a PNG. Pair with the **drawio** skill: it builds the `.drawio` file and lints it (`RESULT: CLEAN`, width ≤ 1100px); this skill publishes it. Put each diagram after the sentence that introduces it and follow it with a caption: `<p><em>Figure N — takeaway.</em></p>`.
 
-Pair with the **drawio** skill: it produces the `.drawio` file and lints the layout. This skill publishes it.
+**Width:** the page shows diagrams at ~760px whatever the app. Keep the diagram ≤ 1100px wide (top-to-bottom flow when there are more than 5 columns, external systems below or beside the main boundary — never far away). The "Image ≤ 760 / `ac:width`" rule applies to screenshots only.
 
-1. Build and lint the diagram with the drawio skill until `drawio_lint.py` prints `RESULT: CLEAN`.
-2. Upload it and get the macro:
-   ```bash
-   python3 <this skill's directory>/scripts/confluence.py drawio --page-id ID --file diagram.drawio --name "Payments architecture"
-   ```
-   This attaches the source (media type `application/vnd.jgraph.mxfile`, attachment named exactly `--name`, no extension) plus `<name>.png` as the preview used by search and export, and prints the macro.
-3. Paste the macro into the body where the diagram belongs: after the sentence introducing it, followed by a caption.
-
-```xml
-<ac:structured-macro ac:name="drawio" ac:schema-version="1" data-layout="default">
-  <ac:parameter ac:name="diagramName">Payments architecture</ac:parameter>
-  <ac:parameter ac:name="simpleViewer">false</ac:parameter>
-  <ac:parameter ac:name="zoom">1</ac:parameter>
-  <ac:parameter ac:name="lbox">true</ac:parameter>
-  <ac:parameter ac:name="diagramWidth">1200</ac:parameter>
-  <ac:parameter ac:name="revision">1</ac:parameter>
-</ac:structured-macro>
-<p><em>Figure 1 — Payment request path from the CDN to the services.</em></p>
-```
-
-- **Requires a draw.io app** on the site (see the variants below). Without it the macro renders as "unknown macro" — tell the user instead of falling back silently to a PNG.
-- **Updating a diagram**: edit the `.drawio`, re-lint, run the same `drawio` command with the same `--name` (a new attachment version is created), and increment `revision` in the macro. The page body otherwise does not change.
-- One diagram name per diagram on a page; names are the link between macro and attachment, so never rename one without updating the other.
-- **Design the diagram for the page width.** The macro scales the diagram down to the content width (~760px). A diagram wider than ~1100px renders with unreadable labels (verified: a 2000px architecture diagram became illegible). Before publishing, keep the diagram's total width ≤ 1100px: flow top-to-bottom instead of left-to-right when there are more than 5 columns, tighten container padding, put external systems (SaaS, on-premise) below rather than beside. If it cannot fit, split it into an overview diagram plus one diagram per zone.
-- `lbox=true` lets readers open the diagram full screen — keep it on, but never rely on it for readability.
+**Replacing or updating a page that already has diagrams:** run `detect` first. It lists existing diagram macros with their ZenUML `customContentId`. Reuse them with `zenuml --update-id <id>` (same macro, new diagram version) instead of creating new records; for a diagram you remove from the page, tell the user which record is now unused rather than deleting it silently.
 
 #### Which app — pick the publish path
 
@@ -265,6 +241,38 @@ It prints the macro to paste where the diagram belongs:
 **Forge-only apps (not verified):** run `confluence.py detect --page-id ID` on a page that already has a diagram from that app and reuse the printed `<ac:adf-extension>` markup with a fresh `local-id`; its `extension-key` holds installation-specific IDs and cannot be written from memory. If you cannot tell where that app stores the diagram, attach the `.drawio` file and tell the user rather than publishing a broken macro.
 
 After publishing with any app, re-fetch the page (`confluence.py get`) and confirm the macro is there.
+
+#### draw.io app (when the site uses it instead of ZenUML)
+
+Diagrams are embedded with the **draw.io macro**, never as a PNG. A PNG cannot be edited by the next person and goes stale; the macro renders the real `.drawio` file, which anyone can open and edit in the page.
+
+Pair with the **drawio** skill: it produces the `.drawio` file and lints the layout. This skill publishes it.
+
+1. Build and lint the diagram with the drawio skill until `drawio_lint.py` prints `RESULT: CLEAN`.
+2. Upload it and get the macro:
+   ```bash
+   python3 <this skill's directory>/scripts/confluence.py drawio --page-id ID --file diagram.drawio --name "Payments architecture"
+   ```
+   This attaches the source (media type `application/vnd.jgraph.mxfile`, attachment named exactly `--name`, no extension) plus `<name>.png` as the preview used by search and export, and prints the macro.
+3. Paste the macro into the body where the diagram belongs: after the sentence introducing it, followed by a caption.
+
+```xml
+<ac:structured-macro ac:name="drawio" ac:schema-version="1" data-layout="default">
+  <ac:parameter ac:name="diagramName">Payments architecture</ac:parameter>
+  <ac:parameter ac:name="simpleViewer">false</ac:parameter>
+  <ac:parameter ac:name="zoom">1</ac:parameter>
+  <ac:parameter ac:name="lbox">true</ac:parameter>
+  <ac:parameter ac:name="diagramWidth">1000</ac:parameter>
+  <ac:parameter ac:name="revision">1</ac:parameter>
+</ac:structured-macro>
+<p><em>Figure 1 — Payment request path from the CDN to the services.</em></p>
+```
+
+- **Requires the draw.io app** on the site. Without it the macro renders as "unknown macro" — tell the user instead of falling back silently to a PNG.
+- **Updating a diagram**: edit the `.drawio`, re-lint, run the same `drawio` command with the same `--name` (a new attachment version is created), and increment `revision` in the macro. The page body otherwise does not change.
+- One diagram name per diagram on a page; names are the link between macro and attachment, so never rename one without updating the other.
+- **Design the diagram for the page width.** The macro scales the diagram down to the content width (~760px). A diagram wider than ~1100px renders with unreadable labels (verified: a 2000px architecture diagram became illegible). Before publishing, keep the diagram's total width ≤ 1100px: flow top-to-bottom instead of left-to-right when there are more than 5 columns, tighten container padding, put external systems (SaaS, on-premise) below rather than beside. If it cannot fit, split it into an overview diagram plus one diagram per zone.
+- `lbox=true` lets readers open the diagram full screen — keep it on, but never rely on it for readability.
 
 ### Other images (screenshots)
 

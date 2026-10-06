@@ -24,7 +24,7 @@ Answer these four questions, from the request and the material at hand. Ask the 
 
 1. **Reader** — who opens this page, and what do they already know?
 2. **Job** — what should they be able to do or decide after reading?
-3. **Type** — which doc type fits (see doc-types.md): overview, how-to, runbook, reference, decision record, onboarding. One page = one type. If the material mixes types, split it and link the pages.
+3. **Type** — which doc type fits (see doc-types.md): overview, how-to, runbook, reference, decision record, onboarding. One page = one type. If the material mixes types, split it and link the pages — except a short decision rationale (one comparison table + one paragraph) may live inside an overview as a "Why X" section; anything longer becomes its own decision record.
 4. **Medium** — Confluence, Markdown, other. Load its reference.
 
 Gather facts before prose: read the code, config, tickets or existing pages the doc describes. Never invent values (URLs, ports, owners, limits, dates). When a fact is unknown, write `TBD — <who can answer>` and list it to the user at the end.

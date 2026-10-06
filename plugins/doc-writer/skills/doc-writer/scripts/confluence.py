@@ -117,6 +117,9 @@ def detect_diagrams(body):
     found = []
     for m in re.finditer(r'<ac:structured-macro\b[^>]*ac:name="(drawio|drawio-sketch|inc-drawio)".*?</ac:structured-macro>', body, re.S):
         found.append(("classic", m.group(1), m.group(0)))
+    for m in re.finditer(r'<ac:structured-macro\b[^>]*ac:name="(zenuml-graph-macro(?:-lite)?)".*?</ac:structured-macro>', body, re.S):
+        cc = re.search(r'ac:name="customContentId">(\d+)<', m.group(0))
+        found.append(("zenuml", f"{m.group(1)} customContentId={cc.group(1) if cc else '?'}", m.group(0)))
     for m in re.finditer(r'<ac:adf-extension>.*?</ac:adf-extension>', body, re.S):
         x = m.group(0)
         key = re.search(r'key="extension-key">([^<]+)<', x)
@@ -284,6 +287,8 @@ def main():
             print(f"  FAIL {f}")
         for w in warns:
             print(f"  WARN {w}")
+        print(f"Checked: summary first, headings, table width, callouts, layouts, emoji, colour, code language, "
+              f"image alt, PNG diagrams, diagram width, Markdown leftovers, filler, TOC")
         print("RESULT:", "ISSUES FOUND" if fails else "CLEAN" + (" (with warnings)" if warns else ""))
         sys.exit(1 if fails else 0)
     if a.page_url:
@@ -318,7 +323,7 @@ def main():
     elif a.command == "detect":
         found = detect_diagrams(c.page(a.page_id)["body"]["storage"]["value"])
         if not found:
-            print("No draw.io macro on this page. Insert one diagram through the editor (any title), then run detect again.")
+            print("No diagram macro (draw.io, ZenUML Graph or Forge) on this page.")
         for variant, title, markup in found:
             print(f"--- {variant} macro: {title}")
             print(markup[:3000])

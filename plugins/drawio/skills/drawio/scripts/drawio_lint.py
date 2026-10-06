@@ -410,6 +410,22 @@ def lint(path, want_png=True, keep_dir=None):
                                                          "at": [round(cx), round(cy)]})
                     break
 
+    # --- edges through container title text (crossing the header band elsewhere is fine)
+    titles = {}
+    for v in verts.values():
+        g = groups.get(v.id)
+        bx = label_box(g, ns) if (v.container and g is not None) else None
+        if bx:
+            a, b = to_diag(bx[:2]), to_diag(bx[2:])
+            titles[v.id] = (a[0] - 2, a[1] - 2, b[0] + 2, b[1] + 2)
+    for eid, pts in polys.items():
+        for vid, band in titles.items():
+            v = verts[vid]
+            hh = 1
+            if any(seg_hits_box(a, b, band, shrink=0) for a, b in zip(pts, pts[1:])):
+                issues["edge_through_shape"].append({"edge": eid, "shape": v.id, "shape_label": v.label + " (title)",
+                                                     "at": [round(v.x + v.w / 2), round(v.y + hh / 2)]})
+
     # --- edge labels
     labels = []
     for eid in edges:
@@ -425,6 +441,11 @@ def lint(path, want_png=True, keep_dir=None):
         for v in verts.values():
             if not v.container and boxes_overlap(lb, v.box):
                 issues["label_collisions"].append({"edge": eid, "with": v.id, "with_label": v.label,
+                                                   "at": [round((lb[0] + lb[2]) / 2), round((lb[1] + lb[3]) / 2)]})
+            elif v.container and any(seg_hits_box(a, b, lb, shrink=1) for a, b in
+                                     [((v.x, v.y), (v.box[2], v.y)), ((v.box[2], v.y), (v.box[2], v.box[3])),
+                                      ((v.box[2], v.box[3]), (v.x, v.box[3])), ((v.x, v.box[3]), (v.x, v.y))]):
+                issues["label_collisions"].append({"edge": eid, "with": v.id, "with_label": v.label + " (border)",
                                                    "at": [round((lb[0] + lb[2]) / 2), round((lb[1] + lb[3]) / 2)]})
             elif v.container and boxes_overlap(lb, (v.x, v.y, v.box[2], v.y + header_h(cells[v.id]))):
                 issues["label_collisions"].append({"edge": eid, "with": v.id, "with_label": v.label + " (header)",
