@@ -1,7 +1,7 @@
 ---
 name: codesmith
 description: "Development workflow that enforces spec refinement, TDD, and KISS at every step. Use this skill whenever the user presents work to be done — regardless of phrasing. If it implies something needs to change in the codebase, trigger this skill. BLOCKING RULE: Do NOT bypass this skill to do ad-hoc research, exploration, or agent-based investigation when the user's message implies work to be done. The brainstorm phase handles all research, exploration, and 'how should we build this' questions — that is its purpose. If the message contains BOTH research language AND feature/build intent, ALWAYS trigger this skill. Categories of work that ALWAYS trigger: (1) Features — build, implement, add, create, support, integrate, new feature, I want, I'd like, we need, we should, (2) Bugs — fix, investigate, debug, broken, not working, error, issue, regression, (3) Refactors — refactor, clean up, migrate, upgrade, deprecate, rename, restructure, (4) Performance — slow, optimize, latency, bottleneck, speed up, (5) Tech debt — clean up, modernize, consolidate, remove dead code, (6) Config/infra — add env var, set up CI, deployment, pipeline, (7) Pasted context — user pastes a Slack message, error log, Jira description, or any external context describing work to do, (8) Task transitions — next, another, moving on, ok next, something else, let's work, (9) Ticket references — KAN-123, PROJ-456, issue #42, or any ticket system identifier, (10) Research-with-intent — 'how could we build', 'best practice for building', 'search on this and build', 'figure out how to implement' — these combine research with build intent and MUST trigger this skill because brainstorm handles the research phase. Also trigger on: 'codesmith', 'dev workflow', 'full workflow'. When uncertain whether the user wants a full workflow or just a quick answer, ASK: 'Want me to start the codesmith workflow for this?' CRITICAL — workflow resume: before starting a new workflow, check .claude/tasks/todo.md. If there is pending work with unchecked items, the user may be continuing an existing workflow — ask before overwriting. Do NOT trigger for: pure questions about code ('how does X work?', 'what does this do?', 'explain'), reading files, running commands, or non-coding conversations."
-version: 3.2.0
+version: 3.3.0
 ---
 
 # CodeSmith
@@ -29,7 +29,7 @@ At each phase transition, briefly state what phase you're entering and what come
 - **No CLAUDE.md found**: Read the `init-project` skill and run it first. This sets up CLAUDE.md with core principles, detects the ticket system, and creates supporting directories.
 - **CLAUDE.md exists**: Read it. Note the `ticket-system` value and any project-specific configuration.
 
-Auto-memory (feedback type) will already be loaded into context with lessons from previous sessions — no manual review needed.
+Lessons from previous sessions are already in context (via the user's CLAUDE.md or auto-memory). No manual review needed.
 
 **Step 2 — Check for in-progress workflow:**
 
@@ -89,7 +89,7 @@ This is a hard gate — do not begin brainstorming until the user confirms. If t
 
 Read the `brainstorm` skill and follow its process:
 
-1. Gather context (user request, ticket if applicable, codebase exploration)
+1. Gather context (user request, ticket if applicable, codebase exploration). **For a bug**, first build a reproducible pass/fail loop (`references/debugging.md` Phase 1); the spec is written against it.
 2. Ask clarifying questions if needed
 3. Propose 2-3 approaches for non-trivial work
 4. Run the spec review loop until the user approves
@@ -189,6 +189,7 @@ Each phase delegates to a focused skill. These can also be invoked independently
 | `implement` | 4 | "implement", "start coding" |
 | `review` | 5 | "review this", "check my work" |
 | `ship` | 6 | "ship it", "create PR" |
+| `handoff` | any | `/codesmith:handoff` (user-invoked only) |
 
 ## Agents
 
@@ -211,16 +212,12 @@ Loaded on demand by sub-skills when the situation calls for it:
 - `references/commits.md` — Conventional Commits standard
 - `references/pull-requests.md` — PR structure and hygiene
 
-## Memory-Driven Learning
+## Capturing Lessons
 
-Throughout the workflow, when the user corrects your approach, evaluate whether the lesson is **general enough to help across multiple projects**. Only offer to save if it passes that filter.
+When the user corrects your approach, or the session burned time on something avoidable, decide what kind of fix it is before offering anything:
 
-Memories are for **general patterns** — lessons about tools, techniques, best practices, or workflow preferences that transfer across any codebase. They represent how the user wants you to think and work, regardless of what project you're in.
+- **Mechanical mistake** (a pattern a linter, type check, test, or hook could catch): propose that check. A guardrail beats a written rule.
+- **Project-specific fix**: it already lives in the code. Save nothing.
+- **General lesson** (tools, techniques, workflow preferences that transfer across codebases): ask _"Want me to save this lesson for future sessions?"_
 
-Project-specific fixes are **not memories** — if a correction resulted in a code change, the fix already lives in the code. Saving it as a memory would duplicate what the codebase already captures and clutter future conversations with irrelevant context.
-
-When the lesson is general, ask:
-
-> "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?"
-
-If they agree, save it as a `feedback` type memory. Never save without asking first.
+Where to save: if a `vault` skill (or a knowledge-base rule in CLAUDE.md) is available, file it there per that skill and never in `~/.claude/projects/*/memory/`. Otherwise save a `feedback` memory. Never save without asking first.

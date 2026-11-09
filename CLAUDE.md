@@ -71,7 +71,7 @@ Use subagents frequently to keep the main context window clean. Offload research
 
 ### Memory-Driven Learning
 
-When the user corrects your approach, consider whether the lesson is a general pattern about tools, techniques, or workflow preferences that transfers across any codebase — or a project-specific fix already captured in the code. Only offer to save general patterns as memories. Code fixes belong in the code, not in memory.
+When the user corrects your approach, consider whether the lesson is a general pattern about tools, techniques, or workflow preferences that transfers across any codebase — or a project-specific fix already captured in the code. Only offer to save general patterns, and prefer an automated check (lint, test, hook) when the mistake is mechanical. Code fixes belong in the code. Save lessons where the user's global CLAUDE.md says (e.g. a knowledge-base vault); fall back to auto-memory.
 
 ### Verification Before Done
 
@@ -92,7 +92,7 @@ When given a bug report: just fix it. Use logs, errors, and failing tests to dia
 3. **Track Progress** — Mark items complete as you go
 4. **Explain Changes** — Provide a high-level summary at each step
 5. **Document Results** — Add a review section to `.claude/tasks/todo.md`
-6. **Capture Lessons** — When corrected, ask the user if they want to save the pattern as a memory
+6. **Capture Lessons** — When corrected, ask the user if they want to save the pattern (where their global CLAUDE.md says lessons go)
 
 ## Core Rules
 

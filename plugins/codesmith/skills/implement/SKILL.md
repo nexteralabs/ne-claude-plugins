@@ -1,7 +1,7 @@
 ---
 name: implement
 description: "Execute implementation plans using TDD and subagent-driven development. Follows red-green-refactor strictly. Use when you have an approved plan and are ready to write code. Triggers on: 'implement', 'start coding', 'execute the plan', or automatically as part of the codesmith workflow."
-version: 3.2.0
+version: 3.3.0
 ---
 
 # Implement
@@ -89,7 +89,7 @@ For larger implementations with **independent** units of work:
 
 ### 4. When Stuck
 
-Read `references/debugging.md` for systematic debugging.
+Read `../codesmith/references/debugging.md` (relative to this skill) for systematic debugging.
 
 Escalation ladder:
 1. **1st failure** — re-read the error, check assumptions
@@ -109,7 +109,7 @@ After each completed task:
 
 ## Reference Files
 
-Load on demand when the situation calls for it:
+Load on demand when the situation calls for it (they live in `../codesmith/references/`, relative to this skill):
 
 - `references/tdd.md` — TDD cycle details, testing anti-patterns, test strategy
 - `references/debugging.md` — Systematic root cause investigation
