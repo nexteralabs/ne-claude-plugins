@@ -1,7 +1,7 @@
 ---
 name: brainstorm
 description: "Explore intent, propose multiple approaches, and refine specs before any code is written. Use before any creative or non-trivial development work. Triggers on: 'brainstorm', 'let's think about', 'how should we', 'design this', 'what's the best way to', or when starting a feature that needs architectural decisions. Also invoked automatically as phase 1 of the codesmith workflow. When triggered standalone with build intent, ask the user if they want the full codesmith workflow instead of proceeding alone."
-version: 3.2.0
+version: 3.3.0
 ---
 
 # Brainstorm
@@ -40,14 +40,21 @@ Gather everything you need to understand the problem:
 
 ### 2. Ask Clarifying Questions
 
-If anything is ambiguous, ask. One question at a time, prefer multiple choice. Stop once you have enough to proceed.
+If anything is ambiguous, ask in **rounds**: each round holds every open question that doesn't depend on another unanswered one. Number them and give your recommended answer, worded so "yes" accepts it:
+
+```
+**Q1 - {title}**: {question, with options if useful}
+➡️ {recommended answer}
+```
+
+Wait for answers, then ask the questions they unblocked. Stop once nothing you'd otherwise silently assume is left open.
 
 Good questions:
 - "Should this handle X or is that out of scope?"
 - "I see two patterns in the codebase for this — A and B. Which should I follow?"
 - "The ticket says X but the code suggests Y. Which is correct?"
 
-Don't ask questions you can answer by reading the code.
+Facts are your job, decisions are the user's: never ask what you can find in the code or environment. Look it up (a subagent with a fresh context for anything broad) while asking the questions that don't depend on it.
 
 ### 3. Propose Approaches
 

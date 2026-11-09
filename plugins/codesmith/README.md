@@ -65,18 +65,18 @@ When `init-project` runs on a new project, it generates a CLAUDE.md with:
 
 - **Project config** — auto-detected language, framework, test runner, build commands
 - **Core principles** — plan mode, subagent strategy, verification, elegance, autonomous bug fixing
-- **Task management** — `.claude/tasks/todo.md` for tracking, auto-memory for persistent lessons
+- **Task management** — `.claude/tasks/todo.md` for tracking, lessons saved where your global CLAUDE.md says (vault or auto-memory)
 - **Ticket system config** — saved once, used throughout the workflow
 
 This is a project-level file that you fully own. Drop, modify, or extend any principle to fit your project.
 
-## Memory-Driven Learning
+## Capturing Lessons
 
-Codesmith integrates with Claude's built-in auto-memory to get smarter over time. When it detects a correction or discovers a reusable pattern during the workflow, it asks:
+When codesmith detects a correction or wasted effort, it first checks whether an automated check (lint, test, hook) would prevent it, and proposes that instead of a written rule. For a general lesson it asks before saving. Lessons go to your knowledge base if one is set up (a `vault` skill or a CLAUDE.md rule), otherwise to Claude's auto-memory as a `feedback` memory.
 
-> "I noticed something we could improve in our workflow. Want me to save this as a memory for future sessions?"
+## Handoff
 
-If you agree, the pattern is saved as a `feedback` memory — automatically loaded into every future conversation across all projects. No manual review step, no stale files. You stay in control: nothing is saved without your approval.
+`/codesmith:handoff [focus]` writes a short handoff doc to `$TMPDIR` so a fresh session can continue the work. It points at the plan, `todo.md`, branch and PR instead of copying them.
 
 ## Task Tracking
 

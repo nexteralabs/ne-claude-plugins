@@ -8,12 +8,28 @@ Find the root cause before attempting any fix. Never guess-and-check.
 
 Complete each phase before moving to the next.
 
-### Phase 1: Root Cause Investigation
+### Phase 1: Build a Feedback Loop
+
+This is the phase that matters. With a fast, deterministic pass/fail signal that goes red on _this_ bug, the cause will be found; without one, staring at code won't save you. Spend effort here first. In rough order of preference:
+
+1. **Failing test** at whatever seam reaches the bug (unit, integration, e2e)
+2. **curl / HTTP script** against a running dev server
+3. **CLI run** on a fixture input, diffed against a known-good output
+4. **Headless browser script** (Playwright) asserting on DOM, console, or network
+5. **Replay a captured trace**: save a real payload or event log, push it through the code path alone
+6. **Throwaway harness**: the smallest slice of the system (mocked deps) that hits the bug in one call
+7. **Fuzz loop** for "sometimes wrong": run 1000 random inputs, catch the failing one
+8. **Bisection**: if it broke between two known states, script the check and `git bisect run` it
+
+Flaky bug? Raise the reproduction rate (loop it, add load, pin seeds) until the signal is reliable. No loop possible? Say so and ask the user for access, logs, or a capture rather than guessing.
+
+**Redact secrets** in every command, output, and capture you show (`<REDACTED>`); keep credentials in env vars.
+
+Then investigate with the loop:
 
 1. **Read error messages completely** — every line, every frame in the stack trace
-2. **Reproduce consistently** — if you can't reproduce it, you can't fix it
-3. **Check recent changes** — `git log --oneline -10`, `git diff HEAD~3`
-4. **Trace data flow backward** — start from the error, work backward through the call chain
+2. **Check recent changes** — `git log --oneline -10`, `git diff HEAD~3`
+3. **Trace data flow backward** — start from the error, work backward through the call chain
 
 For multi-component systems, add diagnostic instrumentation at each layer:
 ```python
@@ -37,7 +53,7 @@ If the hypothesis was wrong, go back to Phase 1 with new information. Don't stac
 
 ### Phase 4: Implementation
 
-1. Write a failing test that reproduces the bug
+1. Turn the Phase 1 loop into a failing regression test (if it isn't one already)
 2. Implement the fix — address root cause, not symptoms
 3. Verify the test passes
 4. Run the full suite — no regressions
